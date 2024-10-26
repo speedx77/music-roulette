@@ -1,10 +1,40 @@
 import express from "express";
 import axios from "axios";
+import querystring from "node:querystring"
 import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js"
 
 const app = express();
 const port = 3001;
 
+
+//const querystring = require('node:querystring');
+
+//TO:DO
+
+//not needed because randomPlaylist is needed to form playlist query
+//make those functions middleware?
+//OAuth for Spotify
+//more specific profile search -> solution plug in url of user? mobile?
+
+//instead of a random song from random playlist
+//shuffle in a random playlist
+//reusing endpoint shuffles within a random playlist
+
+//middleware for OAuth
+//refresh token?
+//add or remove scopes?
+
+//MIDDLEWARE TO REFRESH ACCESS TOKEN
+    //set timer for when the access token (authUserTokenHeader) is pulled
+    //if timer hits 50mins
+    //do refresh
+
+//add scopes to solve this issue:
+    // {"error":{"status":404,"message":"Player command failed: No active device found","reason":"NO_ACTIVE_DEVICE"}}
+    // Request failed with status code 404
+
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+var redirect_uri = "http://localhost:3001/callback";
 const tokenBody = getTokenBody;
 const tokenHeader = getTokenHeader;
 const personalToken = getPersonalToken;
@@ -13,11 +43,26 @@ var authTokenHeader = {};
 var randomPlaylistId = "";
 var randomTrackId = "";
 var trackBody = {};
+var authOptions = {};
+var authUserTokenHeader = {};
+
+var buildAuthOptionsBody = {}
+
+var buildAuthOptionsHeader = {}
 
 const personalAuthTokenHeader = {
     headers : { Authorization : `Bearer ${personalToken}`}
 }
 
+function generateRandomString(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
 
 async function getToken (req, res, next) {
     const response =  await axios.post("https://accounts.spotify.com/api/token", tokenBody, tokenHeader)
@@ -40,10 +85,22 @@ function randomTrack (response) {
     return (response.tracks.items[selectedTrack].track.id);
 }
 
+/*
+async function getUserToken (req, res, next) {
+    const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, authOptions.headers)
+    token = response.data.access_token;
+    authTokenHeader = {
+        headers: {Authorization : `Bearer ${token}`}
+    }
+    next();
+}
+*/
+
 
 
 app.use(express.static("./public"));
 app.use(getToken);
+//app.use(getUserToken)
 
 
 app.get("/" , (req, res) => {
@@ -61,10 +118,14 @@ app.get("/" , (req, res) => {
         console.error(error.message)
     }
     */
-   console.log(token);
-   console.log(authTokenHeader);
+   //console.log(token);
+   //console.log(authTokenHeader);
    res.render("index.ejs");
 });
+
+app.get("/me", (req,res) => {
+    res.render("loggedIn.ejs");
+})
 
 app.get("/user/playlist", async (req, res) => {
 
@@ -83,34 +144,125 @@ app.get("/user/playlist", async (req, res) => {
             console.log("playlist id: " + randomPlaylistId);
             console.log("track id: " + randomTrackId);
             console.log(trackBody);
+            console.log(authUserTokenHeader)
    
             try {
-                const response = await axios.put("https://api.spotify.com/v1/me/player/play" , trackBody ,personalAuthTokenHeader)
-                res.render("index.ejs");
+                //solve device not found with device id: https://github.com/spotify/web-api/issues/1325
+                //https://developer.spotify.com/documentation/web-api/reference/get-a-users-available-devices
+                const response = await axios.put("https://api.spotify.com/v1/me/player/play" , trackBody , authUserTokenHeader)
+                res.redirect("/me");
 
             } catch (error) {
                 console.error(JSON.stringify(error.response.data));
                 console.error(error.message);
             }
+                
+
+            
 
         } catch (error) {
             console.error(JSON.stringify(error.response.data));
             console.error(error.message);
         }
         
-    } catch (error) {
+        } catch (error) {
         console.error(JSON.stringify(error.response.data));
         console.error(error.message);
     }
 
 });
 
-//TO:DO
+app.get('/login', (req, res) => {
 
-//not needed because randomPlaylist is needed to form playlist query
-//make those functions middleware?
-//OAuth for Spotify
-//more specific profile search -> solution plug in url of user? mobile?
+    var state = generateRandomString(16);
+    var scope = 'user-read-private user-read-email user-follow-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control';
+
+    //res.redirect("'https://accounts.spotify.com/authorize?'" +  )
+  
+    res.redirect('https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        response_type: 'code',
+        client_id: tokenBody.client_id,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state
+      }));
+  });
+
+  //callback
+  app.get("/callback", (req, res) => {
+
+    var code = req.query.code || null;
+    var state = req.query.state || null;
+  
+    if (state === null) {
+      res.redirect('/#' +
+        querystring.stringify({
+          error: 'state_mismatch'
+        }));
+    } else {
+      authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+          code: code,
+          redirect_uri: redirect_uri,
+          grant_type: 'authorization_code'
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + (new Buffer.from(tokenBody.client_id + ':' + tokenBody.client_secret).toString('base64'))
+        },
+        json: true
+      };
+
+      
+
+      buildAuthOptionsBody = {
+        grant_type : authOptions.form.grant_type,
+        client_id : tokenBody.client_id,
+        client_secret : tokenBody.client_secret,
+        code: code,
+        redirect_uri: redirect_uri
+      }
+
+      buildAuthOptionsHeader = {
+        headers : {
+            "Content-Type" : "application/x-www-form-urlencoded"
+        }
+      }
+
+      console.log(authOptions)
+      res.redirect("/user/access")
+    }
+
+
+  });
+
+  app.get("/user/access", async (req, res) => {
+    //console.log(buildAuthOptionsBody)
+    //console.log(authOptions.headers)
+    
+
+    try {
+        const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, buildAuthOptionsHeader)
+        token = response.data.access_token;
+        //console.log(token)
+        
+        authUserTokenHeader = {
+            headers: {Authorization : `Bearer ${token}`}
+        }
+        console.log(authUserTokenHeader)
+        
+        res.redirect("/me");
+    } catch (error) {
+        console.error(JSON.stringify(error.response.data));
+        console.error(error.message)
+    }
+
+    
+  })
+
+
 app.get("/playlist/id", async (req, res) => {
 
     console.log(randomPlaylistId)
