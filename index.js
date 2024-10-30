@@ -33,6 +33,10 @@ const port = 3001;
     // {"error":{"status":404,"message":"Player command failed: No active device found","reason":"NO_ACTIVE_DEVICE"}}
     // Request failed with status code 404
 
+//middleware to get most recent deviceId?
+    //use that device id in play request as a param
+    //without a recent played device it doesn't know where to play
+
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 var redirect_uri = "http://localhost:3001/callback";
 const tokenBody = getTokenBody;
@@ -45,6 +49,8 @@ var randomTrackId = "";
 var trackBody = {};
 var authOptions = {};
 var authUserTokenHeader = {};
+var allTracks = [];
+
 
 var buildAuthOptionsBody = {}
 
@@ -79,13 +85,124 @@ function randomPlaylist (response) {
     return (response.items[selectedPlaylist].id)
 }
 
-function randomTrack (response) {
-    const numofTracks = response.tracks.total;
-    const selectedTrack = (Math.floor(Math.random() * numofTracks));
-    return (response.tracks.items[selectedTrack].track.id);
+async function randomTrack (playlistId) {
+    var start = 0;
+    var end = 100;
+    //method one - stops after awhile
+    /*
+    //try {                                                                       //randomPlaylistId
+        const response = await axios.get("https://api.spotify.com/v1/playlists/54iJBr5SCGxr4RMJJlN2Yi/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+        const result = response.data;
+        //numOfTracks = result.total;
+        console.log(numOfTracks);
+        console.log(numOfPages);
+
+        while (pageNum <= numOfPages) {
+
+            //try {
+                const response = await axios.get("https://api.spotify.com/v1/playlists/54iJBr5SCGxr4RMJJlN2Yi/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+                const result = response.data;
+                console.log(result)
+                //console.log(result.items.length)
+                
+                for (var i = 0; i < result.items.length ; i++) {
+                    allTracks.push(result.items[i].track.id)
+                    //console.log(allTracks)
+                }
+            /*
+            } catch (error) {
+                console.error(error.response.data)
+            }
+            
+            pageNum ++;
+            start += 50;
+        }
+
+        console.log(allTracks)
+        console.log(allTracks.length)
+    */
+    //method two - next
+    /*
+    var response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+    var result = response.data;
+
+    if (result.next) {
+
+        while(result.next) {
+            //console.log("success");
+            response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+            result = response.data; 
+            //console.log("--------" + start + "-----------");
+            for (var i = 0; i < result.items.length ; i++) {
+                    if (result.items[i].track) {
+                        //console.log(result.items[i].track.id);
+                        allTracks.push(result.items[i].track.id)
+                        //allTracks.forEach(e => console.log(e))
+                    }
+        
+            }
+            start += 100;
+        }
+    }
+
+    else {
+        response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+        result = response.data;
+        //console.log("--------" + start + "-----------");
+        for (var i = 0; i < result.items.length ; i++) {
+            if (result.items[i].track) {
+                //console.log(result.items[i].track.id);
+                allTracks.push(result.items[i].track.id)
+                //allTracks.forEach(e => console.log(e))
+            }
+
+    }
+
+    }
+    */
+    //method three - RANDOMIZE PAGE!
+
+    var response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+    var result = response.data;
+
+    if (result.next) {
+
+        var pageNum = 1;
+        var numOfTracks = result.total
+        var numOfPages = Math.ceil(numOfTracks/end);
+        var randomPage = (Math.floor(Math.random() * numOfPages));
+        var randomStart = end * randomPage;
+
+        console.log(randomStart)
+        response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + randomStart + "&limit=" + end , authTokenHeader)
+        result = response.data;
+        for (var i = 0; i < result.items.length ; i++) {
+            if (result.items[i].track.id) {
+                allTracks.push(result.items[i].track.id)
+            }
+
+        }
+        const selectedTrack = (Math.floor(Math.random() * allTracks.length));
+        return (allTracks[selectedTrack]);
+
+    }
+
+    else {
+        response = await axios.get("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end , authTokenHeader)
+        result = response.data;
+        for (var i = 0; i < result.items.length ; i++) {
+            if (result.items[i].track.id) {
+                allTracks.push(result.items[i].track.id)
+            }
+            
+        }
+        const selectedTrack = (Math.floor(Math.random() * allTracks.length));
+        return (allTracks[selectedTrack]);
+    }
+ 
 }
 
-/*
+
 async function getUserToken (req, res, next) {
     const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, authOptions.headers)
     token = response.data.access_token;
@@ -94,7 +211,7 @@ async function getUserToken (req, res, next) {
     }
     next();
 }
-*/
+
 
 
 
@@ -104,11 +221,12 @@ app.use(getToken);
 
 
 app.get("/" , (req, res) => {
+    /*
     //console.log(tokenBody);
     //console.log(tokenHeader);
 
     //old method of grabbing token
-    /*
+    
     try {
         const response =  await axios.post("https://accounts.spotify.com/api/token", tokenBody, tokenHeader)
         console.log(response);
@@ -117,9 +235,10 @@ app.get("/" , (req, res) => {
         console.error(JSON.stringify(error.response.data));
         console.error(error.message)
     }
-    */
+    
    //console.log(token);
    //console.log(authTokenHeader);
+   */
    res.render("index.ejs");
 });
 
@@ -127,25 +246,33 @@ app.get("/me", (req,res) => {
     res.render("loggedIn.ejs");
 })
 
+//test case - local files? different if statement to check null
+        //use array and add songs to there, skips past null/local files
+//test case - playlist with all local files??
+        //spit out error message:
+        //"this section of 100 songs from this playlist contain only local or unavailable songs - try again!"
 app.get("/user/playlist", async (req, res) => {
 
     try {
         const response = await axios.get("https://api.spotify.com/v1/users/4bbflibvj0k3xne6p7cqc6h3d/playlists", authTokenHeader)
         const result = response.data;
+         
         randomPlaylistId = randomPlaylist(result);
 
         try {
-            const response = await axios.get("https://api.spotify.com/v1/playlists/" + randomPlaylistId + "/", authTokenHeader)
-            const result = response.data;
-            randomTrackId = randomTrack(result);
+            //const response = await axios.get("https://api.spotify.com/v1/playlists/" + randomPlaylistId + "/tracks", authTokenHeader)
+            //const result = response.data;
+
+            randomTrackId = await randomTrack(randomPlaylistId); 
             trackBody = {
                 "uris": ["spotify:track:"+randomTrackId+""]
             }
+            allTracks = [];
             console.log("playlist id: " + randomPlaylistId);
             console.log("track id: " + randomTrackId);
             console.log(trackBody);
-            console.log(authUserTokenHeader)
-   
+            //console.log(authUserTokenHeader)   
+            
             try {
                 //solve device not found with device id: https://github.com/spotify/web-api/issues/1325
                 //https://developer.spotify.com/documentation/web-api/reference/get-a-users-available-devices
@@ -153,21 +280,16 @@ app.get("/user/playlist", async (req, res) => {
                 res.redirect("/me");
 
             } catch (error) {
-                console.error(JSON.stringify(error.response.data));
-                console.error(error.message);
+                console.error(error)
             }
-                
-
             
-
+            
         } catch (error) {
-            console.error(JSON.stringify(error.response.data));
-            console.error(error.message);
+            console.error(error)
         }
         
         } catch (error) {
-        console.error(JSON.stringify(error.response.data));
-        console.error(error.message);
+        console.error(error)
     }
 
 });
@@ -231,7 +353,7 @@ app.get('/login', (req, res) => {
         }
       }
 
-      console.log(authOptions)
+      //console.log(authOptions)
       res.redirect("/user/access")
     }
 
