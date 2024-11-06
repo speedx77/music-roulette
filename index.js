@@ -1,6 +1,8 @@
 import express from "express";
 import axios from "axios";
 import querystring from "node:querystring"
+import bodyParser from "body-parser"
+import * as cheerio from "cheerio"
 import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js"
 
 const app = express();
@@ -50,11 +52,15 @@ var trackBody = {};
 var authOptions = {};
 var authUserTokenHeader = {};
 var allTracks = [];
+var trackInfo = {};
+var device_id = "";
 
 
 var buildAuthOptionsBody = {}
 
 var buildAuthOptionsHeader = {}
+var buildAuthRefreshOptionsBody = {}
+var buildAuthOptionsRefreshHeader = {}
 
 const personalAuthTokenHeader = {
     headers : { Authorization : `Bearer ${personalToken}`}
@@ -217,6 +223,7 @@ async function getUserToken (req, res, next) {
 
 app.use(express.static("./public"));
 app.use(getToken);
+app.use(bodyParser.urlencoded({ extended: true}));
 //app.use(getUserToken)
 
 
@@ -242,10 +249,11 @@ app.get("/" , (req, res) => {
    res.render("index.ejs");
 });
 
-app.get("/me", (req,res) => {
-    res.render("loggedIn.ejs");
-})
 
+
+app.get("/playerTest", (req, res) => {
+    res.render("playerTest.ejs")
+})
 //test case - local files? different if statement to check null
         //use array and add songs to there, skips past null/local files
 //test case - playlist with all local files??
@@ -253,46 +261,111 @@ app.get("/me", (req,res) => {
         //"this section of 100 songs from this playlist contain only local or unavailable songs - try again!"
 app.get("/user/playlist", async (req, res) => {
 
-    try {
-        const response = await axios.get("https://api.spotify.com/v1/users/4bbflibvj0k3xne6p7cqc6h3d/playlists", authTokenHeader)
+    /*
+    const response = await axios.get("https://api.spotify.com/v1/me/player/devices/", authUserTokenHeader);
         const result = response.data;
-         
-        randomPlaylistId = randomPlaylist(result);
-
-        try {
-            //const response = await axios.get("https://api.spotify.com/v1/playlists/" + randomPlaylistId + "/tracks", authTokenHeader)
-            //const result = response.data;
-
-            randomTrackId = await randomTrack(randomPlaylistId); 
-            trackBody = {
-                "uris": ["spotify:track:"+randomTrackId+""]
+    
+        for (var i = 0; i < result.devices.length; i++) {
+            if (result.devices[i].name === "Music Roulette") {
+                device_id = result.devices[i].id;
             }
-            allTracks = [];
-            console.log("playlist id: " + randomPlaylistId);
-            console.log("track id: " + randomTrackId);
-            console.log(trackBody);
-            //console.log(authUserTokenHeader)   
-            
-            try {
-                //solve device not found with device id: https://github.com/spotify/web-api/issues/1325
-                //https://developer.spotify.com/documentation/web-api/reference/get-a-users-available-devices
-                const response = await axios.put("https://api.spotify.com/v1/me/player/play" , trackBody , authUserTokenHeader)
-                res.redirect("/me");
+        };
 
+    console.log(result);
+    */
+        try {
+            const response = await axios.get("https://api.spotify.com/v1/users/4bbflibvj0k3xne6p7cqc6h3d/playlists", authTokenHeader)
+            const result = response.data;
+             
+            randomPlaylistId = randomPlaylist(result);
+            console.log("user/playlist: " + device_id)
+    
+            try {
+                //const response = await axios.get("https://api.spotify.com/v1/playlists/" + randomPlaylistId + "/tracks", authTokenHeader)
+                //const result = response.data;
+    
+                randomTrackId = await randomTrack(randomPlaylistId); 
+                trackBody = {
+                    "uris": ["spotify:track:"+randomTrackId+""]
+                }
+                allTracks = [];
+                console.log("playlist id: " + randomPlaylistId);
+                console.log("track id: " + randomTrackId);
+                console.log(trackBody);
+                //console.log(authUserTokenHeader)   
+                
+                try {
+                    //solve device not found with device id: https://github.com/spotify/web-api/issues/1325
+                    //https://developer.spotify.com/documentation/web-api/reference/get-a-users-available-devices
+                    const response = await axios.put("https://api.spotify.com/v1/me/player/play?device_id=" + device_id , trackBody , authUserTokenHeader)
+                    res.redirect("/me");
+    
+                } catch (error) {
+                    console.error(error.response.data)
+                }
+                
+                
             } catch (error) {
                 console.error(error)
             }
             
-            
-        } catch (error) {
+            } catch (error) {
             console.error(error)
         }
-        
-        } catch (error) {
-        console.error(error)
-    }
+
+
+    
 
 });
+
+app.get("/player",  (req, res) => {
+    res.render("player.ejs");
+});
+
+app.get("/api/data", (req, res) => {
+    //console.log(userToken)
+    res.json({ authUserTokenHeader });
+});
+
+app.get("/me", (req, res) => {
+    res.render("loggedIn.ejs");
+})
+
+app.get("/devices", async (req, res) => {
+    const response = await axios.get("https://api.spotify.com/v1/me/player/devices/", authUserTokenHeader);
+    const result = response.data;
+    
+    for (var i = 0; i < result.devices.length; i++) {
+        if (result.devices[i].name === "Music Roulette") {
+            device_id = result.devices[i].id;
+        }
+    };
+    console.log(device_id)
+
+    res.render("player.ejs")
+})
+
+app.get("/api/devices", async (req, res) => {
+    const response = await axios.get("https://api.spotify.com/v1/me/player/devices/", authUserTokenHeader);
+    const result = response.data;
+    
+    for (var i = 0; i < result.devices.length; i++) {
+        if (result.devices[i].name === "Music Roulette") {
+            device_id = result.devices[i].id;
+        }
+    };
+    console.log(device_id)
+    res.json({  device_id })
+})
+
+app.post("/api/post/deviceId", async (req, res) => {
+    //device_id = req.body.deviceId
+    //console.log(req)
+    //console.log(req.body.deviceId)
+    device_id = req.body.deviceId
+    console.log("final device id: " + device_id)
+    res.send("Device Id Successfully Retrieved")
+})
 
 app.get('/login', (req, res) => {
 
@@ -310,6 +383,8 @@ app.get('/login', (req, res) => {
         state: state
       }));
   });
+
+ 
 
   //callback
   app.get("/callback", (req, res) => {
@@ -347,6 +422,8 @@ app.get('/login', (req, res) => {
         redirect_uri: redirect_uri
       }
 
+
+
       buildAuthOptionsHeader = {
         headers : {
             "Content-Type" : "application/x-www-form-urlencoded"
@@ -367,15 +444,18 @@ app.get('/login', (req, res) => {
 
     try {
         const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, buildAuthOptionsHeader)
+        //console.log(response)
         token = response.data.access_token;
+        //console.log("token: " +token)
         //console.log(token)
         
         authUserTokenHeader = {
             headers: {Authorization : `Bearer ${token}`}
         }
         console.log(authUserTokenHeader)
+        //console.log(userToken)
         
-        res.redirect("/me");
+        res.redirect("/player");
     } catch (error) {
         console.error(JSON.stringify(error.response.data));
         console.error(error.message)
@@ -385,6 +465,10 @@ app.get('/login', (req, res) => {
   })
 
 
+
+app.get("/refresh", async (req, res) => {
+      //const response = await axios.post("https://accounts.spotify.com/api/token", )
+}) 
 app.get("/playlist/id", async (req, res) => {
 
     console.log(randomPlaylistId)
@@ -427,9 +511,36 @@ app.get("/play/track" , async (req, res) => {
 
 
 
+app.get("/me", async (req, res) => {
+    res.render("loggedIn.ejs")
+})
+
+//if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
+app.get("/search", async (req, res) => {
+
+    try {
+        var url = "https://open.spotify.com/search/jean/users";
+        const response = await axios.get(url);
+        const $ = cheerio.load(response.data)
+
+        //const pfp = document.getElementsByClassName("Gi6Lr1whYBA2jutvHvjQ")
+        //pfp[0].getAttribute("href").split("/user/")[1]
+
+        //var userId = $(".Gi6Lr1whYBA2jutvHvjQ").attr("href").split()
+
+        res.send(response.data)
+
+    } catch (error) {
+        console.error(error)
+    }
+
+})
+
 
 
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+export { token }

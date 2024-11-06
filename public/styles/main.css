@@ -1,0 +1,199 @@
+body, html {
+    /*background-color: #3A6D8C; */
+    /*background-color: rgb(121, 94, 58); */
+    /*
+    background: rgb(58,109,140);
+    background: linear-gradient(180deg, rgba(58,109,140,1) 29%, rgba(198,158,188,1) 55%, rgba(255,255,255,1) 89%);
+    
+    background: rgb(198,158,188);
+    background: linear-gradient(180deg, rgba(198,158,188,1) 0%, rgba(58,109,140,1) 50%, rgba(198,158,188,1) 100%);
+    */
+    background: rgb(58,109,140);
+    background: linear-gradient(180deg, rgba(58,109,140,1) 0%, rgba(234,216,177,1) 50%, rgba(198,158,188,1) 100%);
+    font-family: "Nunito";
+    color: #EAD8B1;
+    height: 100vh;
+}
+
+h1 {
+    font-weight: bold;
+    border: 5px solid #c69ebc;
+    border-radius: 4px;
+    background-color: #c69ebc;
+    padding: 1px 6px;
+}
+
+#player {
+
+    /*
+    Common 16:9 resolutions
+        16:9 Aspect Ratio
+        640 x 360 (nHD)
+        854 x 480 (FWVGA)
+        960 x 540 (qHD)
+        1280 x 720 (HD)
+        1366 x 768 (WXGA)
+        1600 x 900 (HD+)
+        1920 x 1080 (Full HD)
+
+        Go for 9:16 to emulate mobile screen player 
+
+        padding: 1px 6px;
+        border: 2px solid black;
+        border-radius: 3px;
+        color: buttontext;
+        background-color: #F9F9E0;
+        text-decoration: none;
+        box-shadow: black -5px 7px;
+        display: flex;
+        justify-content: center;
+        transition: box-shadow .75s;
+    */
+width: 360px;
+height: 640px;
+
+background-color: rgb(93, 123, 143);
+border-radius: 8px;
+border: 1px solid white;
+box-shadow: black 5px 7px;
+z-index: 10;
+
+}
+
+
+#art {
+    width: 300px;
+    height: 300px;
+
+    background-image: url('http://localhost:3001/assets/stranger-in-the-alps.png');
+    border-radius: 4px;
+
+    box-shadow: white 5px 7px;
+    box-shadow: black 2.5px 3.5px;
+
+    background-position: center;
+    background-size: cover;
+}
+
+h3 {
+    font-size: 15px;
+}
+
+h4 {
+    font-size: 13px;
+}
+
+
+.equalizer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 516px;
+    margin-bottom: 0px;
+    z-index: 1;
+}
+
+.bar {
+    display: inline-block;
+    width: 25px;
+    background-color: #d8d4d4;
+    margin: 0px 1px 0px 1px;
+}
+
+
+#bottom{
+    position: fixed; 
+    bottom:0;
+}
+
+#progress-bar {
+    width: 200px;
+    height: 10px;
+    background-color: #c69ebc;
+    border-radius: 4px;
+}
+
+.song-interact {
+    height: 50px;
+    width: 50px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: 0px;
+    background-color: rgba(0,0,0,0);
+}
+
+#previous {
+    background-image: url('http://localhost:3001/assets/previous.png');
+    transition: .75s;
+
+}
+
+#previous:hover {
+    height: 25px;
+    width: 25px;
+}
+
+#play {
+    transition: .75s;
+}
+
+#play:hover {
+    height: 25px;
+    width: 25px;
+}
+
+#skip {
+    background-image: url('http://localhost:3001/assets/skip.png');
+    transition: .75s;
+}
+
+#skip:hover {
+    height: 25px;
+    width: 25px;
+}
+
+#randomize {
+    font-weight: bold;
+    border: 5px solid #c69ebc;
+    border-radius: 4px;
+    background-color: #c69ebc;
+    padding: 1px 6px;
+}
+
+.default-button {
+    font-weight: bold;
+    border: 5px solid #c69ebc;
+    border-radius: 4px;
+    background-color: #c69ebc;
+    padding: 1px 6px;
+}
+
+#begin {
+    font-weight: bold;
+    border: 0px;
+    border-radius: 4px;
+    background-color: rgb(93, 123, 143);
+    padding: 1px 6px;
+    width: 340px;
+    box-shadow: white 5px 7px;
+    box-shadow: black 2.5px 3.5px;
+    color:#EAD8B1;
+    z-index: 5;
+
+}
+
+
+.up-next {
+    height: 56px;
+    width: 56px;
+    background-color: #c69ebc;
+    border-radius: 8px;
+    z-index: 5;
+    border: 1px solid white;
+    box-shadow: black 2.5px 3.5px;
+    background-position: center;
+    background-size: cover;
+    
+}
+

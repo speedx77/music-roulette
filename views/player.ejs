@@ -1,0 +1,156 @@
+<%- include("partials/header.ejs") %>
+
+<main class="container py-5">
+
+    <div class="d-flex align-items-center justify-content-center">
+        <div id="player">
+
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center mt-4">
+                    <div id="art"></div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col d-flex justify-content-center">
+                    <h2>Smoke Signals</h2>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col d-flex justify-content-center">
+                    <h3>Stranger in the Alps<span> - </span><span>Phoebe Bridgers</span></h3>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col d-flex justify-content-center">
+                    <h4>Found on <span> <em>Phoebe Goddess Bridgers</em> </span> - <span>speedx77</span></h4>
+                </div>
+            </div>
+            <div class="row mt-1 d-flex align-items-center justify-content-center ">
+                <div class="col-1 px-0 me-2">0:00</div>
+                <div class="col-11" id="progress-bar"></div>
+                <div class="col-1 px-0 ms-2">4:42</div>
+            </div>
+            <div class="row mt-1 d-flex align-items-center justify-content-center">
+                <div class="song-interact mx-3 px-0" id="previous"></div>
+                <button class="song-interact mx-3 px-0" id="play" style="background-image: url('http://localhost:3001/assets/play.png')"></button>
+                <div class="song-interact mx-3 px-0" id="skip"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <a href="#" style="text-decoration: none; color:#EAD8B1"><h5 id="randomize"><em>randomize?</em></h5></a>
+                </div>
+            </div>
+            <!--- user attributes 
+            <div class="row mt-2">
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="d-flex align-items-center justify-content-center"><h3><span>speedx77</span>is into</h3></div><div>r&b</div><div>rap</div>
+                </div>
+            </div>
+            -->
+
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center m-3">
+
+        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
+        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
+        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
+        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
+        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/how-to-save-a-life.jpeg')"></div>
+
+    </div>
+    
+    <div class="d-flex align-items-center justify-content-center mb-3" >
+        <button class="d-flex justify-content-center" id="begin">
+            <h2 class="my-0"><em>ready to randomize?</em></h2>
+        </button>
+    </div>
+
+    <!--
+    <a href="/devices">get devices</a>
+    <button id="random">Play a Random Song!</button>
+    <button id="togglePlay">Toggle Play</button>
+    <h2 id="test">token</h2>
+    -->
+    
+
+    
+    <div class="d-flex align-items-center justify-content-center">
+        <div id="bottom">
+            <div class="equalizer">
+                <div id="bar1" class="bar"></div>
+                <div id="bar2" class="bar"></div>
+                <div id="bar3" class="bar"></div>
+                <div id="bar4" class="bar"></div>
+                <div id="bar5" class="bar"></div>
+                <div id="bar6" class="bar"></div>
+                <div id="bar7" class="bar"></div>
+                <div id="bar8" class="bar"></div>
+                <div id="bar9" class="bar"></div>
+                <div id="bar10" class="bar"></div>
+                <div id="bar11" class="bar"></div>
+                <div id="bar12" class="bar"></div>
+                <div id="bar13" class="bar"></div>
+                <div id="bar14" class="bar"></div>
+                <div id="bar15" class="bar"></div>
+                <div id="bar16" class="bar"></div>
+                <div id="bar17" class="bar"></div>
+                <div id="bar18" class="bar"></div>
+                <div id="bar19" class="bar"></div>
+                <div id="bar20" class="bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+</main>
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script src="/scripts/playerScript.js"></script>
+<!--comment out this script if commenting out the div bars-->
+<script>
+    animate(document.getElementById('bar1'), [350, 250, 310, 150]);
+    animate(document.getElementById('bar2'), [50, 150, 100, 350]);
+    animate(document.getElementById('bar3'), [300, 200, 250, 100]);
+    animate(document.getElementById('bar4'), [375, 145, 215, 95]);
+    animate(document.getElementById('bar5'), [75, 115, 80, 235]);
+    animate(document.getElementById('bar6'), [175, 45, 195, 115]);
+    animate(document.getElementById('bar7'), [215, 145, 300, 95]);
+    animate(document.getElementById('bar8'), [55, 345, 145, 250]);
+    animate(document.getElementById('bar9'), [350, 250, 310, 150]);
+    animate(document.getElementById('bar10'), [50, 150, 100, 350]);
+    animate(document.getElementById('bar11'), [300, 200, 250, 100]);
+    animate(document.getElementById('bar12'), [375, 145, 215, 95]);
+    animate(document.getElementById('bar13'), [75, 115, 80, 235]);
+    animate(document.getElementById('bar14'), [175, 45, 195, 115]);
+    animate(document.getElementById('bar15'), [215, 145, 300, 95]);
+    animate(document.getElementById('bar16'), [55, 345, 145, 250]);
+    animate(document.getElementById('bar17'), [75, 115, 80, 235]);
+    animate(document.getElementById('bar18'), [175, 45, 195, 115]);
+    animate(document.getElementById('bar19'), [215, 145, 300, 95]);
+    animate(document.getElementById('bar20'), [55, 345, 145, 250]);
+
+    function animate(element, heights) {
+        let currentHeight = 0;
+        let loop = 0;
+
+        setInterval(function() {
+            if (currentHeight === heights[loop]) {
+                loop++;
+
+                if (!heights[loop]) {
+                    loop = 0;
+                }
+            } else {
+                if (currentHeight > heights[loop]) {
+                    currentHeight--;
+                } else {
+                    currentHeight++;
+                }
+
+                element.style.height = currentHeight + 'px';
+            }
+        }, 5);
+    }
+</script>
+
