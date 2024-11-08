@@ -1,9 +1,10 @@
 import express from "express";
 import axios from "axios";
-import querystring from "node:querystring"
-import bodyParser from "body-parser"
-import * as cheerio from "cheerio"
-import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js"
+import querystring from "node:querystring";
+import bodyParser from "body-parser";
+import * as cheerio from "cheerio"; //not used?
+import playwright from "playwright";
+import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js";
 
 const app = express();
 const port = 3001;
@@ -516,19 +517,46 @@ app.get("/me", async (req, res) => {
 })
 
 //if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
+/
 app.get("/search", async (req, res) => {
 
+
     try {
+        /*
         var url = "https://open.spotify.com/search/jean/users";
         const response = await axios.get(url);
         const $ = cheerio.load(response.data)
 
+
+        const pfp = $(".Gi6Lr1whYBA2jutvHvjQ").attr("href")
+        console.log(pfp)
         //const pfp = document.getElementsByClassName("Gi6Lr1whYBA2jutvHvjQ")
         //pfp[0].getAttribute("href").split("/user/")[1]
 
         //var userId = $(".Gi6Lr1whYBA2jutvHvjQ").attr("href").split()
 
         res.send(response.data)
+        */
+       const browser = await playwright.chromium.launch();
+       const page = await browser.newPage();
+
+       await page.goto("https://open.spotify.com/search/emred/users");
+       var userIds = []
+       for (var i = 0; i < 30; i++) {
+        var userId = await page.locator(".Gi6Lr1whYBA2jutvHvjQ").nth(i).getAttribute("href");
+        userId = userId.split("/user/")[1]
+        userIds.push(userId);
+       }
+
+       
+
+       console.log(userIds)
+
+       res.send(userIds)
+        
+       
+
+
 
     } catch (error) {
         console.error(error)
