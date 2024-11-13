@@ -320,11 +320,13 @@ function imageFinder(response) {
 }
 
 
-async function playRandomTrackPlaylist () {
+async function playRandomTrackPlaylist (userId) {
 
+    const finalUserId = userId
+    console.log(finalUserId)
     try {
         var result = {};
-        var response = await fetch("https://api.spotify.com/v1/users/4bbflibvj0k3xne6p7cqc6h3d/playlists", {
+        var response = await fetch("https://api.spotify.com/v1/users/"+finalUserId+"/playlists", {
             method: "GET",
             headers: {
                 "Authorization" : `Bearer ${token2}`
@@ -478,6 +480,8 @@ async function randomTrack (playlistId) {
  
 }
 async function playRandomTrack () {
+
+    
     try {
 
         var result = {};
@@ -525,14 +529,11 @@ async function playRandomTrack () {
 
 document.getElementById('begin').onclick = function() {
     //playRandomTrack();
-    playRandomTrackPlaylist();
+    const id = document.getElementById('begin').getAttribute('data-user');
+    playRandomTrackPlaylist(id);
 }
 
-
-
-
-
-
+//update song images with dom/listeners?
 
 
 getToken();

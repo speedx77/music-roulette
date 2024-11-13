@@ -1,0 +1,173 @@
+<%- include("partials/header.ejs") %>
+
+<div class="container">
+
+    <div class="row">
+        <% for (var i = 0; i < userData.length; i++) {%>
+            
+                <div class="d-flex flex-column align-items-center justify-content-center mt-2 col-2">
+                    <a href="/player/<%= userData[i].id%>" style="text-decoration: none;">
+                        <% if (!userData[i].picture) {%>
+                            <div class="pfp" style="background-image: url('http://localhost:3001/assets/default-pfp.jpg')"></div> 
+                        <% } else { %>
+                            <div class="pfp" style="background-image: url('<%= userData[i].picture%>')"></div>
+                        <% } %>
+                        <h2 style="color: #EAD8B1"><%= userData[i].display_name%></h2>
+                    </a>
+                </div>     
+        <% } %>
+    </div>
+</div>
+
+
+
+<!--
+[
+  {
+    id: 'rxrfqkk33pau8u5kba5fzbdtn',
+    display_name: 'EmreD',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85a48b6eb063f7af72dce2a944'
+  },
+  {
+    id: 'emiliux007',
+    display_name: 'emred',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8515c3296a1b19f645f7870788'
+  },
+  {
+    id: '4sk0z769brb1srkkuyhl3tzgn',
+    display_name: 'Emred',
+    picture: 'https://i.scdn.co/image/ab6775700000ee850e70407e01dbed21bbaf0247'
+  },
+  {
+    id: 'rc9uhu0njr15agz9v74pgrsgz',
+    display_name: 'emredk',
+    picture: 'https://scontent-iad3-2.xx.fbcdn.net/v/t1.18169-1/23559535_10155579696668673_273468906710670813_n.jpg?stp=dst-jpg_s240x240&_nc_cat=109&ccb=1-7&_nc_sid=05c18e&_nc_ohc=JLefXMmcIqkQ7kNvgG1cicR&_nc_zt=24&_nc_ht=scontent-iad3-2.xx&edm=AP4hL3IEAAAA&oh=00_AYDedh40Lp6Sm5_bDTULWGCzkhRNwNMecsh4RdA8G4Qw8A&oe=675BD2C2'
+  },
+  {
+    id: '31ps2bc6ub74m77j2hrwa4buk67m',
+    display_name: 'emredwmir',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8552350367d1fbf836cf0a44ea'
+  },
+  {
+    id: 't_rap1907',
+    display_name: 'emredd',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8501b138d93ffa685992012d1a'
+  },
+  {
+    id: 'wyfwt6fc22ayvaqnkxrd10ecl',
+    display_name: 'Emred',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85fe9d8c14ea5661c55e4289ee'
+  },
+  {
+    id: 'ucy230qvq6z77eqcvl5hy7g2z',
+    display_name: 'EmreD',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85cc53c5b1a65ee84a4331d1cc'
+  },
+  {
+    id: '9efomzycilwykh8td4kl24uh9',
+    display_name: 'EmreDNJ',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85f284e55c5110c9fee3f5f9bb'
+  },
+  {
+    id: 'dhukba123ljep2ac1cvqalqbs',
+    display_name: 'emredal',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85cdfc62bed14abb50e7eea62e'
+  },
+  {
+    id: 'oad67z8i5uh3jer9dpafmzuh5',
+    display_name: 'emredemir',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85277e13d66246e3d10fbcda15'
+  },
+  {
+    id: 'emred.34',
+    display_name: 'EmreD',
+    picture: 'https://scontent-iad3-2.xx.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c379.0.1290.1290a_dst-jpg_s320x320&_nc_cat=1&ccb=1-7&_nc_sid=7565cd&_nc_ohc=vsQokB35AVoQ7kNvgHA3FVp&_nc_zt=24&_nc_ht=scontent-iad3-2.xx&edm=AP4hL3IEAAAA&_nc_gid=ADTBw4UpC3czIc87YNzIxQS&oh=00_AYB3KnZr80Kg6AndC47pbgr2YlYBZM3LSrEzskQFyVJpAw&oe=675BC359'
+  },
+  { id: '11126325604', display_name: 'Emredy', picture: null },
+  {
+    id: 'appfue2t0wpg7ta2jp92kxmyp',
+    display_name: 'Emredolu',
+    picture: 'https://i.scdn.co/image/ab6775700000ee858cb8e5f2d73f73cd73b34a1f'
+  },
+  {
+    id: 'b96j3f2wj3grvld92yx533art',
+    display_name: 'emred',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85fed4382323f764e4c8cae8b6'
+  },
+  {
+    id: 'rki1jbrywxzt0r4rhe2xvirsh',
+    display_name: 'Emred',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8559a15ae16ca9a158c6b329c7'
+  },
+  {
+    id: '31qxi5sqrt7mt6uc7kv3uqgnlghm',
+    display_name: 'Emredr',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85f07a2cd9764081a9206d0a74'
+  },
+  {
+    id: 'idf2okd1ymtj2z987gr5um3we',
+    display_name: 'emredagci',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85c6eac57c54ce23b1051a5652'
+  },
+  {
+    id: 's6boo313jh5fmf4nfgp19tj6x',
+    display_name: 'Emreduygu',
+    picture: 'https://i.scdn.co/image/ab6775700000ee854e526511b0e8dac8093c91a4'
+  },
+  {
+    id: 'bx40anjfe2dtt87q68hwog4ev',
+    display_name: 'Emredersin',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85dda56096514fdd5b753ff4dc'
+  },
+  {
+    id: 'damardanpopolyon',
+    display_name: 'emredere',
+    picture: 'https://i.scdn.co/image/ab6775700000ee852aafe286bf0728e393e2ca99'
+  },
+  {
+    id: '216anj2edljnsy45j6fi6lbyq',
+    display_name: 'EmrEdi™',
+    picture: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10212689467045404&height=300&width=300&ext=1734077037&hash=AbYTNTo7_Q9lx8t4uio1JiFq'
+  },
+  {
+    id: 'xw5c0fx4sqcx5vvgdph1ipzam',
+    display_name: 'emredeity🧌' ,
+    picture: 'https://i.scdn.co/image/ab6775700000ee85d6d2fa0d551aab264be7de8d'
+  },
+  {
+    id: 'ar3lgrlwag5t870bapnr7s71p',
+    display_name: 'Emred1904',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8535517febfc634f3f8b6372a2'
+  },
+  {
+    id: '1dr9x224mh0mvu33iz8eio449',
+    display_name: 'Emrediyez',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85217a3441aab4d2f1a5a29234'
+  },
+  {
+    id: '3127fserdosi2jmnrgjmnddrpmlu',
+    display_name: 'emredamar',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85147fc6483fbcd54634b4df57'
+  },
+  {
+    id: 'kxgilspodho4pqq9w41i1n1lc',
+    display_name: 'Emredun',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85f48c9ffda94f2e36216a972a'
+  },
+  {
+    id: 'cfa9tgpmfu9lt4hpp2khv0wnu',
+    display_name: 'emredogani',
+    picture: 'https://i.scdn.co/image/ab6775700000ee853cfb269322e6fa63a8db4463'
+  },
+  {
+    id: 'ou7ja8kju9drggtge439ajxxm',
+    display_name: 'emreduyar',
+    picture: 'https://i.scdn.co/image/ab6775700000ee85a215381aff99c7149226db88'
+  },
+  {
+    id: '11167955408',
+    display_name: 'emredonmaz',
+    picture: 'https://i.scdn.co/image/ab6775700000ee8554c12716045b12531b59b212'
+  }
+]
+-->
