@@ -2,27 +2,40 @@
 
 <main class="container py-5">
 
+    <div class="d-flex flex-column align-items-center justify-content-center mb-3 ">
+        <div id="toHide">
+            <button class="d-flex justify-content-center" id="begin" data-user="<%= userId %>" >
+                <h2 class="my-0"><em>ready to randomize?</em></h2>
+            </button>
+        </div>
+        <div id="loading" class="mt-2">
+            <img src="http://localhost:3001/assets/loading.gif" style="height: 200px;"/>
+        </div>    
+    </div>
+
+
+
     <div class="d-flex align-items-center justify-content-center">
         <div id="player">
 
             <div class="row mt-3">
                 <div class="col d-flex justify-content-center mt-4">
-                    <div id="art"></div>
+                    <div id="art" style="background-image: url('http://localhost:3001/assets/stranger-in-the-alps.png')"></div>
                 </div>
             </div>
             <div class="row mt-2">
-                <div class="col d-flex justify-content-center">
-                    <h2>Smoke Signals</h2>
+                <div class="col d-flex flex-wrap justify-content-center">
+                    <h2 id="trackName">Smoke Signals</h2>
                 </div>
             </div>
             <div class="row mt-1">
                 <div class="col d-flex justify-content-center">
-                    <h3>Stranger in the Alps<span> - </span><span>Phoebe Bridgers</span></h3>
+                    <h3 id="trackInfo">Stranger in the Alps<span> - </span><span>Phoebe Bridgers</span></h3>
                 </div>
             </div>
             <div class="row mt-1">
-                <div class="col d-flex justify-content-center">
-                    <h4>Found on <span> <em>Phoebe Goddess Bridgers</em> </span> - <span>speedx77</span></h4>
+                <div class="col d-flex flex-wrap justify-content-center">
+                    <h4 id="playlistInfo">Found on <span> <em>Phoebe Goddess Bridgers</em> </span> - <span>speedx77</span></h4>
                 </div>
             </div>
             <div class="row mt-1 d-flex align-items-center justify-content-center ">
@@ -39,6 +52,29 @@
                 <div class="col d-flex justify-content-center">
                     <a href="#" style="text-decoration: none; color:#EAD8B1"><h5 id="randomize"><em>randomize?</em></h5></a>
                 </div>
+                
+            </div>
+            <div class="row mt-3 d-flex align-items-center justify-content-center">
+                <!--
+                <div class="col d-flex justify-content-center">
+                    <div class="volume">
+                        <input type="range" min="0" max="100" value="50" class="volume-range">
+                        <div class="icon" >
+                          <i class="fa fa-volume-up icon-size" aria-hidden="true"></i>
+                        </div>
+                        <div class="bar-hoverbox">
+                          <div class="bar">
+                            <div class="bar-fill"></div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                -->
+
+                    <button class="volume-mute col px-0" id="volume" style="background-image: url('http://localhost:3001/assets/volume.png')" ></button>
+                    <div class="col slidecontainer px-0">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    </div>
             </div>
             <!--- user attributes 
             <div class="row mt-2">
@@ -52,20 +88,21 @@
     </div>
 
     <div class="d-flex align-items-center justify-content-center m-3">
-
-        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
-        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
-        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
-        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
-        <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/how-to-save-a-life.jpeg')"></div>
+        <div id="next-up" class="row">
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/how-to-save-a-life.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
+            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
+        </div>
 
     </div>
     
-    <div class="d-flex align-items-center justify-content-center mb-3" >
-        <button class="d-flex justify-content-center" id="begin" data-user="<%= userId %>">
-            <h2 class="my-0"><em>ready to randomize?</em></h2>
-        </button>
-    </div>
+    
 
     <!--
     <a href="/devices">get devices</a>
@@ -105,6 +142,7 @@
     
     
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 <script src="/scripts/playerScript.js"></script>
 <!--comment out this script if commenting out the div bars-->

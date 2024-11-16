@@ -15,6 +15,7 @@ var allTracks = [];
 var device_id = "";
 var allTracksPlaylist = [];
 var allTracksPlaylistInfo = [];
+var playerReady = false;
 
 async function getToken() {
     
@@ -234,6 +235,8 @@ async function createRandomPlaylist(playlistId) {
                     allTracksPlaylistInfo.push({
                         trackName : result.name,
                         trackArt : imageFinder(result),
+                        trackArtist : result.artists[0].name,
+                        albumName : result.album.artists[0].name,
                         playlistName: result2.name,
                         playlistOwner: result2.owner.display_name
                     })
@@ -291,6 +294,8 @@ async function createRandomPlaylist(playlistId) {
                 allTracksPlaylistInfo.push({
                     trackName : result.name,
                     trackArt : imageFinder(result),
+                    trackArtist : result.artists[0].name,
+                    albumName : result.album.artists[0].name,
                     playlistName: result2.name,
                     playlistOwner: result2.owner.display_name
                 })
@@ -369,8 +374,21 @@ async function playRandomTrackPlaylist (userId) {
             } catch (error) {
                 console.error(error);
             }
-
             console.log(allTracksPlaylistInfo)
+            playerReady = true;
+            if (playerReady) {
+
+                $("#art").css("background-image", "url('"+allTracksPlaylistInfo[0].trackArt+"')")
+                $("#trackName").html(`${allTracksPlaylistInfo[0].trackName}`)
+                $("#trackInfo").html(`${allTracksPlaylistInfo[0].albumName} <span> - </span>${allTracksPlaylistInfo[0].trackArtist}<span></span>`)
+                $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
+
+
+                $("#loading").hide();
+                $("#player").slideDown();
+                $("#next-up").show();
+            }
+            
         
 
         
@@ -527,14 +545,43 @@ async function playRandomTrack () {
     }
 }
 
-document.getElementById('begin').onclick = function() {
-    //playRandomTrack();
+//add visibile: hidden style to these divs on player.ejs
+$(document).ready(function() {
+   // $("#player").hide();
+    $("#next-up").hide();
+    $("#loading").hide();
+})
+
+$("#begin").click(function() {
     const id = document.getElementById('begin').getAttribute('data-user');
     playRandomTrackPlaylist(id);
-}
+    $("#loading").show();
+
+    
+    $("#toHide").hide();
+})
+
+
+$("#randomize").click(function() {
+    allTracksPlaylistInfo = [];
+    const id = document.getElementById('begin').getAttribute('data-user');
+    playRandomTrackPlaylist(id);
+
+    $("#player").slideUp();
+    $("#next-up").slideUp();
+
+    $("#loading").show();
+
+   
+
+})
+
+
+
 
 //update song images with dom/listeners?
 
 
 getToken();
 spotifyWindow();
+

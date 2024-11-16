@@ -4,7 +4,6 @@ import querystring from "node:querystring";
 import bodyParser from "body-parser";
 import * as cheerio from "cheerio"; //not used?
 import playwright from "playwright";
-import expect from 'playwright';
 import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js";
 
 const app = express();
@@ -590,7 +589,7 @@ app.get("/search", async (req, res) => {
     var userSearched = req.query.user
 
 
-    try {
+
         /*
         var url = "https://open.spotify.com/search/jean/users";
         const response = await axios.get(url);
@@ -607,123 +606,139 @@ app.get("/search", async (req, res) => {
         res.send(response.data)
         */
        const browser = await playwright.chromium.launch();
+
        const page = await browser.newPage();
 
        await page.goto("https://open.spotify.com/search/"+userSearched+"/users");
+
 
        var users = [];
        var userIds = [];
        var userDisplayNames = [];
        var userPictures = [];
-       await page.waitForSelector(".Gi6Lr1whYBA2jutvHvjQ");
-       await page.waitForSelector(".Gi6Lr1whYBA2jutvHvjQ p span span")
-       await page.waitForSelector(".xBV4XgMq0gC5lQICFWY_")
-       const numOfUsers = await page.locator(".Gi6Lr1whYBA2jutvHvjQ").count();
-       console.log(numOfUsers);
+       var userFound = false;
 
-       const numOfPictures = await page.locator(".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_ div div img").count();
-       console.log("pics: "+numOfPictures);
+       try {
+            //adjust timeout to make this faster
+            await page.waitForSelector(".Gi6Lr1whYBA2jutvHvjQ", {timeout: 10000})
+            userFound = true;
+            await page.waitForSelector(".Gi6Lr1whYBA2jutvHvjQ");
+            await page.waitForSelector(".Gi6Lr1whYBA2jutvHvjQ p span span")
+            await page.waitForSelector(".xBV4XgMq0gC5lQICFWY_")
+            const numOfUsers = await page.locator(".Gi6Lr1whYBA2jutvHvjQ").count();
+            console.log(numOfUsers);
 
-       for(var i = 0; i <  numOfUsers; i++) {
-        
-        var userId =  await page.locator(".Gi6Lr1whYBA2jutvHvjQ").nth(i).getAttribute("href");
-        userId = userId.split("/user/")[1];
+            const numOfPictures = await page.locator(".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_ div div img").count();
+            console.log("pics: "+numOfPictures);
 
-        userIds.push(userId);
-       }
-
-       
-       for (var i = 0; i <  numOfUsers; i++) {
-
-        var userDisplayName = await page.locator(".Gi6Lr1whYBA2jutvHvjQ p span span").nth(i).innerHTML()
-        userDisplayNames.push(userDisplayName)
-
-       }
-       
-       //console.log(pictureLocator.toString().includes("<p"));
-
-       for (var i = 0; i < numOfUsers; i++) {
-
-            var pictureLocator = await page.locator(".xBV4XgMq0gC5lQICFWY_").nth(i).innerHTML();
-
-            //console.log(pictureLocator.toString())
             
-            if (pictureLocator.toString().includes("<img")) {
-                console.log("true" + i)
 
-                //var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
-                userPictures.push(pictureLocator.toString().split('src="')[1].split('" data-testid')[0].replace(/&amp;/g, "&"))
+            for(var i = 0; i <  numOfUsers; i++) {
+                
+                var userId =  await page.locator(".Gi6Lr1whYBA2jutvHvjQ").nth(i).getAttribute("href");
+                userId = userId.split("/user/")[1];
+
+                userIds.push(userId);
             }
 
-            else {
-                console.log("false" + i)
-                //var userPicture = "null";
-                userPictures.push(null);
+            
+            for (var i = 0; i <  numOfUsers; i++) {
+
+                var userDisplayName = await page.locator(".Gi6Lr1whYBA2jutvHvjQ p span span").nth(i).innerHTML()
+                userDisplayNames.push(userDisplayName)
+
+            }
+            
+            //console.log(pictureLocator.toString().includes("<p"));
+
+            for (var i = 0; i < numOfUsers; i++) {
+
+                    var pictureLocator = await page.locator(".xBV4XgMq0gC5lQICFWY_").nth(i).innerHTML();
+
+                    //console.log(pictureLocator.toString())
+                    
+                    if (pictureLocator.toString().includes("<img")) {
+                        console.log("true" + i)
+
+                        //var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
+                        userPictures.push(pictureLocator.toString().split('src="')[1].split('" data-testid')[0].replace(/&amp;/g, "&"))
+                    }
+
+                    else {
+                        console.log("false" + i)
+                        //var userPicture = "null";
+                        userPictures.push(null);
+                    }
+
+                    //var pictureLocator = page.locator(".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_").
+                    /*
+                    if (".xBV4XgMq0gC5lQICFWY_ div div img") {
+                        var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
+                        userPictures.push(userPicture)
+                    }
+
+                    else{
+                        var userPicture = "";
+                        userPictures.push("");
+                    }
+                    */
+                }
+
+                //console.log(await page.locator(".xBV4XgMq0gC5lQICFWY_").nth(12).innerHTML())
+
+                for (var i = 0; i < userPictures.length; i++) {
+                    console.log("index: "+ i + " and pic: " +userPictures[i])
+                }
+
+            for (var i = 0; i < numOfUsers; i++) {
+
+                users.push({
+                    id : userIds[i],
+                    display_name : userDisplayNames[i],
+                    picture : userPictures[i]
+                })
             }
 
-            //var pictureLocator = page.locator(".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_").
             /*
-            if (".xBV4XgMq0gC5lQICFWY_ div div img") {
-                var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
-                userPictures.push(userPicture)
+
+            for (var i = 0; i < 30; i++) {
+
+                var userId = await page.locator(".Gi6Lr1whYBA2jutvHvjQ").nth(i).getAttribute("href");
+                userId = userId.split("/user/")[i]
+
+                var userDisplayName = await page.locator(".Box__BoxComponent-sc-y4nds-0 .Gi6Lr1whYBA2jutvHvjQ p span span").nth(i).innerHTML();
+
+                
+                if (".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_ div div img") {
+                    var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
+                }
+
+                else {
+                    var userPicture = null;
+                }
+                
+                users.push({
+                    id : userIds,
+                    display_name : userDisplayName,
+                // picture : userPicture
+                })
+
+                */
+            //some images are downloaded: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10212689467045404&height=300&width=300&ext=1733644325&hash=AbaUVr0o7c01l4-eKABkpcUd
+
+                console.log(users)
+
+                res.render("search.ejs", {userData : users, wasUserFound : userFound})
+       } catch(error) {
+            if (error.name === "TimeoutError") {
+                console.log("Username not found");
+                res.render("search.ejs", { userData : users, wasUserFound : userFound})
+            } else {
+                throw error;
             }
-
-            else{
-                var userPicture = "";
-                userPictures.push("");
-            }
-            */
-        }
-
-        //console.log(await page.locator(".xBV4XgMq0gC5lQICFWY_").nth(12).innerHTML())
-
-        for (var i = 0; i < userPictures.length; i++) {
-            console.log("index: "+ i + " and pic: " +userPictures[i])
-        }
-
-       for (var i = 0; i < numOfUsers; i++) {
-
-        users.push({
-            id : userIds[i],
-            display_name : userDisplayNames[i],
-            picture : userPictures[i]
-        })
        }
-
-       /*
-
-       for (var i = 0; i < 30; i++) {
-
-        var userId = await page.locator(".Gi6Lr1whYBA2jutvHvjQ").nth(i).getAttribute("href");
-        userId = userId.split("/user/")[i]
-
-        var userDisplayName = await page.locator(".Box__BoxComponent-sc-y4nds-0 .Gi6Lr1whYBA2jutvHvjQ p span span").nth(i).innerHTML();
-
-        
-        if (".Box__BoxComponent-sc-y4nds-0 .xBV4XgMq0gC5lQICFWY_ div div img") {
-            var userPicture = await page.locator("[data-testid='card-image']").nth(i).getAttribute("src")
-        }
-
-        else {
-            var userPicture = null;
-        }
-        
-        users.push({
-            id : userIds,
-            display_name : userDisplayName,
-           // picture : userPicture
-        })
-
-        */
-       //some images are downloaded: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10212689467045404&height=300&width=300&ext=1733644325&hash=AbaUVr0o7c01l4-eKABkpcUd
-
-        console.log(users)
-
-        res.render("search.ejs", {userData : users})
-
-       } catch (error) {
-        console.error(error)
-    }
+    
+       
 
        //.CardButton-sc-g9vf2u-0
 
