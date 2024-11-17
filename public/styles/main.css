@@ -109,12 +109,105 @@ h4 {
     bottom:0;
 }
 
-#progress-bar {
-    width: 200px;
+.progress {
     height: 10px;
+    width: 200px;
+    background-color: rgb(198, 159, 188);
+}
+
+#progress-bar {
+    height: 10px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.slider {
+    /*********** Baseline, reset styles ***********/
+    width: 200px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  
+  
+  /* Removes default focus */
+  
+    outline: none;
+}
+  
+  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
+  /* slider track */
+  .slider::-webkit-slider-runnable-track {
+    background-color: transparent;
+    border-radius: 4px;
+    height: 10px;
+  }
+
+  
+  
+  /* slider thumb */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -3px; /* Centers thumb on the track */
+    background-color: #ffffff;
+    border-radius: 4px;
+    width: 10px;
+    height: 10px;
+  }
+  
+  /*
+  .slider:focus::-webkit-slider-thumb {
+    outline: 3px solid #ffffff;
+    outline-offset: 0.125rem;
+  }
+  */
+  /*********** Firefox styles ***********/
+  /* slider track */
+  .slider::-moz-range-track {
+    background-color:  transparent;
+    border-radius: 0.5rem;
+    height: 0.5rem;
+  }
+  
+  /* slider thumb */
+  .slider::-moz-range-thumb {
+    background-color: #ffffff;
+    border: none; /*Removes extra border that FF applies*/
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+  }
+  
+  .slider:focus::-moz-range-thumb{
+    outline: 3px solid #ffffff;
+    outline-offset: 0.125rem;
+  }
+
+/*
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
     background-color: #c69ebc;
     border-radius: 4px;
 }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background: #43d663;
+    cursor: pointer;
+  }
+
+  input[type="range"] {
+    color: #f07167;
+    --track-color: rgba(255, 255, 255, 0.1);
+}
+*/
+
 
 .song-interact {
     height: 50px;
@@ -219,3 +312,5 @@ h4 {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+
