@@ -39,9 +39,9 @@
                 </div>
             </div>
             <div class="row mt-1 d-flex align-items-center justify-content-center ">
-                <div class="col-1 px-0 me-2">0:00</div>
+                <div class="col-1 px-0 me-2" id="position">0:00</div>
                 <div class="col-11" id="progress-bar"></div>
-                <div class="col-1 px-0 ms-2">4:42</div>
+                <div class="col-1 px-0 ms-2" id="duration">4:42</div>
             </div>
             <div class="row mt-1 d-flex align-items-center justify-content-center">
                 <div class="song-interact mx-3 px-0" id="previous"></div>
@@ -54,8 +54,14 @@
                 </div>
                 
             </div>
+            
+            <div class="row d-flex flex-wrap align-items-center justify-content-center">
+                <button class="volume-mute" id="mute" style="background-image: url('http://localhost:3001/assets/volume.png')"> </button>
+                <div class="d-flex align-items-center" style="width: fit-content"> <input type="range" min="0" max="100" value="50" id="volumeSlider"></div>
+            </div>
+            <!--
             <div class="row mt-3 d-flex align-items-center justify-content-center">
-                <!--
+                <!-
                 <div class="col d-flex justify-content-center">
                     <div class="volume">
                         <input type="range" min="0" max="100" value="50" class="volume-range">
@@ -69,13 +75,15 @@
                         </div>
                       </div>
                 </div>
-                -->
-
-                    <button class="volume-mute col px-0" id="volume" style="background-image: url('http://localhost:3001/assets/volume.png')" ></button>
+                
+                <div  class="volume-mute col px-0" style="background-image: url('http://localhost:3001/assets/volume.png')">
+                    <button id="volume"  ></button>
+                </div>
                     <div class="col slidecontainer px-0">
                         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
                     </div>
             </div>
+            -->
             <!--- user attributes 
             <div class="row mt-2">
                 <div class="col d-flex align-items-center justify-content-center">

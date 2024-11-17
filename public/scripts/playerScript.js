@@ -16,6 +16,12 @@ var device_id = "";
 var allTracksPlaylist = [];
 var allTracksPlaylistInfo = [];
 var playerReady = false;
+var currentVolume = 0;
+var durationOfTrackMinutes = 0;
+var durationOfTrackSeconds = 0;
+var durationOfTrack = "";
+var positionOfTrack = 0;
+var playingTrack = {};
 
 async function getToken() {
     
@@ -149,6 +155,50 @@ async function spotifyWindow() {
             player.previousTrack();
         }
 
+        document.getElementById("mute").onclick = function() {
+            
+
+            player.getVolume().then(volume => {
+                
+                console.log("vol: " +volume);
+                console.log("current vol: "+currentVolume)
+                if (volume != 0) {
+                    currentVolume = volume;
+                    player.setVolume(0);
+                    document.getElementById("mute").style.backgroundImage = "url('http://localhost:3001/assets/mute.png')"
+                } 
+                
+                else if (volume === 0) {
+                    player.setVolume(currentVolume);
+                    document.getElementById("mute").style.backgroundImage = "url('http://localhost:3001/assets/volume.png')"
+                }
+            })
+        }
+
+        document.getElementById("volumeSlider").oninput = function() {
+            if (this.value === 0) {
+                player.setVolume(0)
+            }
+            else {
+                player.setVolume(this.value / 100)
+            }
+        }
+
+        player.addListener('player_state_changed', ({
+            position,
+            duration,
+            track_window: { current_track }
+          }) => {
+            console.log('Currently Playing', current_track);
+            console.log('Position in Song', position);
+            console.log('Duration of Song', duration);
+            durationOfTrackMinutes = Math.floor((duration / 1000) / 60)
+            durationOfTrackSeconds = Math.floor((duration / 1000) % 60)
+            durationOfTrack = durationOfTrackMinutes.toString() + ":" + durationOfTrackSeconds.toString()
+            document.getElementById("duration").innerHTML = `${durationOfTrack}`
+          });
+
+
 
 
     
@@ -236,7 +286,7 @@ async function createRandomPlaylist(playlistId) {
                         trackName : result.name,
                         trackArt : imageFinder(result),
                         trackArtist : result.artists[0].name,
-                        albumName : result.album.artists[0].name,
+                        albumName : result.album.name,
                         playlistName: result2.name,
                         playlistOwner: result2.owner.display_name
                     })
@@ -295,7 +345,7 @@ async function createRandomPlaylist(playlistId) {
                     trackName : result.name,
                     trackArt : imageFinder(result),
                     trackArtist : result.artists[0].name,
-                    albumName : result.album.artists[0].name,
+                    albumName : result.album.name,
                     playlistName: result2.name,
                     playlistOwner: result2.owner.display_name
                 })
