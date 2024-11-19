@@ -40,8 +40,12 @@
             </div>
             <div class="row mt-1 d-flex align-items-center justify-content-center ">
                 <div class="col-1 px-0 me-2" id="position">0:00</div>
-                <div class="progress px-0 col-11"><div id="progress-bar" style="width: 0%"><input  type="range" min="0" max="100" value="0" id="progress-input-bar" class="slider"></div></div>
+                <div class="progress px-0 col-11"><input type="range" min="0" max="100" value="0" id="progress-input"></div>
+                <!--progress bar: https://css-tricks.com/lets-create-a-custom-audio-player/-->
+                <!--custom range input custom css builder: https://range-input-css.netlify.app/-->
+                <!--<div id="progress-bar" style="width: 10%"></div>-->
                 <!--<div class="col-10 px-0" style="width: fit-content"><input  type="range" min="0" max="100" value="20" id="progress-input-bar" class="slider"></div>-->
+                <!--<input  type="range" min="0" max="100" value="0" id="progress-input-bar" class="slider">-->
                 <div class="col-1 px-0 ms-2" id="duration">4:42</div>
             </div>
             <div class="row mt-1 d-flex align-items-center justify-content-center">
@@ -98,15 +102,15 @@
 
     <div class="d-flex align-items-center justify-content-center m-3">
         <div id="next-up" class="row">
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/how-to-save-a-life.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/backwater.jpeg')"></div>
-            <div class="up-next mx-2" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg')"></div>
+            <div class="up-next mx-2" id="next-1" data-trackName="" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-2" data-trackName="" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-3" data-trackName="" style="background-image: url('http://localhost:3001/assets/backwater.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-4" data-trackName="" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-5" data-trackName="" style="background-image: url('http://localhost:3001/assets/how-to-save-a-life.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-6" data-trackName="" style="background-image: url('http://localhost:3001/assets/guard-dog.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-7" data-trackName="" style="background-image: url('http://localhost:3001/assets/sonder-son.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-8" data-trackName="" style="background-image: url('http://localhost:3001/assets/backwater.jpeg'); display: block"></div>
+            <div class="up-next mx-2" id="next-9" data-trackName="" style="background-image: url('http://localhost:3001/assets/all-mirrors.jpeg'); display: block"></div>
         </div>
 
     </div>

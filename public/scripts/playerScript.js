@@ -26,7 +26,14 @@ var positionMintues = 0;
 var positionSeconds = 0;
 var finalPosition = "";
 var progress = 0;
+var seekPositionMinutes = 0;
+var seekPositionSeconds = 0;
+var seekPosition = 0;
 var playingTrack = {};
+var upNext = [];
+var hideArray = [];
+var found = false;
+var queue = [];
 
 async function getToken() {
     
@@ -154,6 +161,9 @@ async function spotifyWindow() {
 
         document.getElementById('skip').onclick = function() {
             player.nextTrack();
+
+           //document.getElementsByClassName("up-next")[8].style.display = 'none';
+
         }
 
         document.getElementById("previous").onclick = function() {
@@ -198,6 +208,7 @@ async function spotifyWindow() {
             console.log('Position in Song', position);
             console.log('Duration of Song', duration);
             //positionOfTrack = position
+            playingTrack = current_track;
             initialDuration = duration;
             durationOfTrackMinutes = Math.floor((duration / 1000) / 60)
             durationOfTrackSeconds = Math.floor((duration / 1000) % 60)
@@ -215,96 +226,135 @@ async function spotifyWindow() {
 
             for (var track = 0; track < allTracksPlaylistInfo.length; track++) {
 
-                if (current_track.id === allTracksPlaylistInfo[track].trackId) {
+                if (current_track.name === allTracksPlaylistInfo[track].trackName) {
                     $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
                 }
 
-
             }
-            /*
-            let seconds = 0;
-            let minutes = 0;
+
+        
+
+            
+            $("#next-1").css("background-image", "url('"+allTracksPlaylistInfo[1].trackArt+"')")
+            $("#next-2").css("background-image", "url('"+allTracksPlaylistInfo[2].trackArt+"')")
+            $("#next-3").css("background-image", "url('"+allTracksPlaylistInfo[3].trackArt+"')")
+            $("#next-4").css("background-image", "url('"+allTracksPlaylistInfo[4].trackArt+"')")
+            $("#next-5").css("background-image", "url('"+allTracksPlaylistInfo[5].trackArt+"')")
+            $("#next-6").css("background-image", "url('"+allTracksPlaylistInfo[6].trackArt+"')")
+            $("#next-7").css("background-image", "url('"+allTracksPlaylistInfo[7].trackArt+"')")
+            $("#next-8").css("background-image", "url('"+allTracksPlaylistInfo[8].trackArt+"')")
+            $("#next-9").css("background-image", "url('"+allTracksPlaylistInfo[9].trackArt+"')")
+            
 
             setInterval(() => {
-                console.log("Current mins: ", minutes)
-                console.log("Current secs: ", seconds);
-                seconds++
-                if (seconds === 60){
-                minutes++;
-                seconds = 0;
-            }
+                player.getCurrentState().then(state => {
+                    if (!state) {
+                        console.error('User is not playing music through the Web Playback SDK');
+                        return;
+                      }
+                    positionOfTrack = state.position;
+    
+                    if (positionOfTrack > 0) {
+    
+                        positionMintues = Math.floor((positionOfTrack / 1000) / 60)
+                        positionSeconds = Math.floor((positionOfTrack / 1000) % 60)
+    
+                        if (positionSeconds < 10){
+                            positionSeconds = "0"+positionSeconds
+                        }
+    
+                        finalPosition = positionMintues.toString() + ":" + positionSeconds.toString();
+    
+                        $("#position").html(`${finalPosition}`)
+                        
+    
+                    }
+    
+                    else {
+                        $("#position").html("0:00")
+    
+                    }         
+    
+                    progress = (positionOfTrack / initialDuration) * 100;
+                    $("#progress-input").attr("value", `${progress}`)
+
+                })
             }, 1000)
 
-            if (seconds === 60){
-                minutes++;
-                seconds = 0;
-            }
-            */
-            
+
+            upNext = document.getElementsByClassName("up-next");
 
             
+            //use next and previous tracks to build upcoming songs
+            //display next tracks only
+            //refresh upcoming songs container when next tracks changes
 
-
-
+            //function that makes this api query and displays elements
+            //get users queue -  https://api.spotify.com/v1/me/player/queue
+            //display elements of queue (refresh this when current_track changes?)
+            //refresh on track change
+            //refresh on next/ previous
+            //refresh when users clicks on those div items
+            //if duration of song changes refresh those div items
             
+            
+            //var hideArray = [];
+            //var found = false;
 
             /*
-            player.getCurrentState().then(state => {
-                if (!state) {
-                    console.error('User is not playing music through the Web Playback SDK');
-                    return;
-                  }
-                
-                positionOfTrack = state.position
-                console.log("position of track: " + positionOfTrack)
-            })
+            for(var track = 1; track < upNext.length; track++) {
+
+                if (current_track.album.images[0].url === allTracksPlaylistInfo[track].trackArt) {
+                    
+                    found = true;
+                    break;
+                }
+
+                hideArray.push(upNext[track])
+            }
+            
+            for(const item of hideArray) {
+                hideArray[item].style.display = "none";
+            }
+            
             */
+        
 
           });
 
-          setInterval(() => {
-            player.getCurrentState().then(state => {
-                if (!state) {
-                    console.error('User is not playing music through the Web Playback SDK');
-                    return;
-                  }
-                positionOfTrack = state.position;
 
-                if (positionOfTrack > 0) {
 
-                    positionMintues = Math.floor((positionOfTrack / 1000) / 60)
-                    positionSeconds = Math.floor((positionOfTrack / 1000) % 60)
+        //bug bar moves every 2 secs because width is 200px?
+        document.getElementById("progress-input").oninput = function() {
 
-                    if (positionSeconds < 10){
-                        positionSeconds = "0"+positionSeconds
-                    }
+                if (this.value != 0) {
+                    seekPosition = (this.value / 100 ) * initialDuration
+                    player.seek(seekPosition);
 
-                    finalPosition = positionMintues.toString() + ":" + positionSeconds.toString();
+                    setInterval(() => {
+                        document.getElementById("progress-input").value = progress
+                    }, 1000)
 
-                    $("#position").html(`${finalPosition}`)
 
                 }
 
                 else {
-                    $("#position").html("0:00")
-                }         
+                    seekPosition = 0
+                    player.seek(seekPosition);
 
-                progress = (positionOfTrack / initialDuration) * 100;
-                $("#progress-bar").width(`${progress}%`);
-                //console.log("position of track: " + positionOfTrack)
-            })
-        }, 1000)
+                    setInterval(() => {
+                        document.getElementById("progress-input").value = progress
+                    }, 1000)
 
+                }
 
-
-    
-        /*
-        document.getElementById('test').onclick = function() {
-            var testToken = "123123"
-            document.getElementById('test').innerHTML = token2
         }
-        */
-    
+
+        
+
+
+
+   
         player.connect();
     }
 }
@@ -694,9 +744,70 @@ async function playRandomTrack () {
     }
 }
 
+async function updateQueue () {
+
+    try {
+        
+        var result = {}
+        var response = await fetch("https://api.spotify.com/v1/me/player/queue", {
+            method: "GET",
+            headers: {
+                'Authorization' : `Bearer ${token2}`,
+            }
+        }).then(response => response.json()).then(data => {
+            result = data;
+        })
+
+        console.log("Queue: ", result);
+
+        for(var track = 0; track < result.queue.length; track++){
+
+            queue.push({
+                trackName: result.queue[track].name,
+                trackArt: result.queue[track].album.images[0].url,
+                trackArtist: result.queue[track].artists[0].name,
+                albumName: result.queue[track].album.name,
+                trackId: result.queue[track].id
+                }
+            )
+
+            $("#next-1").css("background-image", "url('"+queue[0].trackArt+"')")
+            $("#next-2").css("background-image", "url('"+queue[1].trackArt+"')")
+            $("#next-3").css("background-image", "url('"+queue[2].trackArt+"')")
+            $("#next-4").css("background-image", "url('"+queue[3].trackArt+"')")
+            $("#next-5").css("background-image", "url('"+queue[4].trackArt+"')")
+            $("#next-6").css("background-image", "url('"+queue[5].trackArt+"')")
+            $("#next-7").css("background-image", "url('"+queue[6].trackArt+"')")
+            $("#next-8").css("background-image", "url('"+queue[7].trackArt+"')")
+            $("#next-9").css("background-image", "url('"+queue[8].trackArt+"')")
+
+        }
+
+
+
+
+    } catch (error) {
+        console.error(error)
+    }
+
+    
+}
+
+function findPositionInQueue() {
+
+    for (var i = 0; i < allTracksPlaylistInfo.length; i++) {
+
+        if(playingTrack.name === allTracksPlaylistInfo[i].trackName) {
+            return(i)
+        }
+
+    }
+
+}
+
 //add visibile: hidden style to these divs on player.ejs
 $(document).ready(function() {
-    //$("#player").hide();
+    $("#player").hide();
     $("#next-up").hide();
     $("#loading").hide();
 })
@@ -724,8 +835,6 @@ $("#randomize").click(function() {
    
 
 })
-
-
 
 
 //update song images with dom/listeners?

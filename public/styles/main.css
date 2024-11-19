@@ -115,10 +115,39 @@ h4 {
     background-color: rgb(198, 159, 188);
 }
 
+.progress {
+    background-color: transparent;
+}
+
+#progress-input {
+    width: 200px
+}
+
+#progress-input::-webkit-slider-runnable-track {
+    cursor: pointer;
+}
+
 #progress-bar {
     height: 10px;
     background-color: white;
     border-radius: 4px;
+    resize: horizontal;
+    overflow: auto;
+}
+
+.parent {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    background: #000;
+}
+.child {
+    position: absolute;
+   right: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;        
+    background: #ccc;
 }
 
 .slider {
