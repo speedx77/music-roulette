@@ -35,6 +35,20 @@ var hideArray = [];
 var found = false;
 var queue = [];
 
+
+var position = 0;
+var songsInQueue = []
+
+window.addEventListener("load", function(event) {
+    for (var i = 0; i < this.document.getElementsByClassName("up-next").length; i++) {
+        songsInQueue.push(this.document.getElementsByClassName("up-next")[i])
+    }
+})
+    
+
+var songsToHide = []; //lessThan
+var songsToDisplay = []; //greaterThan
+
 async function getToken() {
     
     await fetch('/api/data').then(response => response.json()).then(data => {
@@ -125,7 +139,7 @@ async function spotifyWindow() {
         const player = new Spotify.Player({
             name: 'Music Roulette',
             getOAuthToken: cb => { cb(token2); },
-            volume: 0.5
+            volume: 0.25
         });
     
         // Ready
@@ -235,15 +249,7 @@ async function spotifyWindow() {
         
 
             
-            $("#next-1").css("background-image", "url('"+allTracksPlaylistInfo[1].trackArt+"')")
-            $("#next-2").css("background-image", "url('"+allTracksPlaylistInfo[2].trackArt+"')")
-            $("#next-3").css("background-image", "url('"+allTracksPlaylistInfo[3].trackArt+"')")
-            $("#next-4").css("background-image", "url('"+allTracksPlaylistInfo[4].trackArt+"')")
-            $("#next-5").css("background-image", "url('"+allTracksPlaylistInfo[5].trackArt+"')")
-            $("#next-6").css("background-image", "url('"+allTracksPlaylistInfo[6].trackArt+"')")
-            $("#next-7").css("background-image", "url('"+allTracksPlaylistInfo[7].trackArt+"')")
-            $("#next-8").css("background-image", "url('"+allTracksPlaylistInfo[8].trackArt+"')")
-            $("#next-9").css("background-image", "url('"+allTracksPlaylistInfo[9].trackArt+"')")
+            
             
 
             setInterval(() => {
@@ -282,8 +288,8 @@ async function spotifyWindow() {
             }, 1000)
 
 
-            upNext = document.getElementsByClassName("up-next");
-
+            //upNext = document.getElementsByClassName("up-next");
+            changeQueue();
             
             //use next and previous tracks to build upcoming songs
             //display next tracks only
@@ -583,6 +589,16 @@ async function playRandomTrackPlaylist (userId) {
                 $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
                 */
 
+                $("#next-1").css("background-image", "url('"+allTracksPlaylistInfo[1].trackArt+"')")
+                $("#next-2").css("background-image", "url('"+allTracksPlaylistInfo[2].trackArt+"')")
+                $("#next-3").css("background-image", "url('"+allTracksPlaylistInfo[3].trackArt+"')")
+                $("#next-4").css("background-image", "url('"+allTracksPlaylistInfo[4].trackArt+"')")
+                $("#next-5").css("background-image", "url('"+allTracksPlaylistInfo[5].trackArt+"')")
+                $("#next-6").css("background-image", "url('"+allTracksPlaylistInfo[6].trackArt+"')")
+                $("#next-7").css("background-image", "url('"+allTracksPlaylistInfo[7].trackArt+"')")
+                $("#next-8").css("background-image", "url('"+allTracksPlaylistInfo[8].trackArt+"')")
+                $("#next-9").css("background-image", "url('"+allTracksPlaylistInfo[9].trackArt+"')")
+
                 $("#loading").hide();
                 $("#player").slideDown();
                 $("#next-up").show();
@@ -794,15 +810,263 @@ async function updateQueue () {
 }
 
 function findPositionInQueue() {
+    console.log("finding position in queue")
+    console.log("position: " + allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.name)))
+    return (allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.name)))
+    /*
 
     for (var i = 0; i < allTracksPlaylistInfo.length; i++) {
 
         if(playingTrack.name === allTracksPlaylistInfo[i].trackName) {
+            console.log(i)
             return(i)
         }
 
-    }
+        else{
+            console.log(playingTrack.name)
+            console.log(allTracksPlaylistInfo[i].trackName)
+            return(null)
+            
+        }
 
+    }
+    */
+
+
+
+    
+
+}
+
+function changeQueue() {
+    
+
+    //for every element before this position in alltracksplaylistInfo, change display to none
+    //if (position > 0) {
+
+        /*
+        for (var i = 0; i < position; i++){
+            songsToHide.push(songsInQueue[i])
+    
+            for (var j in songsToHide){
+                songsToHide[j].style.display = 'none';
+            }
+        }
+
+        for (var i=0; i > position; i++){
+            songsToDisplay.push(songsInQueue[i])
+
+            for (var j in songsToDisplay) {
+                songsToDisplay[j].style.display = 'block';
+            }
+        }
+
+        songsToHide = [];
+        songsToDisplay = [];
+        */
+        position = findPositionInQueue()
+        /*
+        if (position > 0) {
+            for (var i = 0; i < songsInQueue.length; i++) {
+                if (i != position) {
+                    if (i < position) {
+                        //console.log("songs to be hidden: ", songsInQueue[i])
+                        songsToHide.push(songsInQueue[i]);
+                    } else if ( i > position) {
+                        //console.log("songs to be displayed: ", songsInQueue[i])
+                        songsToDisplay.push(songsInQueue[i]);
+                    }
+                }
+            }
+        } 
+
+         if (position === 0) {
+            songsInQueue.forEach((element) => {
+                songsToDisplay.push(element);
+            })
+        } else
+        */
+
+        /*
+        change to a switch
+        */
+        if (position === 0) {
+
+            songsInQueue[0].style.display = 'block';
+            songsInQueue[1].style.display = 'block';
+            songsInQueue[2].style.display = 'block';
+            songsInQueue[3].style.display = 'block';
+            songsInQueue[4].style.display = 'block';
+            songsInQueue[5].style.display = 'block';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+
+            /*
+            songsToDisplay.push(songsInQueue[1])
+            songsToDisplay.push(songsInQueue[2])
+            songsToDisplay.push(songsInQueue[3])
+            songsToDisplay.push(songsInQueue[4])
+            songsToDisplay.push(songsInQueue[5])
+            songsToDisplay.push(songsInQueue[6])
+            songsToDisplay.push(songsInQueue[7])
+            songsToDisplay.push(songsInQueue[8])
+            songsToDisplay.push(songsInQueue[9])
+
+            console.log("songsToHide: ", songsToHide);
+            console.log("songsToDisplay: ", songsToDisplay)
+            */
+
+            //songsToHide = [];
+            //songsToDisplay = [];
+
+        } else if (position === 1) {
+
+            //songsToHide.push(songsInQueue[0])
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = "block"
+            songsInQueue[2].style.display = 'block';
+            songsInQueue[3].style.display = 'block';
+            songsInQueue[4].style.display = 'block';
+            songsInQueue[5].style.display = 'block';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+
+            /*
+            songsToDisplay.push(songsInQueue[2])
+            songsToDisplay.push(songsInQueue[3])
+            songsToDisplay.push(songsInQueue[4])
+            songsToDisplay.push(songsInQueue[5])
+            songsToDisplay.push(songsInQueue[6])
+            songsToDisplay.push(songsInQueue[7])
+            songsToDisplay.push(songsInQueue[8])
+            songsToDisplay.push(songsInQueue[9])
+            */
+            //console.log("songsToHide: ", songsToHide);
+            //console.log("songsToDisplay: ", songsToDisplay)
+
+            /*
+            if(songsToHide) {
+
+                songsToHide.forEach((element) => {
+                    element.style.display = 'none';
+                });
+    
+            }
+    
+            if (songsToDisplay) {
+                songsToDisplay.forEach((element) => {
+                    element.style.display = 'block';
+                });
+            }
+            */
+
+            /*
+            songsToHide = [];
+            songsToDisplay = [];
+            */
+
+            /*
+            for (var i = 2; i < 10; i++) {
+                songsToDisplay.push(songsInQueue[i])
+
+            }
+            */
+        } else if (position === 2) {
+
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'block';
+            songsInQueue[3].style.display = 'block';
+            songsInQueue[4].style.display = 'block';
+            songsInQueue[5].style.display = 'block';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+
+
+            //console.log("songsToHide: ", songsToHide);
+            //console.log("songsToDisplay: ", songsToDisplay)
+
+        
+            //songsToHide = [];
+            //songsToDisplay = [];
+
+        } else if (position === 3) {
+
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "block"
+            songsInQueue[4].style.display = 'block';
+            songsInQueue[5].style.display = 'block';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+
+
+            //console.log("songsToHide: ", songsToHide);
+            //console.log("songsToDisplay: ", songsToDisplay)
+
+        
+            //songsToHide = [];
+            //songsToDisplay = [];
+
+        }
+
+        
+
+        
+
+        /*
+        for (var j in songsToHide) {
+            //console.log("hidden songs: ", songsToHide[j])
+            songsToHide[j].style.display = 'none';
+        }
+
+        for (var k in songsToDisplay) {
+            //console.log("displayed songs: ", songsToDisplay[k])
+            songsToDisplay[k].style.display = 'block';
+        }
+        
+
+
+        /*
+        console.log("songs to hide: ", songsToHide);
+        console.log("songs to display: ", songsToDisplay);
+
+        if(songsToHide) {
+
+            songsToHide.forEach((element) => {
+                element.style.display = 'none';
+            });
+
+        }
+
+        if (songsToDisplay) {
+            songsToDisplay.forEach((element) => {
+                element.style.display = 'block';
+            });
+        }
+
+
+
+
+
+
+        songsToHide = [];
+        songsToDisplay = [];
+
+        console.log("songs to hide reset: ", songsToHide);
+        console.log("songs to display reset: ", songsToDisplay);
+        */
+
+    /*
+    } else {
+        return(null);
+    }
+    */
 }
 
 //add visibile: hidden style to these divs on player.ejs
