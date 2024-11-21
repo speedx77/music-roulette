@@ -34,10 +34,14 @@ var upNext = [];
 var hideArray = [];
 var found = false;
 var queue = [];
+var colorArray = [];
 
 
 var position = 0;
 var songsInQueue = []
+
+//TO: DO
+    //loop still broken for fully local playlists
 
 window.addEventListener("load", function(event) {
     for (var i = 0; i < this.document.getElementsByClassName("up-next").length; i++) {
@@ -180,9 +184,50 @@ async function spotifyWindow() {
 
         }
 
+        //select song in queue test code
+        /*
+        var upNextButtons = $(".up-next")
+        for (var i = 0; i < upNextButtons.length; i++){
+            upNextButtons[i].click(function() {
+                var trackSelected = upNextButtons[i].attr("data-trackId")
+
+                //trackBodyPlaylist.uris.push
+
+                //await createRandomPlaylist(randomPlaylistId)
+                /*
+                for (var track = 0; track < 10; track++) {
+                    trackBodyPlaylist.uris.push("\"spotify:track:"+allTracksPlaylist[track]+"\"")
+                };
+                allTracksPlaylist = [];
+                //console.log("playlist id: " + randomPlaylistId);
+                console.log(trackBodyPlaylist);
+                
+
+                try {
+                    
+                    var response = fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
+                        method: 'PUT',
+                        headers: {
+                          'Authorization': `Bearer ${token2}`,
+                          'Content-Type': 'text/plain'
+                        },
+                        body: `{\n  "uris": [${trackSelected}]\n}`
+                      });
+    
+    
+                } catch (error) {
+                    console.error(error);
+                }
+            })
+        }
+        */
+
+
         document.getElementById("previous").onclick = function() {
             player.previousTrack();
         }
+
+        
 
         document.getElementById("mute").onclick = function() {
             
@@ -235,6 +280,11 @@ async function spotifyWindow() {
             //document.getElementById("position").innerHTML = `${positionOfTrack}`
 
             $("#art").css("background-image", "url('"+current_track.album.images[0].url+"')")
+            colorjs.prominent(`${playingTrack.album.images[0].url}`, { amount: 3 }).then(color => {
+                console.log(color) // [241, 221, 63]
+                colorArray = color
+            });
+            changeBackgroundColor(colorArray);
             $("#trackName").html(`${current_track.name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
 
@@ -357,9 +407,9 @@ async function spotifyWindow() {
         }
 
         
+      
 
-
-
+        
    
         player.connect();
     }
@@ -372,7 +422,65 @@ async function spotifyWindow() {
 function randomPlaylist (response) {
     var numOfPlaylists = response.total;
     var selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
+    console.log("selected playlist: ", selectedPlaylist)
+    
+    var playlistFullyLocal = true;
+
+    do {
+
+        if (isPlaylistFullyLocal(response.items[selectedPlaylist].id) === true) {
+            selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
+            console.log("re-selected playlist: ", selectedPlaylist)
+        } else {
+           playlistFullyLocal = false
+           console.log("playlist is not fully local")
+        }
+
+    } while (playlistFullyLocal === true)
+    //function -> isPlaylistFullyLocal?
+    console.log("playlist is good")
     return (response.items[selectedPlaylist].id)
+}
+
+async function isPlaylistFullyLocal(playlistId) {
+
+    var fullyLocal = false;
+
+    var start = 0;
+    var end = 100;
+
+    var response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
+        method: "GET",
+        headers: {
+            "Authorization" : `Bearer ${token2}`
+        }
+    }).then(response => response.json()).then(data=> {
+        result = data
+    });
+
+
+    if(result.items.every(track => track.track.id === null)) {
+        fullyLocal = true;
+    } else {
+        fullyLocal = false;
+    }
+    /*
+    result.items.forEac((track) => {
+        if(track.track.id === null){
+            console.log("id of track: ", track.track.id)
+            fullyLocal = true
+        }
+        else {
+            fullyLocal = false
+        }
+    });
+    */
+    
+
+    console.log("fullyLocal: ", fullyLocal)
+
+    return(fullyLocal)
+
 }
 
 async function createRandomPlaylist(playlistId) {
@@ -416,13 +524,13 @@ async function createRandomPlaylist(playlistId) {
            })
            
             var trackSelected = false;
-            const selectedTrack = (Math.floor(Math.random() * result.items.length));
+            var selectedTrack = (Math.floor(Math.random() * result.items.length));
             console.log("selected track: "+selectedTrack)
     
      
             do {
              console.log("result: "+ result.items[selectedTrack].track.id)
-                if(result.items[selectedTrack].track.id) {
+                if(result.items[selectedTrack].track.id != null) {
                     allTracksPlaylist.push(result.items[selectedTrack].track.id)
 
                     response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"", {
@@ -445,6 +553,11 @@ async function createRandomPlaylist(playlistId) {
                     })
 
                     trackSelected = true;
+                }
+
+                else {
+                    selectedTrack = (Math.floor(Math.random() * result.items.length));
+                    console.log("re-selected track: " + selectedTrack)
                 }
             }
             while(trackSelected == false)
@@ -474,36 +587,40 @@ async function createRandomPlaylist(playlistId) {
            })
 
             var trackSelected = false;
-            const selectedTrack = (Math.floor(Math.random() * result.items.length));
+            var selectedTrack = (Math.floor(Math.random() * result.items.length));
             console.log("selected track: "+selectedTrack)
     
      
             do {
              console.log("result: "+ result.items[selectedTrack].track.id)
-                if(result.items[selectedTrack].track.id) {
+                if(result.items[selectedTrack].track.id !=null ) {
                     allTracksPlaylist.push(result.items[selectedTrack].track.id)
                     trackSelected = true;
+
+                    response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"", {
+                        method: "GET",
+                        headers: {
+                            "Authorization" : `Bearer ${token2}`
+                        }
+                    }).then(response => response.json()).then(data => {
+                        result = data
+                    });
+    
+                    allTracksPlaylistInfo.push({
+                        trackId : result.id,
+                        trackName : result.name,
+                        trackArt : imageFinder(result),
+                        trackArtist : result.artists[0].name,
+                        albumName : result.album.name,
+                        playlistName: result2.name,
+                        playlistOwner: result2.owner.display_name
+                    })
                 }
 
-                response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"", {
-                    method: "GET",
-                    headers: {
-                        "Authorization" : `Bearer ${token2}`
-                    }
-                }).then(response => response.json()).then(data => {
-                    result = data
-                });
-
-                allTracksPlaylistInfo.push({
-                    trackId : result.id,
-                    trackName : result.name,
-                    trackArt : imageFinder(result),
-                    trackArtist : result.artists[0].name,
-                    albumName : result.album.name,
-                    playlistName: result2.name,
-                    playlistOwner: result2.owner.display_name
-                })
-
+                else {
+                    selectedTrack = (Math.floor(Math.random() * result.items.length));
+                    console.log("re-selected track: " + selectedTrack)
+                }
 
             }
             while(trackSelected == false)
@@ -526,6 +643,7 @@ function imageFinder(response) {
     else{
         return(response.album.images[0].url)
     }
+    //else if return blank image?
 }
 
 
@@ -589,15 +707,33 @@ async function playRandomTrackPlaylist (userId) {
                 $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
                 */
 
-                $("#next-1").css("background-image", "url('"+allTracksPlaylistInfo[1].trackArt+"')")
-                $("#next-2").css("background-image", "url('"+allTracksPlaylistInfo[2].trackArt+"')")
-                $("#next-3").css("background-image", "url('"+allTracksPlaylistInfo[3].trackArt+"')")
-                $("#next-4").css("background-image", "url('"+allTracksPlaylistInfo[4].trackArt+"')")
-                $("#next-5").css("background-image", "url('"+allTracksPlaylistInfo[5].trackArt+"')")
-                $("#next-6").css("background-image", "url('"+allTracksPlaylistInfo[6].trackArt+"')")
-                $("#next-7").css("background-image", "url('"+allTracksPlaylistInfo[7].trackArt+"')")
-                $("#next-8").css("background-image", "url('"+allTracksPlaylistInfo[8].trackArt+"')")
-                $("#next-9").css("background-image", "url('"+allTracksPlaylistInfo[9].trackArt+"')")
+                $("#next-1").css("background-image", "url('"+allTracksPlaylistInfo[1].trackArt+"')");
+                $("#next-1").attr("data-trackId", `${allTracksPlaylistInfo[1].trackId}`);
+
+                $("#next-2").css("background-image", "url('"+allTracksPlaylistInfo[2].trackArt+"')");
+                $("#next-2").attr("data-trackId", `${allTracksPlaylistInfo[2].trackId}`);
+                
+                $("#next-3").css("background-image", "url('"+allTracksPlaylistInfo[3].trackArt+"')");
+                $("#next-3").attr("data-trackId", `${allTracksPlaylistInfo[3].trackId}`);
+
+                $("#next-4").css("background-image", "url('"+allTracksPlaylistInfo[4].trackArt+"')");
+                $("#next-4").attr("data-trackId", `${allTracksPlaylistInfo[4].trackId}`);
+
+                $("#next-5").css("background-image", "url('"+allTracksPlaylistInfo[5].trackArt+"')");
+                $("#next-5").attr("data-trackId", `${allTracksPlaylistInfo[5].trackId}`);
+
+                $("#next-6").css("background-image", "url('"+allTracksPlaylistInfo[6].trackArt+"')");
+                $("#next-6").attr("data-trackId", `${allTracksPlaylistInfo[6].trackId}`);
+
+                $("#next-7").css("background-image", "url('"+allTracksPlaylistInfo[7].trackArt+"')");
+                $("#next-7").attr("data-trackId", `${allTracksPlaylistInfo[7].trackId}`);
+
+                $("#next-8").css("background-image", "url('"+allTracksPlaylistInfo[8].trackArt+"')");
+                $("#next-8").attr("data-trackId", `${allTracksPlaylistInfo[8].trackId}`);
+
+                $("#next-9").css("background-image", "url('"+allTracksPlaylistInfo[9].trackArt+"')");
+                $("#next-9").attr("data-trackId", `${allTracksPlaylistInfo[9].trackId}`);
+
 
                 $("#loading").hide();
                 $("#player").slideDown();
@@ -618,7 +754,7 @@ async function randomTrack (playlistId) {
     var end = 100;
     
     var result = {};
-    var response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
+    var response = await fetch("https://api.spotify.com/v1/playlists/2ojKk8cuc4lTxuYPHyDauo/tracks?offset=" + start + "&limit=" + end, {
         method: "GET",
         headers: {
             "Authorization" : `Bearer ${token2}`
@@ -637,7 +773,7 @@ async function randomTrack (playlistId) {
         var randomStart = end * randomPage;
 
         console.log(randomStart)
-        response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + randomStart + "&limit=" + end, {
+        response = await fetch("https://api.spotify.com/v1/playlists/2ojKk8cuc4lTxuYPHyDauo/tracks?offset=" + randomStart + "&limit=" + end, {
             method: "GET",
             headers: {
                 "Authorization" : `Bearer ${token2}`
@@ -647,15 +783,19 @@ async function randomTrack (playlistId) {
        })
        
         var trackSelected = false;
-        const selectedTrack = (Math.floor(Math.random() * result.items.length));
+        var selectedTrack = (Math.floor(Math.random() * result.items.length));
         console.log("selected track: "+selectedTrack)
 
  
         do {
          console.log("result: "+ result.items[selectedTrack].track.id)
-            if(result.items[selectedTrack].track.id) {
+            if(result.items[selectedTrack].track.id != null) {
                 allTracks.push(result.items[selectedTrack].track.id)
                 trackSelected = true;
+            }
+            else {
+                selectedTrack = (Math.floor(Math.random() * result.items.length))
+                console.log("re-selected track: "+ selectedTrack)
             }
         }
         while(trackSelected == false)
@@ -676,7 +816,7 @@ async function randomTrack (playlistId) {
     }
 
     else {
-        response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
+        response = await fetch("https://api.spotify.com/v1/playlists/2ojKk8cuc4lTxuYPHyDauo/tracks?offset=" + start + "&limit=" + end, {
             method: "GET",
             headers: {
                 "Authorization" : `Bearer ${token2}`
@@ -694,16 +834,41 @@ async function randomTrack (playlistId) {
         const selectedTrack = (Math.floor(Math.random() * allTracks.length));
         return (allTracks[selectedTrack]);
         */
+
+        /*
+
+       var playlistNotAllLocal = false;
+
+       do {
+
+
+
+       } while(playlistNotAllLocal === false)
+
+
+        result.items.forEach((track) => {
+            if(track.track.id === null) {
+                
+            }
+        })
+
+        */
+
+
         var trackSelected = false;
-        const selectedTrack = (Math.floor(Math.random() * result.items.length));
+        var selectedTrack = (Math.floor(Math.random() * result.items.length));
         console.log("selected track: "+selectedTrack)
 
  
         do {
          console.log("result: "+ result.items[selectedTrack].track.id)
-            if(result.items[selectedTrack].track.id) {
+            if(result.items[selectedTrack].track.id != null) {
                 allTracks.push(result.items[selectedTrack].track.id)
                 trackSelected = true;
+            }
+            else {
+                selectedTrack = (Math.floor(Math.random() * result.items.length))
+                console.log("re-selected track: "+ selectedTrack)
             }
         }
         while(trackSelected == false)
@@ -811,30 +976,13 @@ async function updateQueue () {
 
 function findPositionInQueue() {
     console.log("finding position in queue")
-    console.log("position: " + allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.name)))
-    return (allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.name)))
-    /*
+    console.log("position: " + allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.id)))
 
-    for (var i = 0; i < allTracksPlaylistInfo.length; i++) {
-
-        if(playingTrack.name === allTracksPlaylistInfo[i].trackName) {
-            console.log(i)
-            return(i)
-        }
-
-        else{
-            console.log(playingTrack.name)
-            console.log(allTracksPlaylistInfo[i].trackName)
-            return(null)
-            
-        }
-
+    if(allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.id)) === -1) {
+        return (allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.linked_from.id)))
+    } else {
+        return (allTracksPlaylistInfo.findIndex(obj => Object.values(obj).includes(playingTrack.id)))
     }
-    */
-
-
-
-    
 
 }
 
@@ -924,7 +1072,7 @@ function changeQueue() {
 
             //songsToHide.push(songsInQueue[0])
             songsInQueue[0].style.display = 'none';
-            songsInQueue[1].style.display = "block"
+            songsInQueue[1].style.display = "block";
             songsInQueue[2].style.display = 'block';
             songsInQueue[3].style.display = 'block';
             songsInQueue[4].style.display = 'block';
@@ -1013,6 +1161,66 @@ function changeQueue() {
             //songsToHide = [];
             //songsToDisplay = [];
 
+        } else if (position === 4) {
+        songsInQueue[0].style.display = 'none';
+        songsInQueue[1].style.display = 'none';
+        songsInQueue[2].style.display = 'none';
+        songsInQueue[3].style.display = "none";
+        songsInQueue[4].style.display = 'block';
+        songsInQueue[5].style.display = 'block';
+        songsInQueue[6].style.display = 'block';
+        songsInQueue[7].style.display = 'block';
+        songsInQueue[8].style.display = 'block';
+        } else if (position === 5) {
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "none";
+            songsInQueue[4].style.display = 'none';
+            songsInQueue[5].style.display = 'block';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+        } else if (position === 6) {
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "none";
+            songsInQueue[4].style.display = 'none';
+            songsInQueue[5].style.display = 'none';
+            songsInQueue[6].style.display = 'block';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+        } else if (position === 7) {
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "none";
+            songsInQueue[4].style.display = 'none';
+            songsInQueue[5].style.display = 'none';
+            songsInQueue[6].style.display = 'none';
+            songsInQueue[7].style.display = 'block';
+            songsInQueue[8].style.display = 'block';
+        } else if (position === 8) {
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "none";
+            songsInQueue[4].style.display = 'none';
+            songsInQueue[5].style.display = 'none';
+            songsInQueue[6].style.display = 'none';
+            songsInQueue[7].style.display = 'none';
+            songsInQueue[8].style.display = 'block';
+        } else if (position === 9) {
+            songsInQueue[0].style.display = 'none';
+            songsInQueue[1].style.display = 'none';
+            songsInQueue[2].style.display = 'none';
+            songsInQueue[3].style.display = "none";
+            songsInQueue[4].style.display = 'none';
+            songsInQueue[5].style.display = 'none';
+            songsInQueue[6].style.display = 'none';
+            songsInQueue[7].style.display = 'none';
+            songsInQueue[8].style.display = 'none';
         }
 
         
@@ -1099,6 +1307,19 @@ $("#randomize").click(function() {
    
 
 })
+
+function changeBackgroundColor(colorArray) {
+    //    background: linear-gradient(180deg, rgba(58,109,140,1) 0%, rgba(234,216,177,1) 50%, rgba(198,158,188,1) 100%);
+
+    $("body").css("background", `linear-gradient(180deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`)
+
+    /*
+    $("body").animate({
+        "background-color": `linear-gradient(180deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`
+    }, 2000)
+    */
+
+}
 
 
 //update song images with dom/listeners?

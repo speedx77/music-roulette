@@ -13,7 +13,10 @@ body, html {
     font-family: "Nunito";
     color: #EAD8B1;
     height: 100vh;
+    transition: background 3s linear;
 }
+
+
 
 h1 {
     font-weight: bold;
