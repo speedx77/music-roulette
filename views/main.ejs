@@ -1,0 +1,61 @@
+<%- include("partials/rouletteHeader.ejs") %>
+
+
+<div class="container">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-center">
+
+        <div id="player">
+
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center mt-4">
+                    <div id="screen"></div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-center gap-5">
+                    <div id="circle">
+                        <div id="q1" class="quarter"> <div id="raise-volume"></div> </div>
+                        <div id="q2" class="quarter"> <div id="skip"></div> </div>
+                        <div id="q3" class="quarter"> <div id="previous"></div> </div>
+                        <div id="q4" class="quarter"> <div id="lower-volume"></div> </div>
+                        <div class="center-button"> <div id="play"></div> </div>
+                    </div>                
+
+                    
+
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <div id="randomize"> <div id="randomIcon"></div> </div>
+                    <div id="mute"><div id="muteIcon"></div></div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-center" style="margin-top: 150px;">
+                <p id="footerNote">roulette | ryan burnett</p>
+            </div>
+
+            
+                <!--
+            <div class="outer-ring">
+                <div class="cross"></div>
+
+                <svg viewBox="-150 5 350 350">
+                          <path id="curve" d="m0,30 c16,-4 32,-4 48,0" />
+                          <text>
+                              <textPath xlink:href="#curve">menu</textPath>
+                          </text>
+                      </svg>
+                <div class="skip forward"></div>
+                      <div class="skip back"></div>
+                <div class="play-pause"></div>
+                      <div class="touch-wheel">
+                          <div class="center-button"></div>
+                      </div>	
+                      		
+                </div>
+                -->	
+        </div>
+
+    </div>
+
+</div>

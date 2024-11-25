@@ -755,7 +755,9 @@ app.get("/search", async (req, res) => {
 })
 
 
-
+app.get("/roulettePlayer", async (req, res) => {
+    res.render("main.ejs")
+})
 
 
 app.listen(port, () => {
