@@ -16,12 +16,6 @@ body, html {
     font-family: "Sarpanch";
 }
 
-@font-face {
-	font-family: 'ChicagoFont';
-	src: url('https://dangasson.github.io/Resources/Fonts/ChicagoFLF.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
 
 /* inspiration: https://codepen.io/DanGasson/pen/LeJBRj */
 
@@ -555,8 +549,8 @@ top: 51%;
     height: 50px;
     width: 50px;
     transform: rotate(-45deg);
-    margin-top: 10px;
-    margin-left: 12px;
+    margin-top: 0px;
+    margin-left: 5px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -569,6 +563,7 @@ top: 51%;
     height: 75px;
     width: 75px;
     border-radius: 50%;
+    border-style: solid;
     background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
 }
 
@@ -577,12 +572,13 @@ top: 51%;
     height: 75px;
     width: 75px;
     border-radius: 50%;
+    border-style: solid;
     background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
 }
 
 #muteIcon {
-    height: 75px;
-    width: 75px;
+    height: 65px;
+    width: 65px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -591,8 +587,8 @@ top: 51%;
 }
 
 #randomIcon {
-    height: 75px;
-    width: 75px;
+    height: 60px;
+    width: 60px;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -616,8 +612,8 @@ top: 51%;
     mask-image: linear-gradient(black, transparent);
     z-index: 10;
     transform: rotate(-45deg);
-    margin-top: 45px;
-    margin-left: 20px
+    margin-top: 5px;
+    margin-left: 30px
 }
 
 #previous {
@@ -630,8 +626,8 @@ top: 51%;
     /* within photoshop put gradient on image as an option */
     mask-image: linear-gradient(black, transparent);
     transform: rotate(-45deg);
-    margin-top: 20px;
-    margin-left: 45px
+    margin-bottom: 20px;
+    margin-left: 40px;
     
 }
 
@@ -644,7 +640,8 @@ top: 51%;
     background-image: url('http://localhost:3001/assets/lower-volume.png');
     mask-image: linear-gradient(black, transparent);
     transform: rotate(-45deg);
-    margin-left: 15px;
+    margin-bottom: 40px;
+    margin-left: 20px;
 }
 
 #raise-volume {
@@ -656,8 +653,8 @@ top: 51%;
     background-image: url('http://localhost:3001/assets/raise-volume.png');
     mask-image: linear-gradient(black, transparent);
     transform: rotate(-45deg);
-    margin-top: 20px;
-    margin-left: 40px
+    margin-top: 0px;
+    margin-left: 40px;
 }
 
 

@@ -247,7 +247,7 @@ app.get("/" , (req, res) => {
    //console.log(token);
    //console.log(authTokenHeader);
    */
-   res.render("index.ejs");
+   res.render("mainLogin.ejs");
 });
 
 
@@ -385,7 +385,7 @@ app.get("/users/playlist/:user", async (req, res) => {
 app.get("/player/:user",  (req, res) => {
 
     const userId = req.params.user
-    res.render("player.ejs", {userId : userId});
+    res.render("mainPlayer.ejs", {userId : userId});
 
 });
 
@@ -395,7 +395,7 @@ app.get("/api/data", (req, res) => {
 });
 
 app.get("/me", (req, res) => {
-    res.render("loggedIn.ejs");
+    res.render("mainSearch.ejs");
 })
 
 app.get("/devices", async (req, res) => {
@@ -728,7 +728,7 @@ app.get("/search", async (req, res) => {
 
                 console.log(users)
 
-                res.render("search.ejs", {userData : users, wasUserFound : userFound})
+                res.render("mainUserSearched.ejs", {userData : users, wasUserFound : userFound})
        } catch(error) {
             if (error.name === "TimeoutError") {
                 console.log("Username not found");
@@ -756,7 +756,15 @@ app.get("/search", async (req, res) => {
 
 
 app.get("/roulettePlayer", async (req, res) => {
-    res.render("main.ejs")
+    res.render("mainPlayer.ejs")
+})
+
+app.get("/roulettelogin", async (req, res) => {
+    res.render("mainLogin.ejs")
+})
+
+app.get("/roulettesearch", async (req, res) => {
+    res.render("mainSearch.ejs")
 })
 
 

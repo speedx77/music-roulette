@@ -1,0 +1,21 @@
+.pfp {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.searchContainer {
+  height: 325px;
+  width: 440px;
+
+  --webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
