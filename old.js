@@ -7,9 +7,6 @@ var randomPlaylistId = "";
 
 var allTracksPlaylist = [];
 var allTracksPlaylistInfo = [];
-var trackBodyPlaylist = {
-    "uris" : []
-};
 
 var currentVolume = 0;
 var playingTrack = {};
@@ -169,7 +166,6 @@ async function spotifyWindow() {
             });
             changeBackgroundColor(colorArray);
             $("#trackName").html(`${current_track.name}`)
-            $("#artistName").html(`${current_track.artists[0].name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
 
             for (var track = 0; track < allTracksPlaylistInfo.length; track++) {
@@ -552,27 +548,19 @@ function changeBackgroundColor(colorArray) {
 
 }
 
-async function revealSong(playerReadyState) {
+function playerBootup() {
+    getToken();
+    spotifyWindow();
 
-    if (playerReadyState === true){
+    if (playerReady === true) {
         $("#loadingBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "block"})
     }
-}
-
-
-async function playerBootup() {
-    await spotifyWindow();
-    await getToken();
-    await playRandomTrackPlaylist(id);
-    await revealSong(playerReady);
 
 }
 
-//getToken();
-//spotifyWindow();
+getToken();
+spotifyWindow();
 //playRandomTrackPlaylist(id)
 
-playerBootup();
-
-
+console.log("working")

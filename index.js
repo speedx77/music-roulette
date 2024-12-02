@@ -382,6 +382,11 @@ app.get("/users/playlist/:user", async (req, res) => {
 
 });
 
+app.get("/playerTest/:user", (req, res) => {
+    const userId = "speedx77"
+    res.render("playerTest.ejs", {userId: userId})
+})
+
 app.get("/player/:user",  (req, res) => {
 
     const userId = req.params.user
@@ -409,7 +414,7 @@ app.get("/devices", async (req, res) => {
     };
     console.log(device_id)
 
-    res.render("player.ejs")
+    res.render("mainPlayer.ejs")
 })
 
 app.get("/api/devices", async (req, res) => {
@@ -577,10 +582,11 @@ app.get("/play/track" , async (req, res) => {
 })
 
 
-
+/*
 app.get("/me", async (req, res) => {
-    res.render("loggedIn.ejs")
+    res.render("mainLogin.ejs")
 })
+*/
 
 //if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
 /
@@ -732,7 +738,7 @@ app.get("/search", async (req, res) => {
        } catch(error) {
             if (error.name === "TimeoutError") {
                 console.log("Username not found");
-                res.render("search.ejs", { userData : users, wasUserFound : userFound})
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
             } else {
                 throw error;
             }

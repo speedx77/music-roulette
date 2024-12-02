@@ -1,51 +1,79 @@
+<%- include("partials/rouletteHeader.ejs") %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Spotify Web Playback SDK Quick Start</title>
-</head>
-<body>
-    <h1>Spotify Web Playback SDK Quick Start</h1>
-    <button id="togglePlay">Toggle Play</button>
 
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
-    <script>
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = 'BQCAhVFch7hZUJLZuOrG3sGsfuuyy7TpGOpYlrKr_sxfcnghHMtye2kZLLmTlEjTVNLyy80SE2bZAPgAezzm596QiR69JcnE5-LbwWyI8Y1mhuN19Cgjcop5-POaiAS8wdnKsCnxQ_3DlLPA2DoNrBXynAGJHmq6yC4C-wL2OFsy1voKYdp2QTXIB5StCj2q9NCq4VABGRPyOS76fsBZ-v8_';
-            const player = new Spotify.Player({
-                name: 'Web Playback SDK Quick Start Player',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            });
+<div class="container">
 
-            // Ready
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
+    <div class="d-flex flex-wrap align-items-center justify-content-center">
 
-            // Not Ready
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
+        <div id="player">
 
-            player.addListener('initialization_error', ({ message }) => {
-                console.error(message);
-            });
+            
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center mt-4">
+                    <!-- Screen Container -->
+                    
+                    <div id="screen">
 
-            player.addListener('authentication_error', ({ message }) => {
-                console.error(message);
-            });
+                        <div class="d-flex mx-3 align-items-center justify-content-between">
+                            <div id="time">12:05</div>
+                            <div id="battery"></div>
+                        </div>
+                        <div id="divider"></div>
+                        <!-- song player -->
+                        <div style="display: block;" id="loadingBlock"><%- include("partials/loadingArea.ejs") %></div>
+                        <div style="display: none;" id="songBlock"><%- include("partials/songArea.ejs") %></div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
 
-            player.addListener('account_error', ({ message }) => {
-                console.error(message);
-            });
+            <!---TO: DO -> Add border/ shadow inset/ or shadow on random and mute buttons to give 3d effect, reference button wheel-->
+            <div class="d-flex align-items-center justify-content-center gap-5">
+                    <div id="circle">
+                        <button id="q1" class="quarter"> <div id="raise-volume"></div> </button>
+                        <button id="q2" class="quarter"> <div id="skip"></div> </button>
+                        <button id="q3" class="quarter"> <div id="previous"></div> </button>
+                        <button id="q4" class="quarter"> <div id="lower-volume"></div> </button>
+                        <button class="center-button"> <div id="play"></div> </button>
+                    </div>                
 
-            document.getElementById('togglePlay').onclick = function() {
-              player.togglePlay();
-            };
+                    
 
-            player.connect();
-        }
-    </script>
-</body>
-</html>
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <button id="randomize" data-user="<%= userId %>""> <div id="randomIcon"></div> </button>
+                    <button id="mute"><div id="muteIcon"></div></button>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-center" style="margin-top: 150px;">
+                <p id="footerNote">roulette | ryan burnett</p>
+            </div>
+
+            
+                <!--
+            <div class="outer-ring">
+                <div class="cross"></div>
+
+                <svg viewBox="-150 5 350 350">
+                          <path id="curve" d="m0,30 c16,-4 32,-4 48,0" />
+                          <text>
+                              <textPath xlink:href="#curve">menu</textPath>
+                          </text>
+                      </svg>
+                <div class="skip forward"></div>
+                      <div class="skip back"></div>
+                <div class="play-pause"></div>
+                      <div class="touch-wheel">
+                          <div class="center-button"></div>
+                      </div>	
+                      		
+                </div>
+                -->	
+        </div>
+
+    </div>
+
+</div>
+<script src="/scripts/playerJS.js"></script>
+<script src="/scripts/playerActions.js"></script>

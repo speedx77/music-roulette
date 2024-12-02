@@ -1,0 +1,6 @@
+1. pass Auth token on every page?
+2. home button on player -> takes user to search
+3. on player bottom of page is still blue
+4. when changing to first song you can see a flash off phoebe bridgers placeholder
+5. solve fully local issue
+6. buttons are slightly off on other pages besides player page
