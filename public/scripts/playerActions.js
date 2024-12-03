@@ -27,6 +27,15 @@ var seekPosition = 0;
 
 var playerReady = false;
 
+var trackNameContainerWidth = 0;
+var trackNameWidth = 0;
+var artistNameContainerWidth = 0;
+var artistNameWidth = 0;
+var trackInfoContainerWidth = 0;
+var trackInfoWidth = 0;
+var playlistInfoContainerWidth = 0;
+var playlistInfoWidth = 0;
+
 
 
 //TO: DO
@@ -79,7 +88,7 @@ async function spotifyWindow() {
         const player = new Spotify.Player({
             name: 'Music Roulette',
             getOAuthToken: cb => { cb(token2); },
-            volume: 0.25
+            volume: 0.3
         });
     
         // Ready
@@ -114,11 +123,54 @@ async function spotifyWindow() {
 
         document.getElementById('skip').onclick = function() {
             player.nextTrack();
+            resetTrackInfoScrolling();
 
         }
 
         document.getElementById("previous").onclick = function() {
             player.previousTrack();
+            resetTrackInfoScrolling();
+        }
+
+        document.getElementById("raise-volume").onclick = function () {
+            player.getVolume().then(volume => {
+                console.log("vol: " +volume);
+                console.log("current vol: "+currentVolume)
+                
+                if (volume === 1){
+                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 100%</div>")
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
+                }
+                else {
+                    player.setVolume(Math.round((volume + .1) * 100) / 100)
+                    currentVolume = Math.round((volume + .1) * 100)
+                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${currentVolume}%</div>`)
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
+                }
+            })
+        }
+
+        document.getElementById("lower-volume").onclick = function () {
+            player.getVolume().then(volume => {
+                console.log("vol: " +volume);
+                console.log("current vol: "+currentVolume)
+
+                if (volume === 0) {
+                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 0%</div>")
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
+                }
+
+                else {
+                    player.setVolume(Math.round((volume - .1) * 100) / 100)
+                    currentVolume = Math.round((volume - .1) * 100)
+                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${currentVolume}%</div>`)
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
+                }
+            })
         }
 
         
@@ -133,10 +185,16 @@ async function spotifyWindow() {
                 if (volume != 0) {
                     currentVolume = volume;
                     player.setVolume(0);
+                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 0%</div>")
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
                 } 
                 
                 else if (volume === 0) {
                     player.setVolume(currentVolume);
+                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${Math.round(currentVolume * 100)}%</div>`)
+                    $("#volumeArea").fadeIn();
+                    $("#volumeArea").fadeOut();
                 }
             })
         }
@@ -174,10 +232,23 @@ async function spotifyWindow() {
 
             for (var track = 0; track < allTracksPlaylistInfo.length; track++) {
 
-                if (current_track.name === allTracksPlaylistInfo[track].trackName) {
+                if ("linked_from.id" in current_track) {
+                    console.log("linked from present")
+                    if (current_track.linked_from.id === allTracksPlaylistInfo[track].trackId) {
+                        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
+                    } 
+                }
+                else if (current_track.id === allTracksPlaylistInfo[track].trackId) {
+                    console.log("linked from not present")
                     $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
                 }
 
+            }
+
+            trackInfoScrolling();
+
+            if(position === 0) {
+                resetTrackInfoScrolling();
             }
 
 
@@ -542,7 +613,15 @@ async function playRandomTrackPlaylist (userId) {
 function changeBackgroundColor(colorArray) {
     //    background: linear-gradient(180deg, rgba(58,109,140,1) 0%, rgba(234,216,177,1) 50%, rgba(198,158,188,1) 100%);
 
-    $("body").css("background", `linear-gradient(180deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`)
+    $("body").css({
+        "background": `linear-gradient(45deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`,
+        "background-size" : "100% 100%",
+
+        "-webkit-animation": "BackgroundAnimation 14s ease infinite",
+        "-moz-animation": "BackgroundAnimation 14s ease infinite",
+        "-o-animation": "BackgroundAnimation 14s ease infinite",
+        "animation": "BackgroundAnimation 14s ease infinite"
+    })
 
     /*
     $("body").animate({
@@ -556,10 +635,65 @@ async function revealSong(playerReadyState) {
 
     if (playerReadyState === true){
         $("#loadingBlock").css({"display" : "none"});
-        $("#songBlock").css({"display" : "block"})
+        $("#songBlock").css({"display" : "block"});
+        $("#volumeArea").fadeOut();
     }
 }
 
+$("#randomize").click(() => {
+    allTracksPlaylistInfo = [];
+    playerReady = false;
+    $("#songBlock").css({"display" : "none"});
+    $("#loadingBlock").css({"display" : "block"});
+    playerBootup(playerReady)
+
+})
+
+function trackInfoScrolling() {
+    trackNameContainerWidth = $(".trackNameContainer").width();
+    trackNameWidth = document.getElementById("trackName").scrollWidth;
+    artistNameContainerWidth = $(".artistNameContainer").width();
+    artistNameWidth = document.getElementById("artistName").scrollWidth;
+    trackInfoContainerWidth = $(".trackInfoContainer").width();
+    trackInfoWidth = document.getElementById("trackInfo").scrollWidth;
+    playlistInfoContainerWidth = $(".playlistInfoContainer").width();
+    playlistInfoWidth = document.getElementById("playlistInfo").scrollWidth;
+
+
+    if (trackNameWidth > trackNameContainerWidth) {
+        $("#trackName").addClass("trackNameAnimation")
+    } else if (trackNameWidth <= trackNameContainerWidth) {{
+        $("#trackName").removeClass("trackNameAnimation")
+    }}
+
+    if (artistNameWidth > artistNameContainerWidth) {
+        $("#artistName").addClass("artistNameAnimation")
+    } else if (artistNameWidth <= artistNameContainerWidth) {
+        $("#artistName").removeClass("artistNameAnimation")
+    }
+
+    if (trackInfoWidth > trackInfoContainerWidth){
+        $("#trackInfo").addClass("trackInfoAnimation")
+    } else if (trackInfoWidth <= trackInfoContainerWidth) {
+        $("#trackInfo").removeClass("trackInfoAnimation")
+    }
+
+    if (playlistInfoWidth > playlistInfoContainerWidth){
+        $("#playlistInfo").addClass("playlistInfoAnimation")
+    } else if (playlistInfoWidth <= playlistInfoContainerWidth) {
+        $("#playlistInfo").removeClass("playlistInfoAnimation")
+    }
+}
+
+
+function resetTrackInfoScrolling() {
+
+    $("#trackName").removeClass("trackNameAnimation")
+    $("#artistName").removeClass("artistNameAnimation")
+    $("#trackInfo").removeClass("trackInfoAnimation")
+    $("#playlistInfo").removeClass("playlistInfoAnimation")
+
+}
 
 async function playerBootup() {
     await spotifyWindow();

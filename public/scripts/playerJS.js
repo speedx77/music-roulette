@@ -26,28 +26,8 @@ setInterval(() => {
 
 //research how spotify handles this and match timings
 
-var trackNameContainerWidth = $(".trackNameContainer").width();
-var trackNameWidth = $("#trackName b").outerWidth();
-var artistNameContainerWidth = $(".artistNameContainer").width();
-var artistNameWidth = $("#artistName b").outerWidth();
-var trackInfoContainerWidth = $(".trackInfoContainer").width();
-var trackInfoWidth = $("#trackInfo b").outerWidth();
-var playlistInfoContainerWidth = $(".playlistInfoContainer").width();
-var playlistInfoWidth = $("#playlistInfo b").outerWidth();
 
-
-if (trackNameWidth > trackNameContainerWidth) {
-    $("#trackName").addClass("trackNameAnimation")
-}
-
-if (artistNameWidth > artistNameContainerWidth) {
-    $("#artistName").addClass("artistNameAnimation")
-}
-
-if (trackInfoWidth > trackInfoContainerWidth){
-    $("#trackInfo").addClass("trackInfoAnimation")
-}
-
-if (playlistInfoWidth > playlistInfoContainerWidth){
-    $("#playlistInfo").addClass("playlistInfoAnimation")
-}
+$("form").submit(() => {
+    $("#searchBlock").css("display" , "none");
+    $("#loadingBlockSearch").css("display", "block");
+})

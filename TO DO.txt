@@ -1,6 +1,14 @@
 1. pass Auth token on every page?
 2. home button on player -> takes user to search
-3. on player bottom of page is still blue
 4. when changing to first song you can see a flash off phoebe bridgers placeholder
 5. solve fully local issue
-6. buttons are slightly off on other pages besides player page
+7. fix song info animations - good for now
+    7a. fix playlist name pull
+8. vol pop up
+9. better background gradient
+10. style for font loads slow
+
+post mvp
+--------
+1. log out?
+2. link to user and link to playlist

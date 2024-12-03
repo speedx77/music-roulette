@@ -9,7 +9,19 @@
 
 .searchContainer {
   height: 325px;
-  width: 440px;
+  width: 446px;
+
+  --webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.searchContainerAfter {
+  transform: translateX(10px);
+  height: 325px;
+  width: 446px;
 
   --webkit-scrollbar {
     display: none

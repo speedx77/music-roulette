@@ -1,4 +1,4 @@
-body, html {
+body {
     /*background-color: #3A6D8C; */
     /*background-color: rgb(121, 94, 58); */
     /*
@@ -8,12 +8,47 @@ body, html {
     background: rgb(198,158,188);
     background: linear-gradient(180deg, rgba(198,158,188,1) 0%, rgba(58,109,140,1) 50%, rgba(198,158,188,1) 100%);
     */
-    background: rgb(72, 161, 147);
+    /* background: rgb(72, 161, 147); */
+
+    /*background: linear-gradient(45deg, #3ba8ec, #ead8b1, #c69ebc);*/
+    background: linear-gradient(45deg, #b90c0c, #c9c6c6, #000000);
+    background-size: 600% 600%;
+
+    -webkit-animation: BackgroundAnimation 14s ease infinite;
+    -moz-animation: BackgroundAnimation 14s ease infinite;
+    -o-animation: BackgroundAnimation 14s ease infinite;
+    animation: BackgroundAnimation 14s ease infinite;
+
+    height: 100vh;
     /*background: linear-gradient(180deg, rgba(58,109,140,1) 0%, rgba(234,216,177,1) 50%, rgba(198,158,188,1) 100%);*/
     font-family: "Nunito";
-    height: 100vh;
     transition: background 3s linear;
     font-family: "Sarpanch";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+@-webkit-keyframes BackgroundAnimation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes BackgroundAnimation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-o-keyframes BackgroundAnimation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes BackgroundAnimation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 
@@ -46,8 +81,8 @@ body, html {
         transition: box-shadow .75s;
     */
 width: 540px;
-height: 960px;
-margin-top: 5vh;
+height: 860px;
+
 /*
 background-color: rgb(192,192,192);
 border-radius: 8px;
@@ -316,7 +351,6 @@ z-index: 1;
   }
 
 }
-
 
 
 .progress {

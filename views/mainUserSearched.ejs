@@ -31,22 +31,22 @@
             <!---TO: DO -> Add border/ shadow inset/ or shadow on random and mute buttons to give 3d effect, reference button wheel-->
             <div class="d-flex align-items-center justify-content-center gap-5">
                     <div id="circle">
-                        <div id="q1" class="quarter"> <div id="raise-volume"></div> </div>
-                        <div id="q2" class="quarter"> <div id="skip"></div> </div>
-                        <div id="q3" class="quarter"> <div id="previous"></div> </div>
-                        <div id="q4" class="quarter"> <div id="lower-volume"></div> </div>
-                        <div class="center-button"> <div id="play"></div> </div>
+                        <button id="q1" class="quarter"> <div id="raise-volume"></div> </button>
+                        <button id="q2" class="quarter"> <div id="skip"></div> </button>
+                        <button id="q3" class="quarter"> <div id="previous"></div> </button>
+                        <button id="q4" class="quarter"> <div id="lower-volume"></div> </button>
+                        <button class="center-button"> <div id="play"></div> </button>
                     </div>                
 
                     
 
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <div id="randomize"> <div id="randomIcon"></div> </div>
-                    <div id="mute"><div id="muteIcon"></div></div>
+                    <button id="randomize" data-user="<%= locals.userId %>""> <div id="randomIcon"></div> </button>
+                    <button id="mute"><div id="muteIcon"></div></button>
                 </div>
             </div>
 
-            <div class="d-flex align-items-center justify-content-center" style="margin-top: 150px;">
+            <div class="d-flex align-items-center justify-content-center" style="margin-top: 50px;">
                 <p id="footerNote">roulette | ryan burnett</p>
             </div>
 
