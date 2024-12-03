@@ -36,6 +36,10 @@ var trackInfoWidth = 0;
 var playlistInfoContainerWidth = 0;
 var playlistInfoWidth = 0;
 
+var isFullyLocal = false;
+var trackIndex = 0;
+var linkedFromPresent = false;
+
 
 
 //TO: DO
@@ -229,21 +233,48 @@ async function spotifyWindow() {
             $("#trackName").html(`${current_track.name}`)
             $("#artistName").html(`${current_track.artists[0].name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
+            //$("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
 
+            playlistNameChange(current_track)
+            /*
+            linkedFromPresent = "linked_from.id" in current_track
+            console.log("before linked_from: ", linkedFromPresent)
+            if(linkedFromPresent === true) {
+                console.log("if true linked_from: ", linkedFromPresent)
+                console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
+                $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
+            } else if ( linkedFromPresent === false ) {
+                console.log("if false linked_from: ", linkedFromPresent)
+                console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
+                $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
+            }
+            */
+        
+            /*
             for (var track = 0; track < allTracksPlaylistInfo.length; track++) {
 
                 if ("linked_from.id" in current_track) {
-                    console.log("linked from present")
+                    console.log("linked from present");
+                    console.log("current track id: ", current_track.id);
+                    console.log("allplaylist track id: ", allTracksPlaylistInfo[track].trackId);
+                    console.log("alltracksplaylistname: ", allTracksPlaylistInfo[track].playlistName);
                     if (current_track.linked_from.id === allTracksPlaylistInfo[track].trackId) {
                         $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
                     } 
                 }
                 else if (current_track.id === allTracksPlaylistInfo[track].trackId) {
-                    console.log("linked from not present")
+                    console.log("linked from not present");
+                    console.log("current track id: ", current_track.id);
+                    console.log("allplaylist track id: ", allTracksPlaylistInfo[track].trackId);
+                    console.log("alltracksplaylistname: ", allTracksPlaylistInfo[track].playlistName);
                     $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
                 }
 
             }
+            */
+
+
+
 
             trackInfoScrolling();
 
@@ -334,19 +365,25 @@ function imageFinder(response) {
 }
 
 
-function randomPlaylist (response) {
+async function randomPlaylist (response) {
     var numOfPlaylists = response.total;
     var selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
     console.log("selected playlist: ", selectedPlaylist)
     
     var playlistFullyLocal = true;
 
+
     do {
 
-        if (isPlaylistFullyLocal(response.items[selectedPlaylist].id) === true) {
+        isFullyLocal = await isPlaylistFullyLocal(response.items[selectedPlaylist].id);
+        console.log("isFullyLocal: ", isFullyLocal);
+
+        if (isFullyLocal === true) {
             selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
             console.log("re-selected playlist: ", selectedPlaylist)
-        } else {
+
+
+        } else if (isFullyLocal === false) {
            playlistFullyLocal = false
            console.log("playlist is not fully local")
         }
@@ -568,7 +605,7 @@ async function playRandomTrackPlaylist (userId) {
         });
 
         for (var count = 0; count < 10; count++){
-            randomPlaylistId = randomPlaylist(result);
+            randomPlaylistId = await randomPlaylist(result);
             //console.log("user/playlist: " + device_id)
             await createRandomPlaylist(randomPlaylistId)
 
@@ -585,7 +622,7 @@ async function playRandomTrackPlaylist (userId) {
                 //console.log("playlist id: " + randomPlaylistId);
                 console.log(trackBodyPlaylist);
                 
-                var response = fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
+                var response = await fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
                     method: 'PUT',
                     headers: {
                       'Authorization': `Bearer ${token2}`,
@@ -615,7 +652,7 @@ function changeBackgroundColor(colorArray) {
 
     $("body").css({
         "background": `linear-gradient(45deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`,
-        "background-size" : "100% 100%",
+        "background-size" : "600% 600%",
 
         "-webkit-animation": "BackgroundAnimation 14s ease infinite",
         "-moz-animation": "BackgroundAnimation 14s ease infinite",
@@ -693,6 +730,22 @@ function resetTrackInfoScrolling() {
     $("#trackInfo").removeClass("trackInfoAnimation")
     $("#playlistInfo").removeClass("playlistInfoAnimation")
 
+}
+
+function playlistNameChange(playing_track) {
+
+    //linkedFromPresent = "id" in playing_track.linked_from;
+    //swap playingTrack for playing_track
+    if(playing_track.linked_from.id != null) {
+        //console.log("if true linked_from: ", linkedFromPresent)
+        //console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
+        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistOwner}</span>`)
+    } else if ( playing_track.linked_from.id === null ) {
+        //console.log("if false linked_from: ", linkedFromPresent)
+        //console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id))
+        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
+    }
+    
 }
 
 async function playerBootup() {

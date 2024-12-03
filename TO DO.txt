@@ -12,3 +12,24 @@ post mvp
 --------
 1. log out?
 2. link to user and link to playlist
+3. don't have multiple tabs of roulette open or there are too music roulettes in the devices response
+    {
+      "id": "244d0df069918f97df10cd41f1a26a323c744f96",
+      "is_active": true,
+      "is_private_session": false,
+      "is_restricted": false,
+      "name": "Music Roulette",
+      "supports_volume": true,
+      "type": "Computer",
+      "volume_percent": 29
+    },
+    {
+      "id": "a8bcf58d1658066d510c6071667153abbc001615",
+      "is_active": false,
+      "is_private_session": false,
+      "is_restricted": false,
+      "name": "Music Roulette",
+      "supports_volume": true,
+      "type": "Computer",
+      "volume_percent": 29
+    },
