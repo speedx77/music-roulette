@@ -2,9 +2,15 @@
 4. when changing to first song you can see a flash off phoebe bridgers placeholder
 7. fix song info animations - good for now
 9. better background gradient
+  9a https://codepen.io/P1N2O/pen/pyBNzX
+  9b somewhat current one https://animated-gradient-background-generator.netlify.app/
+  10c end goal? https://www.youtube.com/watch?v=Ml-B-W91gtw
+
 10. style for font loads slow
 
 11. save and playlist button functionality
+
+12. top bar for instructions
 
 post mvp
 --------
@@ -31,6 +37,7 @@ post mvp
       "type": "Computer",
       "volume_percent": 29
     },
+
 
   --------DONE-----
 8. vol pop up - DONE
