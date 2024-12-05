@@ -1,12 +1,10 @@
 1. pass Auth token on every page?
-2. home button on player -> takes user to search
 4. when changing to first song you can see a flash off phoebe bridgers placeholder
-5. solve fully local issue
 7. fix song info animations - good for now
-    7a. fix playlist name pull
-8. vol pop up
 9. better background gradient
 10. style for font loads slow
+
+11. save and playlist button functionality
 
 post mvp
 --------
@@ -33,3 +31,9 @@ post mvp
       "type": "Computer",
       "volume_percent": 29
     },
+
+  --------DONE-----
+8. vol pop up - DONE
+7a. fix playlist name pull - DONE
+2. home button on player -> takes user to search -DONE
+5. solve fully local issue - DONE

@@ -140,16 +140,18 @@ async function spotifyWindow() {
             player.getVolume().then(volume => {
                 console.log("vol: " +volume);
                 console.log("current vol: "+currentVolume)
+
+
                 
                 if (volume === 1){
-                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 100%</div>")
+                    $("#volumeArea").html("<div>Volume Set to 100%</div>")
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 }
                 else {
                     player.setVolume(Math.round((volume + .1) * 100) / 100)
                     currentVolume = Math.round((volume + .1) * 100)
-                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${currentVolume}%</div>`)
+                    $("#volumeArea").html(`<div>Volume Set to ${currentVolume}%</div>`)
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 }
@@ -162,7 +164,7 @@ async function spotifyWindow() {
                 console.log("current vol: "+currentVolume)
 
                 if (volume === 0) {
-                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 0%</div>")
+                    $("#volumeArea").html("<div>Volume Set to 0%</div>")
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 }
@@ -170,7 +172,7 @@ async function spotifyWindow() {
                 else {
                     player.setVolume(Math.round((volume - .1) * 100) / 100)
                     currentVolume = Math.round((volume - .1) * 100)
-                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${currentVolume}%</div>`)
+                    $("#volumeArea").html(`<div>Volume Set to ${currentVolume}%</div>`)
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 }
@@ -189,14 +191,14 @@ async function spotifyWindow() {
                 if (volume != 0) {
                     currentVolume = volume;
                     player.setVolume(0);
-                    $("#volumeArea").html("<div class='d-flex align-items-center justify-content-center'>Volume Set to 0%</div>")
+                    $("#volumeArea").html("<div>Volume Set to 0%</div>")
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 } 
                 
                 else if (volume === 0) {
                     player.setVolume(currentVolume);
-                    $("#volumeArea").html(`<div class='d-flex align-items-center justify-content-center'>Volume Set to ${Math.round(currentVolume * 100)}%</div>`)
+                    $("#volumeArea").html(`<div>Volume Set to ${Math.round(currentVolume * 100)}%</div>`)
                     $("#volumeArea").fadeIn();
                     $("#volumeArea").fadeOut();
                 }
@@ -673,7 +675,7 @@ async function revealSong(playerReadyState) {
     if (playerReadyState === true){
         $("#loadingBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "block"});
-        $("#volumeArea").fadeOut();
+        $("#volumeArea").fadeOut("slow");
     }
 }
 
