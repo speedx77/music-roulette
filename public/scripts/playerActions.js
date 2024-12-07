@@ -1,4 +1,5 @@
 var token2 = "";
+var refreshToken = "";
 var id = $("#randomize").attr("data-user")
 var deviceIdToPost = "";
 var device_id = "";
@@ -37,6 +38,7 @@ var playlistInfoContainerWidth = 0;
 var playlistInfoWidth = 0;
 
 var isFullyLocal = false;
+var playlistNull = false;
 var trackIndex = 0;
 var linkedFromPresent = false;
 
@@ -47,11 +49,40 @@ var linkedFromPresent = false;
 
 async function getToken() {
     
+    /*
     await fetch('/api/data').then(response => response.json()).then(data => {
         token2 = JSON.stringify(data.authUserTokenHeader.headers.Authorization).split("Bearer ")[1].split('"')[0];
     })
+    */
+    token2 = document.cookie.split("at=")[1].split(";")[0];
+    refreshToken = document.cookie.split("rt=")[1].split(";")[0];
 
 }
+
+/*
+async function refreshAtToken(){
+
+    const response = await fetch("/refresh", {
+        method: "POST",
+        headers: {
+            "Content-Type" : 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            refresh_token : refreshToken
+        })
+    })
+
+    console.log(response.at)
+    document.cookie=`at=${response.at}`
+    token2 = response.at;
+
+}
+
+
+function TokenRefresh(interval = 10 * 60 * 1000) {
+    refreshAtToken();
+}
+    */
 
 async function getDeviceId() {
     await fetch("https://api.spotify.com/v1/me/player/devices/", {
@@ -369,6 +400,7 @@ function imageFinder(response) {
 
 async function randomPlaylist (response) {
     var numOfPlaylists = response.total;
+    console.log(response)
     var selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
     console.log("selected playlist: ", selectedPlaylist)
     
@@ -377,23 +409,43 @@ async function randomPlaylist (response) {
 
     do {
 
-        isFullyLocal = await isPlaylistFullyLocal(response.items[selectedPlaylist].id);
-        console.log("isFullyLocal: ", isFullyLocal);
+        playlistNull = await isPlaylistNull(response.items[selectedPlaylist])
+        console.log("playlistNull: ", playlistNull)
 
-        if (isFullyLocal === true) {
+        if (playlistNull === false) {
+
+            isFullyLocal = await isPlaylistFullyLocal(response.items[selectedPlaylist].id);
+            console.log("isFullyLocal: ", isFullyLocal);
+
+            if (isFullyLocal === true) {
+                selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
+                console.log("re-selected playlist: ", selectedPlaylist)
+    
+    
+            } else if (isFullyLocal === false) {
+               playlistFullyLocal = false
+               console.log("playlist is not fully local")
+            }
+
+        } else if (playlistNull === true) {
             selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
             console.log("re-selected playlist: ", selectedPlaylist)
-
-
-        } else if (isFullyLocal === false) {
-           playlistFullyLocal = false
-           console.log("playlist is not fully local")
         }
+    
 
     } while (playlistFullyLocal === true)
     //function -> isPlaylistFullyLocal?
     console.log("playlist is good")
     return (response.items[selectedPlaylist].id)
+}
+
+async function isPlaylistNull(playlistid) {
+
+    if(playlistid === null) {
+        return true
+    } else {
+        return false
+    }
 }
 
 async function isPlaylistFullyLocal(playlistId) {
@@ -747,6 +799,30 @@ function playlistNameChange(playing_track) {
         //console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id))
         $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
     }
+    
+}
+
+async function isSongSaved(playing_track) {
+
+    try {
+        var response = await fetch("https://api.spotify.com/v1/me/tracks/contains?ids=" +playing_track.id, {
+            method: "GET",
+            headers: {
+                "Authorization" : `Bearer ${token2}`
+            }
+    }).then(response => response.json()).then(data=> {
+        return data[0]
+        //console.log("this is: "+ deviceIdToPost)
+    });
+
+
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function saveSong(playing_track) {
     
 }
 

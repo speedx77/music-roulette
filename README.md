@@ -12,6 +12,17 @@
 
 12. top bar for instructions
 
+13. multiple tabs?
+    if user randomizes from other tab it plays on the original tab but doesn't update url bar with the user id
+
+14. loading screen pulse text?
+
+15. sign out button? via profile screen?
+
+16. if playlist name cannot be found at all display:none to hide that line of copy
+
+17. save song
+
 post mvp
 --------
 1. log out?

@@ -4,11 +4,13 @@ import querystring from "node:querystring";
 import bodyParser from "body-parser";
 import * as cheerio from "cheerio"; //not used?
 import playwright from "playwright";
-import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js";
+import {getTokenBody, getTokenHeader, getPersonalToken, secretKey} from "./secret.js";
+import cookieParser from "cookie-parser";
+//import session from "express-session";
 
 const app = express();
 const port = 3001;
-
+app.use(cookieParser());
 
 //const querystring = require('node:querystring');
 
@@ -55,6 +57,7 @@ var authUserTokenHeader = {};
 var allTracks = [];
 var trackInfo = {};
 var device_id = "";
+var refreshToken = "";
 
 
 var buildAuthOptionsBody = {}
@@ -227,6 +230,18 @@ app.use(getToken);
 app.use(bodyParser.urlencoded({ extended: true}));
 //app.use(getUserToken)
 
+/*
+app.use(session({
+    secret: secretKey,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000
+    }
+}))
+*/
+
 
 app.get("/" , (req, res) => {
     /*
@@ -247,6 +262,7 @@ app.get("/" , (req, res) => {
    //console.log(token);
    //console.log(authTokenHeader);
    */
+
    res.render("mainLogin.ejs");
 });
 
@@ -442,7 +458,7 @@ app.post("/api/post/deviceId", async (req, res) => {
 app.get('/login', (req, res) => {
 
     var state = generateRandomString(16);
-    var scope = 'user-read-private user-read-email user-follow-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control';
+    var scope = 'user-read-private user-read-email user-follow-read user-modify-playback-state user-read-playback-state user-read-currently-playing streaming app-remote-control user-library-read user-library-modify';
 
     //res.redirect("'https://accounts.spotify.com/authorize?'" +  )
   
@@ -518,6 +534,7 @@ app.get('/login', (req, res) => {
         const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, buildAuthOptionsHeader)
         //console.log(response)
         token = response.data.access_token;
+        refreshToken = response.data.refresh_token;
         //console.log("token: " +token)
         //console.log(token)
         
@@ -527,20 +544,101 @@ app.get('/login', (req, res) => {
         console.log(authUserTokenHeader)
         //console.log(userToken)
         
+        res.cookie("at", token, {
+            maxAge: 3600000
+        })
+        res.cookie("rt", refreshToken, {
+            maxAge: 36600000
+        })
+    
+        //req.session.accessToken = token;
         res.redirect("/me");
     } catch (error) {
-        console.error(JSON.stringify(error.response.data));
-        console.error(error.message)
+        console.error(error);
     }
 
     
   })
 
 
+/*
+app.post("/api/post/deviceId", async (req, res) => {
+    //device_id = req.body.deviceId
+    //console.log(req)
+    //console.log(req.body.deviceId)
+    device_id = req.body.deviceId
+    console.log("final device id: " + device_id)
+    res.send("Device Id Successfully Retrieved")
+})
 
-app.get("/refresh", async (req, res) => {
-      //const response = await axios.post("https://accounts.spotify.com/api/token", )
+ const response =  await axios.post("https://accounts.spotify.com/api/token", buildAuthOptionsBody, authOptions.headers)
+    token = response.data.access_token;
+    authTokenHeader = {
+        headers: {Authorization : `Bearer ${token}`}
+    }
+
+
+ */
+
+
+
+app.post("/refresh", async (req, res) => {
+
+    let refresh = req.body.refresh_token;
+
+    /*
+    try {
+      const response = await axios.post("https://accounts.spotify.com/api/token",
+        {
+          grant_type: "refresh_token",
+          refresh_token: refresh,
+          client_id: tokenBody.client_id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      console.log("new at: ", response.access_token);
+      console.log("new rt: ", response.refresh_token);
+
+      let newToken = response.access_token;
+      let newRefreshToken = response.refresh_token;
+
+      res.send({ newToken, newRefreshToken });
+    } catch (error) {
+      console.error(error);
+    }
+    */
+    const url = "https://accounts.spotify.com/api/token";
+
+    const payload = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + (new Buffer.from(tokenBody.client_id + ':' + tokenBody.client_secret).toString('base64'))
+      },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: refresh,
+        client_id: tokenBody.client_id
+      }),
+    }
+    const body = await fetch(url, payload);
+    const response = await body.json();
+
+    let newAt = response.access_token;
+
+    res.send({at : newAt})
+      
 }) 
+
+
+
+
+
 app.get("/playlist/id", async (req, res) => {
 
     console.log(randomPlaylistId)
