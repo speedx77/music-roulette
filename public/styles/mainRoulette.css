@@ -706,8 +706,6 @@ top: 51%;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/heart.png');
-
 }
 
 #playlist {

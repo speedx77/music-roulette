@@ -49,6 +49,8 @@ post mvp
       "volume_percent": 29
     },
 
+  4. improve speed of background color change? speed of liked song change?
+
 
   --------DONE-----
 8. vol pop up - DONE

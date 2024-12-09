@@ -42,6 +42,7 @@ var playlistNull = false;
 var trackIndex = 0;
 var linkedFromPresent = false;
 
+var isThisSongSaved = false;
 
 
 //TO: DO
@@ -305,6 +306,14 @@ async function spotifyWindow() {
 
             }
             */
+        
+            isSongSaved(current_track);
+
+            if (isThisSongSaved === true) {
+                $("#save").css("background-image", "url('http://localhost:3001/assets/heart-saved.png')")
+            } else if (isThisSongSaved === false) {
+                $("#save").css("background-image", "url('http://localhost:3001/assets/heart.png')")
+            }
 
 
 
@@ -399,7 +408,7 @@ function imageFinder(response) {
 
 
 async function randomPlaylist (response) {
-    var numOfPlaylists = response.total;
+    var numOfPlaylists = response.items.length;
     console.log(response)
     var selectedPlaylist = Math.floor(Math.random() * numOfPlaylists);
     console.log("selected playlist: ", selectedPlaylist)
@@ -804,16 +813,27 @@ function playlistNameChange(playing_track) {
 
 async function isSongSaved(playing_track) {
 
+    let trackId = "";
+
+    if(playing_track.linked_from.id != null) {
+        trackId = playing_track.linked_from.id
+    } else if(playing_track.linked_from.id === null) {
+        trackId = playing_track.id
+    }
+
     try {
-        var response = await fetch("https://api.spotify.com/v1/me/tracks/contains?ids=" +playing_track.id, {
+        var response = await fetch("https://api.spotify.com/v1/me/tracks/contains?ids=" +trackId, {
             method: "GET",
             headers: {
                 "Authorization" : `Bearer ${token2}`
             }
     }).then(response => response.json()).then(data=> {
-        return data[0]
+        isThisSongSaved =  data[0]
+        //console.log(result)
         //console.log("this is: "+ deviceIdToPost)
     });
+
+    
 
 
 
@@ -823,7 +843,9 @@ async function isSongSaved(playing_track) {
 }
 
 async function saveSong(playing_track) {
-    
+
+
+
 }
 
 async function playerBootup() {
