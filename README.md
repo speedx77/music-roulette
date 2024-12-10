@@ -8,7 +8,6 @@
 
 10. style for font loads slow
 
-11. save and playlist button functionality
 
 12. top bar for instructions
 
@@ -19,9 +18,8 @@
 
 15. sign out button? via profile screen?
 
-16. if playlist name cannot be found at all display:none to hide that line of copy
 
-17. save song
+
 
 post mvp
 --------
@@ -50,6 +48,8 @@ post mvp
     },
 
   4. improve speed of background color change? speed of liked song change?
+  5. other mp3 player skins
+  6. EE for replay song
 
 
   --------DONE-----
@@ -57,3 +57,6 @@ post mvp
 7a. fix playlist name pull - DONE
 2. home button on player -> takes user to search -DONE
 5. solve fully local issue - DONE
+17. save song
+11. save and playlist button functionality
+16. if playlist name cannot be found at all display:none to hide that line of copy

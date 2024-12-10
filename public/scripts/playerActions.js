@@ -268,8 +268,8 @@ async function spotifyWindow() {
             $("#artistName").html(`${current_track.artists[0].name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
             //$("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
-
-            playlistNameChange(current_track)
+            playlistNameChange(current_track);
+            playlistLinkSet(current_track);
             /*
             linkedFromPresent = "linked_from.id" in current_track
             console.log("before linked_from: ", linkedFromPresent)
@@ -311,12 +311,11 @@ async function spotifyWindow() {
 
             if (isThisSongSaved === true) {
                 $("#save").css("background-image", "url('http://localhost:3001/assets/heart-saved.png')")
+
             } else if (isThisSongSaved === false) {
                 $("#save").css("background-image", "url('http://localhost:3001/assets/heart.png')")
+
             }
-
-
-
 
             trackInfoScrolling();
 
@@ -564,7 +563,8 @@ async function createRandomPlaylist(playlistId) {
                         trackArtist : result.artists[0].name,
                         albumName : result.album.name,
                         playlistName: result2.name,
-                        playlistOwner: result2.owner.display_name
+                        playlistOwner: result2.owner.display_name,
+                        playlistId : playlistId
                     })
 
                     trackSelected = true;
@@ -629,7 +629,8 @@ async function createRandomPlaylist(playlistId) {
                         trackArtist : result.artists[0].name,
                         albumName : result.album.name,
                         playlistName: result2.name,
-                        playlistOwner: result2.owner.display_name
+                        playlistOwner: result2.owner.display_name,
+                        playlistId : playlistId
                     })
                 }
 
@@ -802,13 +803,46 @@ function playlistNameChange(playing_track) {
     if(playing_track.linked_from.id != null) {
         //console.log("if true linked_from: ", linkedFromPresent)
         //console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
-        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistOwner}</span>`)
+        if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) != (-1)) {
+            $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistOwner}</span>`)
+            $("#playlistInfo").css({"display" : "block"})
+        } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) === (-1)) {
+            $("#playlistInfo").css({"display" : "none"})
+        }
+
     } else if ( playing_track.linked_from.id === null ) {
         //console.log("if false linked_from: ", linkedFromPresent)
         //console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id))
-        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
+        if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) != (-1)) {
+            $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
+            $("#playlistInfo").css({"display" : "block"})
+        } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) === (-1)) {
+            $("#playlistInfo").css({"display" : "none"})
+        }
     }
     
+}
+
+function playlistLinkSet(playing_track) {
+
+    if(playing_track.linked_from.id != null) {
+        if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) != (-1)) {
+            $("#playlist").attr("href", `https://open.spotify.com/playlist/${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistId}`)
+            $("#playlist").css({"display" : "block"})
+        } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) === (-1)) {
+            $("#playlist").attr("href", "#")
+            $("#playlist").css({"display" : "none"})
+        }
+
+    } else if ( playing_track.linked_from.id === null ) {
+        if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) != (-1)) {
+            $("#playlist").attr("href", `https://open.spotify.com/playlist/${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistId}`)
+            $("#playlist").css({"display" : "block"})
+        } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) === (-1)) {
+            $("#playlist").attr("href", "#")
+            $("#playlist").css({"display" : "none"})
+        }
+    }
 }
 
 async function isSongSaved(playing_track) {
@@ -833,9 +867,6 @@ async function isSongSaved(playing_track) {
         //console.log("this is: "+ deviceIdToPost)
     });
 
-    
-
-
 
     } catch (error) {
         console.error(error)
@@ -844,9 +875,80 @@ async function isSongSaved(playing_track) {
 
 async function saveSong(playing_track) {
 
+    let trackId = "";
 
+    if(playing_track.linked_from.id != null) {
+        trackId = playing_track.linked_from.id
+    } else if(playing_track.linked_from.id === null) {
+        trackId = playing_track.id
+    }
+
+    try {
+        var response = await fetch("https://api.spotify.com/v1/me/tracks?ids=" + trackId, {
+            method: "PUT",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token2}`
+            },
+            body: JSON.stringify({
+                "ids" : [
+                    "string"
+                ]
+            })
+        });
+    } catch (error) {
+        console.error(error)
+    }
 
 }
+
+async function unSaveSong(playing_track) {
+    let trackId = "";
+
+    if(playing_track.linked_from.id != null) {
+        trackId = playing_track.linked_from.id
+    } else if(playing_track.linked_from.id === null) {
+        trackId = playing_track.id
+    }
+
+    try {
+        var response = await fetch("https://api.spotify.com/v1/me/tracks?ids=" + trackId, {
+            method: "DELETE",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token2}`
+            },
+            body: JSON.stringify({
+                "ids" : [
+                    "string"
+                ]
+            })
+        });
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+
+$("#save").click(() => {
+
+    if (isThisSongSaved === true) {
+        unSaveSong(playingTrack)
+        $("#save").css("background-image", "url('http://localhost:3001/assets/heart.png')")
+        isSongSaved(playingTrack)
+    } else if(isThisSongSaved === false) {
+        saveSong(playingTrack)
+        $("#save").css("background-image", "url('http://localhost:3001/assets/heart-saved.png')")
+        isSongSaved(playingTrack)
+    }
+
+})
+
+
+$("#playlist").click(() => {
+
+})
+
 
 async function playerBootup() {
     await spotifyWindow();
