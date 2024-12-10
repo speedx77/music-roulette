@@ -44,6 +44,11 @@ var linkedFromPresent = false;
 
 var isThisSongSaved = false;
 
+var profileShowing = false;
+
+var currentUser = {};
+
+
 
 //TO: DO
     //loop still broken for fully local playlists
@@ -60,7 +65,6 @@ async function getToken() {
 
 }
 
-/*
 async function refreshAtToken(){
 
     const response = await fetch("/refresh", {
@@ -80,10 +84,9 @@ async function refreshAtToken(){
 }
 
 
-function TokenRefresh(interval = 10 * 60 * 1000) {
+function TokenRefresh(interval = 5 * 60 * 1000) {
     refreshAtToken();
 }
-    */
 
 async function getDeviceId() {
     await fetch("https://api.spotify.com/v1/me/player/devices/", {
@@ -577,8 +580,6 @@ async function createRandomPlaylist(playlistId) {
             }
             while(trackSelected == false)
                 
-            playerReady = true;    
-            return(allTracksPlaylist)
 
         }
         else {
@@ -642,15 +643,17 @@ async function createRandomPlaylist(playlistId) {
             }
             while(trackSelected == false)
      
-             playerReady = true;
-             return(allTracksPlaylist)
 
         }
 
 
 
     //}
-    
+    //these were returned after the while loops previously
+    //playerReady = true;
+    return(allTracksPlaylist)
+
+
 }
 
 async function playRandomTrackPlaylist (userId) {
@@ -736,6 +739,7 @@ async function revealSong(playerReadyState) {
 
     if (playerReadyState === true){
         $("#loadingBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "block"});
         $("#volumeArea").fadeOut("slow");
     }
@@ -745,10 +749,12 @@ $("#randomize").click(() => {
     allTracksPlaylistInfo = [];
     playerReady = false;
     $("#songBlock").css({"display" : "none"});
+    $("#profileBlock").css({"display" : "none"});
     $("#loadingBlock").css({"display" : "block"});
     playerBootup(playerReady)
 
 })
+
 
 function trackInfoScrolling() {
     trackNameContainerWidth = $(".trackNameContainer").width();
@@ -944,16 +950,64 @@ $("#save").click(() => {
 
 })
 
+async function isPlayerReady() {
+    if(allTracksPlaylistInfo.length === 10){
+        playerReady = true;
+    }
+}
 
-$("#playlist").click(() => {
+$("#profile").click(() => {
 
+    if (playerReady === false) {
+        if (profileShowing != true) {
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "block"});
+            $("#songBlock").css({"display" : "none"});
+            profileShowing = false;
+        }
+    } else if (playerReady === true) {
+        if (profileShowing != true) {
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "block"});
+            profileShowing = false;
+        }
+    }
 })
+
+async function getCurrentUser() {
+
+    const response = await fetch("http://localhost:3001/v1/me", {
+        method: "GET",
+        header: {
+            "Authorization" : `Bearer ${token2}`
+        }
+    }).then(response => response.json()).then(data => {
+        currentUser = {
+            profileImage: data.images[0].url,
+            profileId : data.id,
+            displayName : data.display_name,
+            profileLink: "https://open.spotify.com/user" + data.id
+        }
+    })
+}
 
 
 async function playerBootup() {
     await spotifyWindow();
     await getToken();
     await playRandomTrackPlaylist(id);
+    await isPlayerReady()
     await revealSong(playerReady);
 
 }

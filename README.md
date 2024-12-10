@@ -50,6 +50,7 @@ post mvp
   4. improve speed of background color change? speed of liked song change?
   5. other mp3 player skins
   6. EE for replay song
+  7. perhaps have search be a native function on player page instead of redirect
 
 
   --------DONE-----

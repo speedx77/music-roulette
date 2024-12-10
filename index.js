@@ -4,7 +4,7 @@ import querystring from "node:querystring";
 import bodyParser from "body-parser";
 import * as cheerio from "cheerio"; //not used?
 import playwright from "playwright";
-import {getTokenBody, getTokenHeader, getPersonalToken, secretKey} from "./secret.js";
+import {getTokenBody, getTokenHeader, getPersonalToken} from "./secret.js";
 import cookieParser from "cookie-parser";
 //import session from "express-session";
 

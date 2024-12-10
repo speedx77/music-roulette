@@ -16,6 +16,7 @@
 
                         <div class="d-flex mx-3 align-items-center justify-content-between">
                             <div id="time">12:05</div>
+                            <button id="profile"></button>
                             <a id="search" href="/me"></a>
                             <div id="battery"></div>
                         </div>
@@ -23,7 +24,8 @@
                         <!-- song player -->
                         <div style="display: block;" id="loadingBlock"><%- include("partials/loadingArea.ejs") %></div>
                         <div style="display: none;" id="songBlock"><%- include("partials/songArea.ejs") %></div>
-                        
+                        <div style="display: none;" id="profileBlock"><%- include("partials/profileArea.ejs") %></div>
+
                     </div>
                     
                 </div>

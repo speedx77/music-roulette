@@ -138,6 +138,23 @@ z-index: 1;
 
 }
 
+#profile {
+  height: 17px;
+  width: 17px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/profile.png');
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+}
+
 #search {
   height: 17px;
   width: 17px;
@@ -145,6 +162,31 @@ z-index: 1;
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url('http://localhost:3001/assets/search.png');
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+}
+
+#back {
+  height: 17px;
+  width: 17px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/back.png');
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
 }
 
 #divider {
@@ -836,3 +878,4 @@ path {
       #4D4D4D 6px, #4D4D4D 10px);
   }
 }
+
