@@ -75,11 +75,11 @@ async function refreshAtToken(){
         body: new URLSearchParams({
             refresh_token : refreshToken
         })
+    }).then(response => response.json()).then(data => {
+        console.log("refreshed: " , data.at);
+        document.cookie=`at=${data.at}`
+        token2 = data.at
     })
-
-    console.log(response.at)
-    document.cookie=`at=${response.at}`
-    token2 = response.at;
 
 }
 
