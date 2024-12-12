@@ -44,3 +44,92 @@
   background-repeat: no-repeat;
   background-image: url('http://localhost:3001/assets/user-search-tip.png');
 }
+
+#infoCurrentUserPfp {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#infoMute {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+#infoRandomize {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+.info-center-button {
+height: 75px;
+width: 75px;
+border: 2px solid #4D4D4D;
+border-radius: 50%;
+background-color: #CBCCCE;
+background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+  z-index: 11;
+}
+
+#infoPlay {
+  height: 50px;
+  width: 50px;
+  margin-top: 0px;
+  margin-left: 5px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/alt-play-pause.png');
+}
+
+#info-raise-volume {
+  height: 100px;
+  width: 100px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/raise-volume.png');
+  mask-image: linear-gradient(black, transparent);
+}
+
+#info-lower-volume {
+  height: 100px;
+  width: 100px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/lower-volume.png');
+  mask-image: linear-gradient(black, transparent);
+}
+
+#infoSkip {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/skip.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+}
+
+#infoPrevious {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/previous.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+  
+}

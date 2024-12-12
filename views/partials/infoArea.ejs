@@ -1,7 +1,12 @@
 <div class="row">
     <button id="back" style="margin-top: 4px; margin-left: 30px"></button>
 </div>
+
 <div class="infoContainer" style="overflow-y: scroll;">
+    <div class="px-3 mt-2">
+        <h3>Scroll Down within the screen to view the instructions!</h3>
+        <p>Spotify's search and recommendation algorithm sucks! Roulette presents a new way to find music through friends and random users via a more organic and natural method.</p>
+    </div>
     <div class=" row align-items-start mt-2">
         <div class="col d-flex justify-content-center">
             <div id="infoLoginButton" class="d-flex justify-content-center align-items-center disabled">Login With Spotify</div>
@@ -31,23 +36,74 @@
             <div class="ms-1" id="idSearch"></div>
         </div>
         <div class="col d-flex justify-content-center">
-            <p>If you don't know your friends user id, navigate to their profile in a browser window and copy the text after "/user/" in the url bar</p>
+            <p>If you don't know your friend's user id, navigate to their profile in a browser window and copy the text after "/user/" in the url bar</p>
         </div>  
     </div>
     <div class=" row align-items-start mt-2">
         <div class="col d-flex justify-content-center">
-            profile image goes here
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="pfp " style="background-image: url('http://localhost:3001/assets/default-speedx77-pfp.jpg')" id="infoCurrentUserPfp"></div> 
+                <div class="d-flex justify-content-center" style="font-size: 20px; color: black" id="currentUserDisplayName">Speedx77</div>
+            </div> 
         </div>
         <div class="col d-flex justify-content-center">
             <p>After searching for your friend click on their profile to begin randomizing their playlists and songs into a delightful 10 song queue!</p>
         </div>  
     </div>
     <div class=" row align-items-start mt-2">
-        <div class="col d-flex justify-content-center">
-            randomize button goes here
+        <div class="col d-flex justify-content-center align-items-center">
+            <button  class="disabled" id="infoRandomize"> <div id="randomIcon"></div> </button>
         </div>
         <div class="col d-flex justify-content-center">
             <p>The Randomize Button will redo the randomization for that selected user and create a new queue of 10 songs for you to enjoy!</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-2">
+        <div class="col d-flex justify-content-center align-items-center">
+            <button class="disabled" id="infoMute"><div id="muteIcon"></div></button>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Mute the player audio</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-5">
+        <div class="col d-flex justify-content-center align-items-center">
+            <button class="info-center-button disabled"> <div id="infoPlay"></div> </button>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Pause the player song</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-5">
+        <div class="col d-flex justify-content-center align-items-center">
+            <div id="info-raise-volume"></div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Increase the player volume</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-5">
+        <div class="col d-flex justify-content-center align-items-center">
+            <div id="info-lower-volume"></div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Decrease the player volume</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-5">
+        <div class="col d-flex justify-content-center align-items-center">
+            <div id="infoSkip"></div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Skip Current Song</p>
+        </div>  
+    </div>
+    <div class=" row align-items-start mt-5">
+        <div class="col d-flex justify-content-center align-items-center">
+            <div id="infoPrevious"></div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+            <p>Go to Previous Song</p>
         </div>  
     </div>
     

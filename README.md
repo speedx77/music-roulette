@@ -57,6 +57,15 @@ post mvp
   8. profile upvotes
     for when we figure out the db stuff
 
+  9. in queue
+      click on album or button
+        animation pull back/small the album art and display all ten art on screen.
+          if user clicks on playing song it takes them back to default songArea
+            if user clicks on in queue song it takes them to that song in queue
+    or swipe up on songInfo Area to reveal next song in queue?
+
+    add more songs at the end of song 10?
+
 
   --------DONE-----
 8. vol pop up - DONE
@@ -66,3 +75,6 @@ post mvp
 17. save song
 11. save and playlist button functionality
 16. if playlist name cannot be found at all display:none to hide that line of copy
+
+
+------Tracked Changes--------
