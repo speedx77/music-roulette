@@ -47,6 +47,7 @@ var isThisSongSaved = false;
 var profileShowing = false;
 
 var currentUser = {};
+var selectedUser = {};
 
 
 
@@ -76,6 +77,7 @@ async function refreshAtToken(){
             refresh_token : refreshToken
         })
     }).then(response => response.json()).then(data => {
+        document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
         console.log("refreshed: " , data.at);
         document.cookie=`at=${data.at}`
         token2 = data.at
@@ -958,6 +960,38 @@ async function isPlayerReady() {
 
 $("#profile").click(() => {
 
+    getCurrentUser();
+    getSelectedUser();
+
+    if (playerReady === false) {
+        if (profileShowing != true) {
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "block"});
+            $("#songBlock").css({"display" : "none"});
+            profileShowing = false;
+        }
+    } else if (playerReady === true) {
+        if (profileShowing != true) {
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "block"});
+            profileShowing = false;
+        }
+    }
+})
+
+$("#back").click(() => {
+    
     if (playerReady === false) {
         if (profileShowing != true) {
             $("#loadingBlock").css({"display" : "none"});
@@ -987,9 +1021,9 @@ $("#profile").click(() => {
 
 async function getCurrentUser() {
 
-    const response = await fetch("http://localhost:3001/v1/me", {
+    const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
-        header: {
+        headers: {
             "Authorization" : `Bearer ${token2}`
         }
     }).then(response => response.json()).then(data => {
@@ -997,15 +1031,69 @@ async function getCurrentUser() {
             profileImage: data.images[0].url,
             profileId : data.id,
             displayName : data.display_name,
-            profileLink: "https://open.spotify.com/user" + data.id
+            profileLink: "https://open.spotify.com/user/" + data.id
         }
-    })
+    });
+
+    $("#currentUserPfp").css({"background-image" : `url('${currentUser.profileImage}')`});
+    $("#currentUserDisplayName").html(currentUser.displayName);
 }
 
+async function getSelectedUser() {
+
+    const response = await fetch("https://api.spotify.com/v1/users/" + id, {
+        method: "GET",
+        headers: {
+            "Authorization" : `Bearer ${token2}`
+        }
+    }).then(response => response.json()).then(data => {
+        selectedUser = {
+            profileImage : data.images[0].url,
+            profileId : id,
+            displayName: data.display_name,
+            profileLink: "https://open.spotify.com/user/" + id
+        }
+    })
+
+    $("#selectedUserPfp").css({"background-image" : `url('${selectedUser.profileImage}')`});
+    $("#selectedUserDisplayName").html(selectedUser.displayName);
+
+}
+
+/*
+async function buildProfileBlock() {
+    getCurrentUser();
+    getSelectedUser();
+
+    const response = await fetch("/storedUsers", {
+        method: "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        }, 
+        body : JSON.stringify({currentUser, selectedUser})
+    })
+}
+*/
+
+$("#logout").click(() => {
+    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `rt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    window.location.replace("/")
+})
+
+$("#spotifyLink").click(() => {
+    window.open(currentUser.profileLink, "_blank");
+})
+
+$("#selectedProfileLink").click(() => {
+    window.open(selectedUser.profileLink, "_blank");
+})
 
 async function playerBootup() {
     await spotifyWindow();
     await getToken();
+    await getCurrentUser();
+    await getSelectedUser();
     await playRandomTrackPlaylist(id);
     await isPlayerReady()
     await revealSong(playerReady);

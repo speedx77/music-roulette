@@ -27,6 +27,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 
 }
 
@@ -170,6 +171,28 @@ z-index: 1;
   font: inherit;
   border-radius: 0;
   appearance: none;
+}
+
+#info {
+  height: 17px;
+  width: 17px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/info.png');
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+}
+
+#infoText {
+  height: 17px;
+  width: 17px;
 }
 
 #back {

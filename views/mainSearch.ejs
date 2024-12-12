@@ -16,13 +16,14 @@
 
                         <div class="d-flex mx-3 align-items-center justify-content-between">
                             <div id="time">12:05</div>
+                            <button id="profile"></button>
                             <div id="battery"></div>
                         </div>
                         <div id="divider"></div>
                         <!-- song player -->
                         <div style="display: block;" id="searchBlock"><%- include("partials/searchArea.ejs") %></div>
                         <div style="display: none;" id="loadingBlockSearch"><%- include("partials/loadingAreaSearch.ejs") %></div>
-
+                        <div style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
                         
                     </div>
                     
@@ -79,11 +80,115 @@
 <script src="/scripts/playerJS.js"></script>
 <script>
 
-    if (document.cookie.indexOf("at") === (-1)){
-            window.location.replace("http://localhost:3001/")
-    }
+    
+var token2 = document.cookie.split("at=")[1].split(";")[0];
+var currentUser = {};
+var profileShowing = false;
+var searchBegan = false;
 
-    console.log("Error: User Must Login")
+if (document.cookie.indexOf("at") === (-1)){
+        window.location.replace("http://localhost:3001/")
+}
+
+console.log("Error: User Must Login")
+
+
+async function getCurrentUser() {
+
+    const response = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET",
+        headers: {
+            "Authorization" : `Bearer ${token2}`
+        }
+    }).then(response => response.json()).then(data => {
+        currentUser = {
+            profileImage: data.images[0].url,
+            profileId : data.id,
+            displayName : data.display_name,
+            profileLink: "https://open.spotify.com/user/" + data.id
+        }
+    });
+
+    $("#currentUserPfp").css({"background-image" : `url('${currentUser.profileImage}')`});
+    $("#currentUserDisplayName").html(currentUser.displayName);
+}
+
+getCurrentUser();
+
+$("#userSearch").click(() => {
+    searchBegan = true;
+})
+
+$("#profile").click(() => {
+
+    if(searchBegan === false) {
+        if (profileShowing != true) {
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "block"});
+        profileShowing = true;
+    } else{
+        $("#profileBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#searchBlock").css({"display" : "block"});
+        profileShowing = false;
+    }
+    } else if(searchBegan === true) {
+        if (profileShowing != true) {
+            $("#searchBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#searchBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "block"});
+            profileShowing = false;
+        }
+    }
+})
+
+$("#back").click(() => {
+
+if(searchBegan === false) {
+    if (profileShowing != true) {
+    $("#searchBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#profileBlock").css({"display" : "block"});
+    profileShowing = true;
+} else{
+    $("#profileBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#searchBlock").css({"display" : "block"});
+    profileShowing = false;
+}
+} else if(searchBegan === true) {
+    if (profileShowing != true) {
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "block"});
+        profileShowing = true;
+    } else{
+        $("#profileBlock").css({"display" : "none"});
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "block"});
+        profileShowing = false;
+    }
+}
+})
+
+$("#logout").click(() => {
+    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    document.cookie = `rt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    window.location.replace("/")
+})
+
+$("#spotifyLink").click(() => {
+    window.open(currentUser.profileLink, "_blank");
+})
+
+
+
     
     
 </script>

@@ -1,0 +1,46 @@
+.infoContainer {
+  height: 300px;
+  width: 446px;
+
+  --webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.infoContainerAfter {
+  transform: translateX(10px);
+  height: 325px;
+  width: 446px;
+
+  --webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#infoLoginButton {
+  height: 30px;
+  width: 175px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.600);
+  border: 2px solid black;
+  color: white;
+  font-weight: bold;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+
+#idSearch {
+  height: 200px;
+  width: 210px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/user-search-tip.png');
+}

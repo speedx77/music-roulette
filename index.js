@@ -66,6 +66,7 @@ var buildAuthOptionsHeader = {}
 var buildAuthRefreshOptionsBody = {}
 var buildAuthOptionsRefreshHeader = {}
 
+
 const personalAuthTokenHeader = {
     headers : { Authorization : `Bearer ${personalToken}`}
 }
@@ -454,6 +455,16 @@ app.post("/api/post/deviceId", async (req, res) => {
     console.log("final device id: " + device_id)
     res.send("Device Id Successfully Retrieved")
 })
+
+/*
+app.post("/storedUsers", async (req, res) => {
+
+    let current_user = {};
+    let selected_user = {};
+
+    
+})
+*/
 
 app.get('/login', (req, res) => {
 

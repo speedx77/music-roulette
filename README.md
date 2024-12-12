@@ -18,6 +18,8 @@
 
 15. sign out button? via profile screen?
 
+16. align the homepage button and gif?
+
 
 
 
@@ -51,6 +53,9 @@ post mvp
   5. other mp3 player skins
   6. EE for replay song
   7. perhaps have search be a native function on player page instead of redirect
+
+  8. profile upvotes
+    for when we figure out the db stuff
 
 
   --------DONE-----
