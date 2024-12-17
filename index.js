@@ -704,7 +704,11 @@ app.get("/search", async (req, res) => {
     var userSearched = req.query.user
 
 
-
+    //solution for mobile users
+    //https://open.spotify.com/user/speedx77?si=5959025525134013
+    if (userSearched.includes("https://open.spotify.com/user/")){
+        userSearched = userSearched.split("/user/")[1].split("?si")[0]
+    }
         /*
         var url = "https://open.spotify.com/search/jean/users";
         const response = await axios.get(url);

@@ -14,11 +14,17 @@
 13. multiple tabs?
     if user randomizes from other tab it plays on the original tab but doesn't update url bar with the user id
 
+    plays in intial tab because the device id is the first one in https://api.spotify.com/v1/me/player/devices/ maybe?, experiment with pulling the latest instance of Music Roulette in that response
+
 14. loading screen pulse text?
 
 15. sign out button? via profile screen?
 
 16. align the homepage button and gif?
+
+17. consider changing "Link to Spotify" to Spotify Profile or Link to Spotify Profile
+
+
 
 
 
@@ -56,6 +62,9 @@ post mvp
 
   8. profile upvotes
     for when we figure out the db stuff
+    display +1 or +Hearts next to profile image to indicate that this profile is well liked
+
+
 
   9. in queue
       click on album or button
@@ -65,6 +74,8 @@ post mvp
     or swipe up on songInfo Area to reveal next song in queue?
 
     add more songs at the end of song 10?
+
+  10. Random user if you don't want to search
 
 
   --------DONE-----

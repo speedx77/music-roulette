@@ -16,6 +16,7 @@
 
                         <div class="d-flex mx-3 align-items-center justify-content-between">
                             <div id="time">12:05</div>
+                            <button id="info"></button>
                             <button id="profile"></button>
                             <div id="battery"></div>
                         </div>
@@ -23,8 +24,7 @@
                         <!-- song player -->
                         <div style="display: block;" id="searchBlock"><%- include("partials/userSearchedArea.ejs") %></div>
                         <div style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
-
-                        
+                        <div style="display: none;" id="infoBlock"><%- include("partials/infoArea.ejs") %></div> 
                     </div>
                     
                 </div>
@@ -83,7 +83,9 @@
 var token2 = document.cookie.split("at=")[1].split(";")[0];
 var currentUser = {};
 var profileShowing = false;
+var infoShowing = false;
 var searchBegan = false;
+
 
 if (document.cookie.indexOf("at") === (-1)){
         window.location.replace("http://localhost:3001/")
@@ -119,60 +121,95 @@ searchBegan = true;
 
 $("#profile").click(() => {
 
-    if(searchBegan === false) {
-        if (profileShowing != true) {
+if(searchBegan === false) {
+    if (profileShowing != true) {
+    $("#searchBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#infoBlock").css({"display" : "none"});
+    $("#profileBlock").css({"display" : "block"});
+    profileShowing = true;
+    infoShowing = false;
+} else{
+    $("#profileBlock").css({"display" : "none"});
+    $("#infoBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#searchBlock").css({"display" : "block"});
+    profileShowing = false;
+    infoShowing = false;
+}
+} else if(searchBegan === true) {
+    if (profileShowing != true) {
         $("#searchBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "block"});
         profileShowing = true;
+        infoShowing = false;
     } else{
         $("#profileBlock").css({"display" : "none"});
-        $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "block"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "block"});
         profileShowing = false;
+        infoShowing = false;
     }
-    } else if(searchBegan === true) {
-        if (profileShowing != true) {
-            $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "none"});
-            $("#profileBlock").css({"display" : "block"});
-            profileShowing = true;
-        } else{
-            $("#profileBlock").css({"display" : "none"});
-            $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "block"});
-            profileShowing = false;
-        }
-    }
+}
 })
 
-$("#back").click(() => {
+$("#info").click(() => {
 
-    if(searchBegan === false) {
-        if (profileShowing != true) {
-            $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "none"});
-            $("#profileBlock").css({"display" : "block"});
-            profileShowing = true;
-        } else{
-            $("#profileBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "none"});
-            $("#searchBlock").css({"display" : "block"});
-            profileShowing = false;
-        }
-    } else if(searchBegan === true) {
-        if (profileShowing != true) {
-            $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "none"});
-            $("#profileBlock").css({"display" : "block"});
-            profileShowing = true;
-        } else{
-            $("#profileBlock").css({"display" : "none"});
-            $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "block"});
-            profileShowing = false;
-        }
+if(searchBegan === false) {
+    if (infoShowing != true) {
+    $("#searchBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#profileBlock").css({"display" : "none"});
+    $("#infoBlock").css({"display" : "block"});
+    infoShowing = true;
+    profileShowing = false;
+} else{
+    $("#infoBlock").css({"display" : "none"});
+    $("#profileBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#searchBlock").css({"display" : "block"});
+    infoShowing = false;
+    profileShowing = false;
+}
+} else if(searchBegan === true) {
+    if (infoShowing != true) {
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "block"});
+        infoShowing = true;
+        profileShowing = false;
+    } else{
+        $("#infoBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#searchBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "block"});
+        infoShowing = false;
+        profileShowing = false;
     }
+}
+})
+
+$(".back").click(() => {
+
+if(searchBegan === false) {  
+    $("#profileBlock").css({"display" : "none"});
+    $("#infoBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "none"});
+    $("#searchBlock").css({"display" : "block"});
+    profileShowing = false;
+    infoShowing = false; 
+} else if(searchBegan === true) {  
+    $("#profileBlock").css({"display" : "none"});
+    $("#infoBlock").css({"display" : "none"});
+    $("#searchBlock").css({"display" : "none"});
+    $("#loadingBlockSearch").css({"display" : "block"});
+    profileShowing = false;
+    infoShowing = false;
+}
 })
 
 $("#logout").click(() => {

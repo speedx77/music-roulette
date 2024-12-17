@@ -56,6 +56,40 @@ body {
 /* inspiration: https://codepen.io/DanGasson/pen/LeJBRj */
 
 #player {
+  width: 270px;
+  height: 430px;
+  border-radius: 38px;
+  background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
+  box-shadow: inset 5px -5px 15px 0px grey;
+  background-color: #F6F6F7;
+  z-index: 1;
+}
+
+
+
+
+#screen {
+    width: 225px;
+    height: 187.5px;
+    border-radius: 10px; 
+    border: solid rgba(0, 0, 0, 0.600) 4px;
+    /* background-color: #b8c7bc; */
+    /* alt #C1C1BA */
+    background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
+
+    background-position: center;
+    background-size: cover;
+}
+
+#divider {
+  width: 218px;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.600);
+}
+
+@media (min-width: 576px) {
+
+  #player {
 
     /*
     Common 16:9 resolutions
@@ -81,34 +115,34 @@ body {
         justify-content: center;
         transition: box-shadow .75s;
     */
-width: 540px;
-height: 860px;
+    width: 540px;
+    height: 860px;
 
-/*
-background-color: rgb(192,192,192);
-border-radius: 8px;
-border: 1px solid white;
-box-shadow: rgb(192,192,192) -10px -7px;
-z-index: 10;
-*/
+    /*
+    background-color: rgb(192,192,192);
+    border-radius: 8px;
+    border: 1px solid white;
+    box-shadow: rgb(192,192,192) -10px -7px;
+    z-index: 10;
+    */
 
-/*
-background: rgba(163, 163, 163, 0.73);
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
-border-radius: 16px;
-border: 1px solid transparent;
+    /*
+    background: rgba(163, 163, 163, 0.73);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid transparent;
 
-*/
+    */
 
-border-radius: 38px;
-background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
-box-shadow: inset 5px -5px 15px 0px grey;
-background-color: #F6F6F7;
-z-index: 1;
-}
+    border-radius: 38px;
+    background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
+    box-shadow: inset 5px -5px 15px 0px grey;
+    background-color: #F6F6F7;
+    z-index: 1;
+  }
 
-#screen {
+  #screen {
     width: 450px;
     height: 375px;
 
@@ -122,6 +156,16 @@ z-index: 1;
 
     background-position: center;
     background-size: cover;
+  }
+
+  #divider {
+    width: 443px;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.600);
+  }
+
+  
+
 }
 
 
@@ -212,11 +256,24 @@ z-index: 1;
   appearance: none;
 }
 
-#divider {
-    width: 443px;
-    height: 3px;
-    background-color: rgba(0, 0, 0, 0.600);
+.back {
+  height: 17px;
+  width: 17px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/back.png');
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
 }
+
+
 
 #musicArea {
   height: 275px;

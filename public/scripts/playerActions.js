@@ -45,6 +45,7 @@ var linkedFromPresent = false;
 var isThisSongSaved = false;
 
 var profileShowing = false;
+var infoShowing = false;
 
 var currentUser = {};
 var selectedUser = {};
@@ -85,10 +86,13 @@ async function refreshAtToken(){
 
 }
 
+setInterval(refreshAtToken, 5 * 60 * 1000)
 
+/*
 function TokenRefresh(interval = 5 * 60 * 1000) {
     refreshAtToken();
 }
+*/
 
 async function getDeviceId() {
     await fetch("https://api.spotify.com/v1/me/player/devices/", {
@@ -967,55 +971,91 @@ $("#profile").click(() => {
         if (profileShowing != true) {
             $("#loadingBlock").css({"display" : "none"});
             $("#songBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "block"});
             profileShowing = true;
+            infoShowing = false;
         } else{
             $("#profileBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
             $("#loadingBlock").css({"display" : "block"});
             $("#songBlock").css({"display" : "none"});
             profileShowing = false;
+            infoShowing = false;
         }
     } else if (playerReady === true) {
         if (profileShowing != true) {
             $("#loadingBlock").css({"display" : "none"});
             $("#songBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "block"});
             profileShowing = true;
+            infoShowing = false;
         } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "none"});
+            $("#songBlock").css({"display" : "block"});
+            profileShowing = false;
+            infoShowing = false;
+        }
+    }
+})
+
+$("#info").click(() => {
+
+    if(playerReady === false) {
+        if (infoShowing != true) {
+        $("#loadingBlock").css({"display" : "none"});
+        $("#songBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "block"});
+        infoShowing = true;
+        profileShowing = false;
+    } else{
+        $("#infoBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#songBlock").css({"display" : "none"});
+        $("#loadingBlock").css({"display" : "block"});
+        infoShowing = false;
+        profileShowing = false;
+    }
+    } else if(playerReady === true) {
+        if (infoShowing != true) {
+            $("#songBlock").css({"display" : "none"});
+            $("#loadingBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "block"});
+            infoShowing = true;
+            profileShowing = false;
+        } else{
+            $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "none"});
             $("#loadingBlock").css({"display" : "none"});
             $("#songBlock").css({"display" : "block"});
+            infoShowing = false;
             profileShowing = false;
         }
     }
 })
 
-$("#back").click(() => {
+
+$(".back").click(() => {
     
-    if (playerReady === false) {
-        if (profileShowing != true) {
-            $("#loadingBlock").css({"display" : "none"});
-            $("#songBlock").css({"display" : "none"});
-            $("#profileBlock").css({"display" : "block"});
-            profileShowing = true;
-        } else{
-            $("#profileBlock").css({"display" : "none"});
-            $("#loadingBlock").css({"display" : "block"});
-            $("#songBlock").css({"display" : "none"});
-            profileShowing = false;
-        }
-    } else if (playerReady === true) {
-        if (profileShowing != true) {
-            $("#loadingBlock").css({"display" : "none"});
-            $("#songBlock").css({"display" : "none"});
-            $("#profileBlock").css({"display" : "block"});
-            profileShowing = true;
-        } else{
-            $("#profileBlock").css({"display" : "none"});
-            $("#loadingBlock").css({"display" : "none"});
-            $("#songBlock").css({"display" : "block"});
-            profileShowing = false;
-        }
+    if(playerReady === false) {  
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#songBlock").css({"display" : "none"});
+        $("#loadingBlock").css({"display" : "block"});
+        profileShowing = false;
+        infoShowing = false; 
+    } else if(playerReady === true) {  
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#loadingBlock").css({"display" : "none"});
+        $("#songBlock").css({"display" : "block"});
+        profileShowing = false;
+        infoShowing = false;
     }
 })
 

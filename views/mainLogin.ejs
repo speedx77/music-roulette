@@ -108,6 +108,18 @@ $("#info").click(() => {
 })
 
 
+$(".back").click(() => {
+    if (infoShowing != true) {
+        $("#loginBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "block"});
+        infoShowing = true;
+    } else{
+        $("#infoBlock").css({"display" : "none"});
+        $("#loginBlock").css({"display" : "block"});
+        infoShowing = false;
+    }
+})
+
 
 
 
