@@ -1,3 +1,7 @@
+html {
+  height: 100vh;
+  overflow: hidden;
+}
 body {
     /*background-color: #3A6D8C; */
     /*background-color: rgb(121, 94, 58); */
@@ -27,7 +31,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: auto;
 
 }
 
@@ -54,10 +58,10 @@ body {
 
 
 /* inspiration: https://codepen.io/DanGasson/pen/LeJBRj */
-
+/*
 #player {
-  width: 270px;
-  height: 430px;
+  width: 100%;
+  height: 100%;
   border-radius: 38px;
   background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
   box-shadow: inset 5px -5px 15px 0px grey;
@@ -73,8 +77,7 @@ body {
     height: 187.5px;
     border-radius: 10px; 
     border: solid rgba(0, 0, 0, 0.600) 4px;
-    /* background-color: #b8c7bc; */
-    /* alt #C1C1BA */
+  
     background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
 
     background-position: center;
@@ -86,11 +89,12 @@ body {
   height: 3px;
   background-color: rgba(0, 0, 0, 0.600);
 }
+*/
 
-@media (min-width: 576px) {
+
 
   #player {
-
+   
     /*
     Common 16:9 resolutions
         16:9 Aspect Ratio
@@ -115,8 +119,23 @@ body {
         justify-content: center;
         transition: box-shadow .75s;
     */
+    /*
     width: 540px;
     height: 860px;
+    */
+    max-width: 540px;
+    max-height: 860px;
+    width: 85%;
+    height: 85%;
+    /*
+    other solution:     padding-top: 75%;
+
+
+    margin: 0 auto;
+
+    width: 80%;
+    height: 50%;
+    */
 
     /*
     background-color: rgb(192,192,192);
@@ -166,7 +185,7 @@ body {
 
   
 
-}
+
 
 
 #time {
