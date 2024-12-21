@@ -1,25 +1,40 @@
-.infoContainer {
-  height: 300px;
-  width: 446px;
+@media screen and (min-width: 576px){
+  .infoContainer {
+    height: 300px;
+    width: 446px;
 
-  --webkit-scrollbar {
-    display: none
+    overflow-y: scroll;
+  
+    --webkit-scrollbar {
+      display: none
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  
+  
 }
 
-.infoContainerAfter {
-  transform: translateX(10px);
-  height: 325px;
-  width: 446px;
+@media screen and (max-width: 575px){
+  .infoContainer {
+    height: 90%;
+    width: 100%;
 
-  --webkit-scrollbar {
-    display: none
+    overflow-y: scroll;
+
+  
+    --webkit-scrollbar {
+      display: none
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+  
 }
+
+
+
 
 #infoLoginButton {
   height: 30px;

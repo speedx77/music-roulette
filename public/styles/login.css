@@ -1,44 +1,41 @@
-.loginContainer {
+@media screen and (max-width: 575px){
 
-  height: 162.5px;
-  width: 110px;
-}
+  .loginContainer {
 
-.gifContainer {
+    height: 162.5px;
+    width: 110px;
+  }
   
-  height: 162.5px;
-  width: 100px;
-
-}
-
-#login {
+  .gifContainer {
+    
+    height: 162.5px;
+    width: 100px;
   
-  height: 15px;
-  width: 100px;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.600);
-  border: 2px solid;
-}
+  }
 
-a {
-  font-size: 10px;
-}
+  #login {
+  
+    height: 15px;
+    width: 100px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.600);
+    border: 2px solid;
+  }
 
-#gif {
-  width: 100px;
-  height: 75px;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/roulette-card-flip.gif');
-  mask-image: linear-gradient(180deg, white 60%, transparent);
-}
+  #gif {
+    width: 100px;
+    height: 75px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('http://localhost:3001/assets/roulette-card-flip.gif');
+    mask-image: linear-gradient(180deg, white 60%, transparent);
+  }
 
-
-.default-button {
-  font-weight: bold;
-  text-decoration: none;
-  color: white;
+  a {
+    font-size: 10px;
+  }
+  
 }
 
 @media (min-width: 576px){
@@ -80,4 +77,12 @@ a {
     mask-image: linear-gradient(180deg, white 60%, transparent);
   }
 
+}
+
+
+
+.default-button {
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
 }

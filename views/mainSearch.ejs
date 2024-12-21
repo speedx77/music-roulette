@@ -6,13 +6,12 @@
     <div id="player">
 
             
-        <div class="row mt-3">
-            <div class="col d-flex justify-content-center mt-4">
+            <div class=" screen-container col d-flex justify-content-center">
                 <!-- Screen Container -->
                 
                 <div id="screen">
 
-                    <div class="d-flex mx-3 align-items-center justify-content-between">
+                    <div class=" topBar d-flex p-1 align-items-center justify-content-between">
                         <div id="time">12:05</div>
                         <button id="info"></button>
                         <button id="profile"></button>
@@ -20,19 +19,17 @@
                     </div>
                     <div id="divider"></div>
                     <!-- song player -->
-                    <div style="display: block;" id="searchBlock"><%- include("partials/searchArea.ejs") %></div>
+                    <div class="searchContainer justify-content-center align-items-center" style="display: flex;" id="searchBlock"><%- include("partials/searchArea.ejs") %></div>
                     <div style="display: none;" id="loadingBlockSearch"><%- include("partials/loadingAreaSearch.ejs") %></div>
-                    <div style="display: none" id="infoBlock"><%- include("partials/infoArea.ejs") %></div>
-                    <div style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
-                    <div style="display: none" id="infoBlock"><%- include("partials/infoArea.ejs") %></div>
+                    <div class="infoContainer justify-content-center align-items-center" style="display: none;" id="infoBlock" ><%- include("partials/infoArea.ejs") %></div>
+                    <div class="profileContainer justify-content-center align-items-center" style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
 
                 </div>
                 
             </div>
-        </div>
 
         <!---TO: DO -> Add border/ shadow inset/ or shadow on random and mute buttons to give 3d effect, reference button wheel-->
-        <div class="d-flex align-items-center justify-content-center gap-5">
+        <div class="buttonContainer d-flex align-items-center justify-content-center gap-md-5 gap-3">
                 <div id="circle">
                     <button id="q1" class="quarter"> <div id="raise-volume"></div> </button>
                     <button id="q2" class="quarter"> <div id="skip"></div> </button>
@@ -141,7 +138,7 @@ $("#profile").click(() => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "block"});
+        $("#searchBlock").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false;
     }
@@ -178,7 +175,7 @@ $("#info").click(() => {
         $("#infoBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "block"});
+        $("#searchBlock").css({"display" : "flex"});
         infoShowing = false;
         profileShowing = false;
     }
@@ -207,7 +204,7 @@ $(".back").click(() => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "block"});
+        $("#searchBlock").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false; 
     } else if(searchBegan === true) {  

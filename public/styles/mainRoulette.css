@@ -161,9 +161,25 @@ body {
     z-index: 1;
   }
 
+
+
+
+  .buttonContainer {
+    width: 100%;
+    height: 40%;
+  }
+
+  .topBar {
+    height: 10%;
+    width: 100%;
+  }
+
   #screen {
-    width: 450px;
-    height: 375px;
+    max-width: 450px;
+    max-height: 375px;
+    width: 85%;
+    height: 100%;
+    
 
     border-radius: 10px;
 
@@ -178,7 +194,7 @@ body {
   }
 
   #divider {
-    width: 443px;
+    width: 100%;
     height: 3px;
     background-color: rgba(0, 0, 0, 0.600);
   }
@@ -687,46 +703,344 @@ input[type="range"] {
       }
 }
 
-#circle {
+
+
+@media screen and (min-width: 576px){
+
+  
+  .screen-container {
+    margin-top: 35px;
+    width: 540px;
+    height: 365.270px;
+  
+  }
+
+
+
+  #circle {
+      position: relative;
+      margin-top: 50px;
+      display: block;
+      padding: 0;
+      width: 300px;
+      height: 300px;
+      border: 1px;
+      border-radius: 50%;
+      overflow: hidden;
+      transform: rotate(45deg);
+  /*
+      &:before, &:after {
+          content: '';
+          position: absolute;
+          width: 5px;
+          background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
+      }
+      &:before {
+          left: 50%;
+          height: 300px;
+          transform: rotate(90deg);
+        }
+        &:after {
+          top: 0;
+          left: 50%;
+          height: 300px;
+          transform: rotate(-180deg);
+        }
+      */
+  }
+
+  .quarter {
+    position: absolute;
+    margin: 1px;
+    padding: 0;
+    width: 150px;
+    height: 150px;
+    
+    }
+
+    
+
+  .center-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 75px;
+    width: 75px;
+    border: 2px solid #4D4D4D;
+    border-radius: 50%;
+    background-color: #CBCCCE;
+    background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+    z-index: 11;
+    }
+
+    #play {
+      height: 50px;
+      width: 50px;
+      transform: rotate(-45deg);
+      margin-top: 0px;
+      margin-left: 5px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('http://localhost:3001/assets/alt-play-pause.png');
+    }
+
+    #raise-volume {
+      height: 100px;
+      width: 100px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('http://localhost:3001/assets/raise-volume.png');
+      mask-image: linear-gradient(black, transparent);
+      transform: rotate(-45deg);
+      margin-top: 0px;
+      margin-left: 40px;
+  }
+
+  #lower-volume {
+    height: 100px;
+    width: 100px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('http://localhost:3001/assets/lower-volume.png');
+    mask-image: linear-gradient(black, transparent);
+    transform: rotate(-45deg);
+    margin-bottom: 40px;
+    margin-left: 20px;
+}
+
+#skip {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/skip.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+  z-index: 10;
+  transform: rotate(-45deg);
+  margin-top: 5px;
+  margin-left: 30px
+}
+
+#previous {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/previous.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+  transform: rotate(-45deg);
+  margin-bottom: 20px;
+  margin-left: 40px;
+  
+}
+
+#randomize {
+  margin-top: 55px;
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+#mute {
+  margin-top: 55px;
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+#muteIcon {
+  height: 65px;
+  width: 65px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/mute.png');
+  mask-image: linear-gradient(black, transparent);
+}
+
+#randomIcon {
+  height: 60px;
+  width: 60px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/logo-single-note-white.png');
+  mask-image: linear-gradient(black, transparent);
+}
+
+
+  
+}
+
+@media screen and (max-width: 575px){
+
+  .screen-container {
+    margin-top: 35px;
+    max-width: 540px;
+    max-height: 365.270px;
+    width: 100%;
+    height: 40%;
+
+  
+  }
+
+
+  #circle {
     position: relative;
     margin-top: 50px;
     display: block;
     padding: 0;
-    width: 300px;
-    height: 300px;
+    width: 150px;
+    height: 150px;
     border: 1px;
     border-radius: 50%;
     overflow: hidden;
     transform: rotate(45deg);
-/*
-    &:before, &:after {
-        content: '';
-        position: absolute;
-        width: 5px;
-        background: linear-gradient(45deg, #E3E4E5, #FFFFFF);
+  }
+
+  .quarter {
+    position: absolute;
+    margin: 1px;
+    padding: 0;
+    width: 75px;
+    height: 75px; 
+  }
+
+  .center-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: 50px;
+      width: 50px;
+      border: 2px solid #4D4D4D;
+      border-radius: 50%;
+      background-color: #CBCCCE;
+      background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+      z-index: 11;
+  }
+
+    #play {
+      height: 25px;
+      width: 25px;
+      transform: rotate(-45deg);
+      margin-top: 0px;
+      margin-left: 5px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('http://localhost:3001/assets/alt-play-pause.png');
     }
-    &:before {
-        left: 50%;
-        height: 300px;
-        transform: rotate(90deg);
-      }
-      &:after {
-        top: 0;
-        left: 50%;
-        height: 300px;
-        transform: rotate(-180deg);
-      }
-    */
+
+    #raise-volume {
+      height: 50px;
+      width: 50px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-image: url('http://localhost:3001/assets/raise-volume.png');
+      mask-image: linear-gradient(black, transparent);
+      transform: rotate(-45deg);
+      margin-top: 0px;
+      margin-left: 20px;
+  }
+
+  #lower-volume {
+    height: 50px;
+    width: 50px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('http://localhost:3001/assets/lower-volume.png');
+    mask-image: linear-gradient(black, transparent);
+    transform: rotate(-45deg);
+    margin-bottom: 20px;
+    margin-left: 10px;
 }
 
-.quarter {
-position: absolute;
-margin: 1px;
-padding: 0;
-width: 150px;
-height: 150px;
-
+#skip {
+  height: 37.5px;
+  width: 37.5px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/skip.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+  z-index: 10;
+  transform: rotate(-45deg);
+  margin-top: 2.5px;
+  margin-left: 15px
 }
+
+#previous {
+  height: 37.5px;
+  width: 37.5px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/previous.png');
+  /* within photoshop put gradient on image as an option */
+  mask-image: linear-gradient(black, transparent);
+  transform: rotate(-45deg);
+  margin-bottom: 10px;
+  margin-left: 20px;
+  
+}
+
+#randomize {
+  margin-top: 55px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+#mute {
+  margin-top: 55px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  border-style: solid;
+  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+}
+
+#muteIcon {
+  height: 55px;
+  width: 55px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/mute.png');
+  mask-image: linear-gradient(black, transparent);
+}
+
+#randomIcon {
+  height: 50px;
+  width: 50px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('http://localhost:3001/assets/logo-single-note-white.png');
+  mask-image: linear-gradient(black, transparent);
+}
+  
+    
+}
+
 
 #q1 {
 background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
@@ -762,131 +1076,21 @@ left: 51%;
 top: 51%;
 }
 
-.center-button {
-    position: absolute;
-    top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 75px;
-	width: 75px;
-	border: 2px solid #4D4D4D;
-	border-radius: 50%;
-	background-color: #CBCCCE;
-	background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
-    z-index: 11;
-}
-
-#play {
-    height: 50px;
-    width: 50px;
-    transform: rotate(-45deg);
-    margin-top: 0px;
-    margin-left: 5px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/alt-play-pause.png');
-}
 
 
-#randomize {
-    margin-top: 55px;
-    height: 75px;
-    width: 75px;
-    border-radius: 50%;
-    border-style: solid;
-    background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
-}
 
-#mute {
-    margin-top: 55px;
-    height: 75px;
-    width: 75px;
-    border-radius: 50%;
-    border-style: solid;
-    background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
-}
 
-#muteIcon {
-    height: 65px;
-    width: 65px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/mute.png');
-    mask-image: linear-gradient(black, transparent);
-}
 
-#randomIcon {
-    height: 60px;
-    width: 60px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/logo-single-note-white.png');
-    mask-image: linear-gradient(black, transparent);
-}
 
 #footerNote {
     opacity: 0.5;
 
 }
 
-#skip {
-    height: 75px;
-    width: 75px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/skip.png');
-    /* within photoshop put gradient on image as an option */
-    mask-image: linear-gradient(black, transparent);
-    z-index: 10;
-    transform: rotate(-45deg);
-    margin-top: 5px;
-    margin-left: 30px
-}
 
-#previous {
-    height: 75px;
-    width: 75px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/previous.png');
-    /* within photoshop put gradient on image as an option */
-    mask-image: linear-gradient(black, transparent);
-    transform: rotate(-45deg);
-    margin-bottom: 20px;
-    margin-left: 40px;
-    
-}
 
-#lower-volume {
-    height: 100px;
-    width: 100px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/lower-volume.png');
-    mask-image: linear-gradient(black, transparent);
-    transform: rotate(-45deg);
-    margin-bottom: 40px;
-    margin-left: 20px;
-}
 
-#raise-volume {
-    height: 100px;
-    width: 100px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/raise-volume.png');
-    mask-image: linear-gradient(black, transparent);
-    transform: rotate(-45deg);
-    margin-top: 0px;
-    margin-left: 40px;
-}
+
 
 #save {
   height: 20px;

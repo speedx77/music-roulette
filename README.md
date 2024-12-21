@@ -25,6 +25,15 @@
 17. consider changing "Link to Spotify" to Spotify Profile or Link to Spotify Profile
 
 
+IMPORTANT:
+
+  18. Clean up LoginArea, make it fit the rest of the elements with percentages of the screen area
+  19. continue to do other screens
+      -loadingArea
+      -loadingAreaSearch
+      -user searched
+      -player/song Area
+
 
 
 

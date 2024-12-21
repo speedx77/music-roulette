@@ -1,16 +1,38 @@
-.pfp {
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+@media screen and (max-width: 575px){
+
+  .pfp {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  
 }
 
+@media screen and (min-width: 576px){
+
+  .pfp {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+}
+
+
+
 .searchContainer {
+  /*
   height: 325px;
   width: 446px;
-
+  */
+  height: 90%;
+  width: 100%;
   --webkit-scrollbar {
     display: none
   }
@@ -20,8 +42,8 @@
 
 .searchContainerAfter {
   transform: translateX(10px);
-  height: 325px;
-  width: 446px;
+  height: 90%;
+  width: 100%;
 
   --webkit-scrollbar {
     display: none
