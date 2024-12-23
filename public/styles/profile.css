@@ -2,9 +2,26 @@
 
   height: 80%;
   width: 100%;
+
+  overflow-y: scroll;
+
+  --webkit-scrollbar {
+    display: none
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
  
   
 }
+
+.profilesContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+  
+}
+
 
 .playerButton{
   margin: 0;
@@ -38,6 +55,23 @@
     width: fit-content;
 
   }
+
+  .profileButton{
+    margin: 0;
+    padding: 5px;
+    text-align: inherit;
+    font: inherit;
+    font-size: 15px;
+    border-radius: 0;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    width: fit-content;
+    white-space: nowrap;
+  }
   
 }
 
@@ -56,6 +90,22 @@
     border-radius: 8px;
     text-decoration: none;
     color: inherit;
+  }
+
+  .profileButton{
+    margin: 0;
+    padding: 5px;
+    text-align: inherit;
+    font: inherit;
+    border-radius: 0;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    width: fit-content;
+    white-space: nowrap;
   }
 
 }

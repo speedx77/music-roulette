@@ -29,6 +29,6 @@ setInterval(() => {
 
 $("form").submit(() => {
     $("#searchBlock").css("display" , "none");
-    $("#loadingBlockSearch").css("display", "block");
+    $("#loadingBlockSearch").css("display", "flex");
 })
 

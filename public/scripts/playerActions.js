@@ -186,15 +186,15 @@ async function spotifyWindow() {
                 
                 if (volume === 1){
                     $("#volumeArea").html("<div>Volume Set to 100%</div>")
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 }
                 else {
                     player.setVolume(Math.round((volume + .1) * 100) / 100)
                     currentVolume = Math.round((volume + .1) * 100)
                     $("#volumeArea").html(`<div>Volume Set to ${currentVolume}%</div>`)
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 }
             })
         }
@@ -206,16 +206,16 @@ async function spotifyWindow() {
 
                 if (volume === 0) {
                     $("#volumeArea").html("<div>Volume Set to 0%</div>")
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 }
 
                 else {
                     player.setVolume(Math.round((volume - .1) * 100) / 100)
                     currentVolume = Math.round((volume - .1) * 100)
                     $("#volumeArea").html(`<div>Volume Set to ${currentVolume}%</div>`)
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 }
             })
         }
@@ -233,15 +233,15 @@ async function spotifyWindow() {
                     currentVolume = volume;
                     player.setVolume(0);
                     $("#volumeArea").html("<div>Volume Set to 0%</div>")
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 } 
                 
                 else if (volume === 0) {
                     player.setVolume(currentVolume);
                     $("#volumeArea").html(`<div>Volume Set to ${Math.round(currentVolume * 100)}%</div>`)
-                    $("#volumeArea").fadeIn();
-                    $("#volumeArea").fadeOut();
+                    $("#volumeArea").animate({ opacity:1}, 1000);
+                    $("#volumeArea").animate({ opacity:0}, 1000);
                 }
             })
         }
@@ -747,7 +747,7 @@ async function revealSong(playerReadyState) {
         $("#loadingBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "block"});
-        $("#volumeArea").fadeOut("slow");
+        $("#volumeArea").animate({ opacity:0}, 1000);
     }
 }
 
@@ -756,7 +756,7 @@ $("#randomize").click(() => {
     playerReady = false;
     $("#songBlock").css({"display" : "none"});
     $("#profileBlock").css({"display" : "none"});
-    $("#loadingBlock").css({"display" : "block"});
+    $("#loadingBlock").css({"display" : "flex"});
     playerBootup(playerReady)
 
 })
@@ -978,7 +978,7 @@ $("#profile").click(() => {
         } else{
             $("#profileBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
-            $("#loadingBlock").css({"display" : "block"});
+            $("#loadingBlock").css({"display" : "flex"});
             $("#songBlock").css({"display" : "none"});
             profileShowing = false;
             infoShowing = false;
@@ -1016,7 +1016,7 @@ $("#info").click(() => {
         $("#infoBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "none"});
-        $("#loadingBlock").css({"display" : "block"});
+        $("#loadingBlock").css({"display" : "flex"});
         infoShowing = false;
         profileShowing = false;
     }
@@ -1046,7 +1046,7 @@ $(".back").click(() => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#songBlock").css({"display" : "none"});
-        $("#loadingBlock").css({"display" : "block"});
+        $("#loadingBlock").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false; 
     } else if(playerReady === true) {  

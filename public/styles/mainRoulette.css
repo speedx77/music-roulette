@@ -269,10 +269,7 @@ body {
   appearance: none;
 }
 
-#infoText {
-  height: 17px;
-  width: 17px;
-}
+
 
 #back {
   height: 17px;
@@ -310,86 +307,14 @@ body {
 
 
 
-#musicArea {
-  height: 275px;
-  width: 425px;
+.songContainer {
+  height: 90%;
+  width: 95%;
   /* background-color: red; */
 }
 
-#art{
-  height: 200px;
-  width: 200px; 
-  /* background-color: blue; */
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  mask-image: linear-gradient(
-    180deg, white 90%, transparent)
-}
-
-#songInfo {
-  height: 200px;
-  width: 215px;
-  /* background-color: green; */
-  
-}
-
-#trackName {
-  font-size: 23px;
-  white-space: nowrap;
-  /* animation properties */
-  -moz-transform: translateX(0%);
-  -webkit-transform: translateX(0%);
-  transform: translateX(0%);
-  /* animation: my-animation2 15s linear infiinite; */
-  
-}
-
-#artistName {
-  font-size: 20px;
-  white-space: nowrap;
-  -moz-transform: translateX(0%);
-  -webkit-transform: translateX(0%);
-  transform: translateX(0%);
-}
-
-#artistName b {
-  width: fit-content;
-  font-weight: normal;
-}
-
-#trackInfo {
-  font-size: 15px;
-  white-space: nowrap;
-  -moz-transform: translateX(0%);
-  -webkit-transform: translateX(0%);
-  transform: translateX(0%);
-}
-
-#trackInfo b {
-  width: fit-content;
-  font-weight: normal;
-}
-
-#playlistInfo {
-  font-size: 15px;
-  white-space: nowrap;
-  -moz-transform: translateX(0%);
-  -webkit-transform: translateX(0%);
-  transform: translateX(0%);
-}
-
-#playlistInfo b {
-  width: fit-content;
-  font-weight: normal;
-}
 
 
-#playlistInfo b h3 {
-  font-size: 15px;
-  font-weight: bold;
-  display: inline;
-}
 
 .trackNameAnimation {
   -moz-animation: songContainerAnimation 45s linear infinite;
@@ -419,42 +344,6 @@ body {
   animation-delay: 5s;
 }
 
-.trackNameContainer {
-  width: 191;
-  height: 25px;
-  overflow: hidden;
-
-  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-
-}
-
-.artistNameContainer {
-  width: 191;
-  height: 25px;
-  overflow: hidden;
-
-  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-}
-
-.trackInfoContainer {
-  width: 191;
-  height: 25px;
-  overflow: hidden;
-
-  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-}
-
-.playlistInfoContainer {
-  width: 191;
-  height: 25px;
-  overflow: hidden;
-
-  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
-}
 
 @keyframes songContainerAnimation {
   0% {
@@ -519,20 +408,12 @@ body {
 }
 
 
-.progress {
-  height: 10px;
-  width: 200px;
-  background-color: rgb(198, 159, 188);
-}
 
 .progress {
   background-color: transparent;
 }
 
-#progress-input {
-  width: 200px;
-  accent-color: #4D4D4D;
-}
+
 
 #progress-input::-webkit-slider-thumb {
   color: red;
@@ -880,8 +761,143 @@ input[type="range"] {
   mask-image: linear-gradient(black, transparent);
 }
 
+#art{
+  height: 80%;
+  width: 80%; 
+  /* background-color: blue; */
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  mask-image: linear-gradient(
+    180deg, white 90%, transparent)
+}
+
+#songInfo {
+  height: 50%;
+  width: 50%;
+  /* background-color: green; */
+  
+}
+
+#trackName {
+  font-size: 23px;
+  white-space: nowrap;
+  /* animation properties */
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+  /* animation: my-animation2 15s linear infiinite; */
+  
+}
+
+#artistName {
+  font-size: 20px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#artistName b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+#trackInfo {
+  font-size: 15px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#trackInfo b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+#playlistInfo {
+  font-size: 15px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#playlistInfo b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+
+#playlistInfo b h3 {
+  font-size: 15px;
+  font-weight: bold;
+  display: inline;
+}
+
+.trackNameContainer {
+  width: 191;
+  height: 25px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+
+}
+
+.artistNameContainer {
+  width: 191;
+  height: 25px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+.trackInfoContainer {
+  width: 191;
+  height: 25px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+.playlistInfoContainer {
+  width: 191;
+  height: 25px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+
+.progress {
+  height: 10px;
+  width: 200px;
+  /* background-color: rgb(198, 159, 188); */
+  background-color: transparent;
+}
+
+#progress-input {
+  width: 200px;
+  accent-color: #4D4D4D;
+}
 
   
+}
+
+.songInfoContainer{
+  height: 70%;
+  width: 100%;
+
+}
+
+.songControls{
+  height: 30%;
+  width: 100%;
 }
 
 @media screen and (max-width: 575px){
@@ -1037,9 +1053,136 @@ input[type="range"] {
   background-image: url('http://localhost:3001/assets/logo-single-note-white.png');
   mask-image: linear-gradient(black, transparent);
 }
+
+#art{
+  height: 75%;
+  width: 75%; 
+  /* background-color: blue; */
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  mask-image: linear-gradient(
+    180deg, white 90%, transparent)
+}
+
+#songInfo {
+  height: 50%;
+  width: 50%;
+  /* background-color: green; */
+  
+}
+
+#trackName {
+  font-size: 15px;
+  white-space: nowrap;
+  /* animation properties */
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+  /* animation: my-animation2 15s linear infiinite; */
+  
+}
+
+#artistName {
+  font-size: 15px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#artistName b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+#trackInfo {
+  font-size: 15px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#trackInfo b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+#playlistInfo {
+  font-size: 15px;
+  white-space: nowrap;
+  -moz-transform: translateX(0%);
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#playlistInfo b {
+  width: fit-content;
+  font-weight: normal;
+}
+
+
+#playlistInfo b h3 {
+  font-size: 15px;
+  font-weight: bold;
+  display: inline;
+}
+
+.trackNameContainer {
+  width: 191;
+  height: 20px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+
+}
+
+.artistNameContainer {
+  width: 191;
+  height: 20px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+.trackInfoContainer {
+  width: 191;
+  height: 20px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+.playlistInfoContainer {
+  width: 191;
+  height: 20px;
+  overflow: hidden;
+
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+}
+
+
+.progress {
+  height: 10px;
+  width: 100px;
+  /* background-color: rgb(198, 159, 188); */
+  background-color: transparent;
+}
+
+#progress-input {
+  width: 100px;
+  accent-color: #4D4D4D;
+}
+
   
     
 }
+
 
 
 #q1 {

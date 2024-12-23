@@ -20,7 +20,7 @@
                     <div id="divider"></div>
                     <!-- song player -->
                     <div class="searchContainer justify-content-center align-items-center" style="display: flex;" id="searchBlock"><%- include("partials/searchArea.ejs") %></div>
-                    <div style="display: none;" id="loadingBlockSearch"><%- include("partials/loadingAreaSearch.ejs") %></div>
+                    <div class="loadingContainer justify-content-center align-items-center" style="display: none" id="loadingBlockSearch"><%- include("partials/loadingAreaSearch.ejs") %></div>
                     <div class="infoContainer justify-content-center align-items-center" style="display: none;" id="infoBlock" ><%- include("partials/infoArea.ejs") %></div>
                     <div class="profileContainer justify-content-center align-items-center" style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
 
@@ -154,7 +154,7 @@ $("#profile").click(() => {
             $("#profileBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
             $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "block"});
+            $("#loadingBlockSearch").css({"display" : "flex"});
             profileShowing = false;
             infoShowing = false;
         }
@@ -191,7 +191,7 @@ $("#info").click(() => {
             $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "none"});
             $("#searchBlock").css({"display" : "none"});
-            $("#loadingBlockSearch").css({"display" : "block"});
+            $("#loadingBlockSearch").css({"display" : "flex"});
             infoShowing = false;
             profileShowing = false;
         }
@@ -211,7 +211,7 @@ $(".back").click(() => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#searchBlock").css({"display" : "none"});
-        $("#loadingBlockSearch").css({"display" : "block"});
+        $("#loadingBlockSearch").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false;
     }
