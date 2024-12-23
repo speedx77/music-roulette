@@ -262,7 +262,7 @@ h4 {
 }
 
 #previous {
-    background-image: url('http://localhost:3001/assets/previous.png');
+    background-image: url('../assets/previous.png');
     transition: .75s;
 
 }
@@ -282,7 +282,7 @@ h4 {
 }
 
 #skip {
-    background-image: url('http://localhost:3001/assets/skip.png');
+    background-image: url('../assets/skip.png');
     transition: .75s;
 }
 

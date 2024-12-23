@@ -57,7 +57,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/user-search-tip.png');
+  background-image: url('../assets/user-search-tip.png');
 }
 
 #infoCurrentUserPfp {
@@ -103,7 +103,7 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/alt-play-pause.png');
+  background-image: url('../assets/alt-play-pause.png');
 }
 
 #info-raise-volume {
@@ -112,7 +112,7 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/raise-volume.png');
+  background-image: url('../assets/raise-volume.png');
   mask-image: linear-gradient(black, transparent);
 }
 
@@ -122,7 +122,7 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/lower-volume.png');
+  background-image: url('../assets/lower-volume.png');
   mask-image: linear-gradient(black, transparent);
 }
 
@@ -132,7 +132,7 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/skip.png');
+  background-image: url('../assets/skip.png');
   /* within photoshop put gradient on image as an option */
   mask-image: linear-gradient(black, transparent);
 }
@@ -143,7 +143,7 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('http://localhost:3001/assets/previous.png');
+  background-image: url('../assets/previous.png');
   /* within photoshop put gradient on image as an option */
   mask-image: linear-gradient(black, transparent);
   

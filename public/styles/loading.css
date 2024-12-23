@@ -26,7 +26,7 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/roulette-card-flip.gif');
+    background-image: url('../assets/roulette-card-flip.gif');
     mask-image: linear-gradient(180deg, white 60%, transparent);
   }
 
@@ -55,7 +55,7 @@
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('http://localhost:3001/assets/roulette-card-flip.gif');
+    background-image: url('../assets/roulette-card-flip.gif');
     mask-image: linear-gradient(180deg, white 60%, transparent);
   }
 

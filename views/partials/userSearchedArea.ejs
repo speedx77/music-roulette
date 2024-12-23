@@ -7,7 +7,7 @@
             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
                 <a class="userTile" href="/player/<%= userData[i].id%>" style="text-decoration: none;">
                     <% if (!userData[i].picture) {%>
-                        <div class="pfp" style="background-image: url('http://localhost:3001/assets/default-pfp.jpg')"></div> 
+                        <div class="pfp" style="background-image: url('./assets/default-pfp.jpg')"></div> 
                     <% } else { %>
                         <div class="pfp" style="background-image: url('<%= userData[i].picture%>')"></div>
                     <% } %>
