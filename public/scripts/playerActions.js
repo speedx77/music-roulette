@@ -766,11 +766,11 @@ $("#randomize").click(() => {
 function trackInfoScrolling() {
     trackNameContainerWidth = document.querySelector(".trackNameContainer").offsetWidth;
     trackNameWidth = document.getElementById("trackName").scrollWidth;
-    artistNameContainerWidth = document.querySelector(".artistNameContainer").offsetWidth();
+    artistNameContainerWidth = document.querySelector(".artistNameContainer").offsetWidth;
     artistNameWidth = document.getElementById("artistName").scrollWidth;
-    trackInfoContainerWidth = document.querySelector(".trackInfoContainer").offsetWidth();
+    trackInfoContainerWidth = document.querySelector(".trackInfoContainer").offsetWidth;
     trackInfoWidth = document.getElementById("trackInfo").scrollWidth;
-    playlistInfoContainerWidth = document.querySelector(".playlistInfoContainer").offsetWidth();
+    playlistInfoContainerWidth = document.querySelector(".playlistInfoContainer").offsetWidth;
     playlistInfoWidth = document.getElementById("playlistInfo").scrollWidth;
 
 
