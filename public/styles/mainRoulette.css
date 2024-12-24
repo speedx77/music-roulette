@@ -761,7 +761,7 @@ input[type="range"] {
 
 #art{
   height: 80%;
-  width: 80%; 
+  width: 50%; 
   /* background-color: blue; */
   background-position: center;
   background-size: contain;
@@ -835,7 +835,7 @@ input[type="range"] {
 }
 
 .trackNameContainer {
-  width: 191;
+  width: 191px;
   height: 25px;
   overflow: hidden;
 
@@ -845,7 +845,7 @@ input[type="range"] {
 }
 
 .artistNameContainer {
-  width: 191;
+  width: 191px;
   height: 25px;
   overflow: hidden;
 
@@ -854,7 +854,7 @@ input[type="range"] {
 }
 
 .trackInfoContainer {
-  width: 191;
+  width: 191px;
   height: 25px;
   overflow: hidden;
 
@@ -863,7 +863,7 @@ input[type="range"] {
 }
 
 .playlistInfoContainer {
-  width: 191;
+  width: 191px;
   height: 25px;
   overflow: hidden;
 
@@ -1128,7 +1128,7 @@ input[type="range"] {
 }
 
 .trackNameContainer {
-  width: 191;
+  width: 191px;
   height: 20px;
   overflow: hidden;
 
@@ -1138,7 +1138,7 @@ input[type="range"] {
 }
 
 .artistNameContainer {
-  width: 191;
+  width: 191px;
   height: 20px;
   overflow: hidden;
 
@@ -1147,7 +1147,7 @@ input[type="range"] {
 }
 
 .trackInfoContainer {
-  width: 191;
+  width: 191px;
   height: 20px;
   overflow: hidden;
 
@@ -1156,7 +1156,7 @@ input[type="range"] {
 }
 
 .playlistInfoContainer {
-  width: 191;
+  width: 191px;
   height: 20px;
   overflow: hidden;
 
