@@ -1,6 +1,5 @@
 html {
   height: 100vh;
-  overflow: hidden;
 }
 body {
     /*background-color: #3A6D8C; */
@@ -31,7 +30,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;
 
 }
 
