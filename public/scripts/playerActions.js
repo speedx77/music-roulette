@@ -319,10 +319,10 @@ async function spotifyWindow() {
             isSongSaved(current_track);
 
             if (isThisSongSaved === true) {
-                $("#save").css("background-image", "url('http://localhost:3001/assets/heart-saved.png')")
+                $("#save").css("background-image", "url('./assets/heart-saved.png')")
 
             } else if (isThisSongSaved === false) {
-                $("#save").css("background-image", "url('http://localhost:3001/assets/heart.png')")
+                $("#save").css("background-image", "url('./assets/heart.png')")
 
             }
 
@@ -946,11 +946,11 @@ $("#save").click(() => {
 
     if (isThisSongSaved === true) {
         unSaveSong(playingTrack)
-        $("#save").css("background-image", "url('http://localhost:3001/assets/heart.png')")
+        $("#save").css("background-image", "url('./assets/heart.png')")
         isSongSaved(playingTrack)
     } else if(isThisSongSaved === false) {
         saveSong(playingTrack)
-        $("#save").css("background-image", "url('http://localhost:3001/assets/heart-saved.png')")
+        $("#save").css("background-image", "url('./assets/heart-saved.png')")
         isSongSaved(playingTrack)
     }
 
