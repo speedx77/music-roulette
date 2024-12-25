@@ -853,7 +853,8 @@ app.get("/search", async (req, res) => {
                 console.log("Username not found");
                 res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
             } else {
-                throw error;
+                console.log("Username not found");
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
             }
        }
     
