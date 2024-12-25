@@ -745,7 +745,7 @@ input[type="range"] {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('../assets/mute.png');
+  background-image: url('../assets/mute-gradient.png');
   mask-image: linear-gradient(black, transparent);
 }
 
@@ -755,7 +755,7 @@ input[type="range"] {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('../assets/logo-single-note-white.png');
+  background-image: url('../assets/logo-single-note-gradient.png');
   mask-image: linear-gradient(black, transparent);
 }
 
@@ -934,11 +934,11 @@ input[type="range"] {
 
   .center-button {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      height: 50px;
-      width: 50px;
+      top: 35%;
+      left: 35%;
+      transform: rotate(-45deg);
+      height: 45px;
+      width: 45px;
       border: 2px solid #4D4D4D;
       border-radius: 50%;
       background-color: #CBCCCE;
@@ -1025,7 +1025,7 @@ input[type="range"] {
   width: 60px;
   border-radius: 50%;
   border-style: solid;
-  background-image: url('../assets/mute.png'), linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+  background-image: url('../assets/mute-gradient.png'), linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
