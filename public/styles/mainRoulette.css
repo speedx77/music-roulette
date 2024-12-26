@@ -648,11 +648,11 @@ input[type="range"] {
       width: 75px;
       border: 2px solid #4D4D4D;
       border-radius: 50%;
-      background-color: #CBCCCE;
-      background: url('../assets/alt-play-pause.png'), radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+      background-color: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+      background-image: url('../assets/alt-play-pause.png');
       z-index: 11;
       background-position: center;
-      background-size: contain;
+      background-size: 80%;
       background-repeat: no-repeat;
     }
 
@@ -921,11 +921,11 @@ input[type="range"] {
       width: 45px;
       border: 2px solid #4D4D4D;
       border-radius: 50%;
-      background-color: #CBCCCE;
-      background: url('../assets/alt-play-pause.png'), radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+      background-color: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
+      background-image: url('../assets/alt-play-pause.png');
       z-index: 11;
       background-position: center;
-      background-size: contain;
+      background-size: 80%;
       background-repeat: no-repeat;
   }
 

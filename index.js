@@ -43,7 +43,7 @@ app.use(cookieParser());
     //without a recent played device it doesn't know where to play
 
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-var redirect_uri = "https://musicroulette.art/callback";
+var redirect_uri = "http://localhost:3001/callback";
 const tokenBody = getTokenBody;
 const tokenHeader = getTokenHeader;
 const personalToken = getPersonalToken;
