@@ -704,6 +704,10 @@ app.get("/search", async (req, res) => {
 
     var userSearched = req.query.user
 
+    if (userSearched.includes("https://open.spotify.com/user/")){
+        userSearched = userSearched.split("/user/")[1].split("?si")[0]
+    }
+
         var token3 = ""
         var users  = [];
         var userFound = false;
