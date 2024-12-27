@@ -723,16 +723,30 @@ async function playRandomTrackPlaylist (userId) {
         */
 
         await Promise.all([
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
-            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => {randomPlaylistId1 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId2 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId3 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId4 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId5 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId6 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId7 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId8 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId9 = data}),
+            randomPlaylist(result).then(data => {randomPlaylistId10 = data}),
+        ])
+
+        await Promise.all([
+            await createRandomPlaylist(randomPlaylistId1),
+            await createRandomPlaylist(randomPlaylistId2),
+            await createRandomPlaylist(randomPlaylistId3),
+            await createRandomPlaylist(randomPlaylistId4),
+            await createRandomPlaylist(randomPlaylistId5),
+            await createRandomPlaylist(randomPlaylistId6),
+            await createRandomPlaylist(randomPlaylistId7),
+            await createRandomPlaylist(randomPlaylistId8),
+            await createRandomPlaylist(randomPlaylistId9),
+            await createRandomPlaylist(randomPlaylistId10),
+
         ])
 
         console.log("All tracks: "+ allTracksPlaylist)
