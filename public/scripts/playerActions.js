@@ -3,8 +3,19 @@ var refreshToken = "";
 var id = $("#randomize").attr("data-user")
 var deviceIdToPost = "";
 var device_id = "";
+var player_device_id = "";
 var randomPlaylistId = "";
 
+var randomPlaylistId1 = "";
+var randomPlaylistId2 = "";
+var randomPlaylistId3 = "";
+var randomPlaylistId4 = "";
+var randomPlaylistId5 = "";
+var randomPlaylistId6 = "";
+var randomPlaylistId7 = "";
+var randomPlaylistId8 = "";
+var randomPlaylistId9 = "";
+var randomPlaylistId10 = "";
 
 var allTracksPlaylist = [];
 var allTracksPlaylistInfo = [];
@@ -62,6 +73,7 @@ async function getToken() {
         token2 = JSON.stringify(data.authUserTokenHeader.headers.Authorization).split("Bearer ")[1].split('"')[0];
     })
     */
+    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     token2 = document.cookie.split("at=")[1].split(";")[0];
     refreshToken = document.cookie.split("rt=")[1].split(";")[0];
 
@@ -93,7 +105,7 @@ function TokenRefresh(interval = 5 * 60 * 1000) {
     refreshAtToken();
 }
 */
-
+//Old method that results in playing the song of a new tab in the original tab
 async function getDeviceId() {
     await fetch("https://api.spotify.com/v1/me/player/devices/", {
                 method: "GET",
@@ -125,6 +137,30 @@ async function getDeviceId() {
 
 }
 
+async function getCurrentDeviceId() {
+    const response = await fetch("https://api.spotify.com/v1/me/player/devices/", {
+        method: "GET",
+        headers: {
+            "Authorization" : `Bearer ${token2}`
+        }
+    }).then(response => response.json()).then(data => {
+        for(var i = 0; i < data.devices.length; i++){
+            if (data.devices[i].id === player_device_id){
+                deviceIdToPost = data.devices[i].id;
+                device_id = data.devices[i].id;
+            }
+        };
+    })
+    console.log("this is: ", deviceIdToPost);
+
+    await fetch("/api/post/deviceId", {
+        method: "POST",
+        body: new URLSearchParams({
+            "deviceId" : deviceIdToPost
+        })
+    });
+}
+
 async function spotifyWindow() {
     window.onSpotifyWebPlaybackSDKReady = () => {
         const token = 'BQDyk7e25I5FJaoU5UG_Ojq1EK6ru71-O2Iq5u2OnotRm6EeKMpEVPYWtMQyyJpYtoF026bM6qba9mHkAXUoK94mwPXx1FaEdwo6PFETlyJX10tMjbS9mgxCZ00-i20cTrzQUz2w6yBUwpvEzhJK_RTeIfIFWwBYGDtzlRSYcPIpoXKbnbfBUQwCzWooM8fmaUn7XEpGBwoeKFvaN4FGvgBA';
@@ -139,9 +175,10 @@ async function spotifyWindow() {
         // Ready
         player.addListener('ready', ({ device_id }) => {
             console.log('Ready with Device ID', device_id);
+            player_device_id = device_id;
             //testDevice(device_id);
             //postDeviceId(device_id);
-            getDeviceId()
+            getCurrentDeviceId();
             
         });
     
@@ -678,12 +715,27 @@ async function playRandomTrackPlaylist (userId) {
             result = data;
         });
 
-        for (var count = 0; count < 10; count++){
+        /* original method of creating playlist
+        for (var count = 0; count < 10; count++){ 
             randomPlaylistId = await randomPlaylist(result);
             //console.log("user/playlist: " + device_id)
-            await createRandomPlaylist(randomPlaylistId)
-
+            await createRandomPlaylist(randomPlaylistId)  
         }
+        */
+
+        await Promise.all([
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+            randomPlaylist(result).then(data => createRandomPlaylist(data)),
+        ])
+
         console.log("All tracks: "+ allTracksPlaylist)
             try {
 
@@ -1069,12 +1121,22 @@ async function getCurrentUser() {
             "Authorization" : `Bearer ${token2}`
         }
     }).then(response => response.json()).then(data => {
-        currentUser = {
-            profileImage: data.images[0].url,
-            profileId : data.id,
-            displayName : data.display_name,
-            profileLink: "https://open.spotify.com/user/" + data.id
+        if (data.images.length === 0) {
+            currentUser = {
+                profileImage: "../assets/default-pfp.jpg",
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
+        } else {
+            currentUser = {
+                profileImage: data.images[0].url,
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
         }
+        
     });
 
     $("#currentUserPfp").css({"background-image" : `url('${currentUser.profileImage}')`});
@@ -1089,12 +1151,22 @@ async function getSelectedUser() {
             "Authorization" : `Bearer ${token2}`
         }
     }).then(response => response.json()).then(data => {
-        selectedUser = {
-            profileImage : data.images[0].url,
-            profileId : id,
-            displayName: data.display_name,
-            profileLink: "https://open.spotify.com/user/" + id
+        if(data.images.length === 0){
+            selectedUser = {
+                profileImage : "../assets/default-pfp.jpg",
+                profileId : data.id,
+                displayName: data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
+        } else {
+            selectedUser = {
+                profileImage : data.images[0].url,
+                profileId : data.id,
+                displayName: data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
         }
+        
     })
 
     $("#selectedUserPfp").css({"background-image" : `url('${selectedUser.profileImage}')`});

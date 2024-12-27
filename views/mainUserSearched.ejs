@@ -91,15 +91,26 @@ async function getCurrentUser() {
     const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
         headers: {
+            "Content-Type" : "application/json",
             "Authorization" : `Bearer ${token2}`
         }
     }).then(response => response.json()).then(data => {
-        currentUser = {
-            profileImage: data.images[0].url,
-            profileId : data.id,
-            displayName : data.display_name,
-            profileLink: "https://open.spotify.com/user/" + data.id
+        if (data.images.length === 0) {
+            currentUser = {
+                profileImage: "../assets/default-pfp.jpg",
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
+        } else {
+            currentUser = {
+                profileImage: data.images[0].url,
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
         }
+        
     });
 
     $("#currentUserPfp").css({"background-image" : `url('${currentUser.profileImage}')`});
@@ -223,8 +234,5 @@ for(var i = 0; i < userNameWidth.length; i++){
     }
 }
 */
-
-
-   
     
 </script>
