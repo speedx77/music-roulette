@@ -74,7 +74,10 @@
   width: 75px;
   border-radius: 50%;
   border-style: solid;
-  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+  background-image: url('../assets/mute-gradient.png'), linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 #infoRandomize {
@@ -82,7 +85,10 @@
   width: 75px;
   border-radius: 50%;
   border-style: solid;
-  background-image: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+  background-image: url('../assets/logo-single-note-gradient.png'), linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(75,75,75,1) 100%);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .info-center-button {

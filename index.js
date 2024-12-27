@@ -699,7 +699,82 @@ app.get("/me", async (req, res) => {
 
 //if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
 /
+
 app.get("/search", async (req, res) => {
+
+    var userSearched = req.query.user
+
+        var token3 = ""
+        var users  = [];
+        var userFound = false;
+    
+        const response = await fetch("https://open.spotify.com/get_access_token?reason=transport&productType=web_player", {
+            method: "GET"
+        }).then(response => response.json()).then(data => {
+            token3 = data.accessToken
+        });
+        
+        try{
+            const response2 = await fetch("https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22"+userSearched+"%22%2C%22limit%22%3A30%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D", {
+                method: "GET",
+                headers : {
+                    "Authorization" : `Bearer ${token3}`
+                }
+            }).then(response2 => response2.json()).then(data => {
+                for(var i = 0; i < data.data.searchV2.users.items.length; i++){
+                    if(data.data.searchV2.users.items[i].data.avatar === null){
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.name,
+                            picture : "../assets/default-pfp.jpg"
+                        })
+                    } else {
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.name,
+                            picture : data.data.searchV2.users.items[i].data.avatar.sources[data.data.searchV2.users.items[i].data.avatar.sources.length - 1].url
+                        })
+                    }
+                    
+                }
+            });
+            console.log(users);
+
+            if(users.length === 0){
+                console.log("Username not found");
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            } else {
+                userFound = true;
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            }
+    
+        } catch(error){
+            console.log("Username not found");
+            res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+        }
+        
+
+
+   
+})
+
+
+
+app.get("/searchOLD", async (req, res) => {
+
+
+    /*
+
+        fuck playwright nigga!
+
+        CLIENT SIDE RESPONSE!!!!!
+
+        https://open.spotify.com/get_access_token?reason=transport&productType=web_player
+
+        curl --location 'https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22jean%22%2C%22limit%22%3A20%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D' \
+        --header 'authorization: Bearer BQBt48GNn5aTq4KTkWfwX2X-UyU8_5mAvjOHFFLb1OFTIR52nGu9P_rkkqYvjoQoDJWaaYls1LPlTKzM5N2hqxZeACH5MNTCoTs508HZMxTlctzDvUWim8PPe-mrM2VW4VDSCqfj2f5rtxbjvUaMkxP1jLuCFasKA_pUrU_mrcIp_2LxFK-U-A_4kq57Lake3BJwC_uh8aX_VQr3uezqfWN4hfD0GEVTGTbkft3debAlIP50u4mYS3CMVLEOX5WPKlo5g3kHa7IkNicLtG4FBIvMKONtc6mK28BKHovYcjaVnLe5aGM8snvaNgG-bVtstgBF7UsHUFY'
+
+    */
 
     var userSearched = req.query.user
 
