@@ -73,7 +73,6 @@ async function getToken() {
         token2 = JSON.stringify(data.authUserTokenHeader.headers.Authorization).split("Bearer ")[1].split('"')[0];
     })
     */
-    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     token2 = document.cookie.split("at=")[1].split(";")[0];
     refreshToken = document.cookie.split("rt=")[1].split(";")[0];
 
