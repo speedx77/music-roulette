@@ -15,6 +15,10 @@ app.use(cookieParser());
 //const querystring = require('node:querystring');
 
 //TO:DO
+//3.4.25 - use express-session, and maybe express spotify config for this?
+// add spotify logo
+// link to song/album on player?
+// promise/speed up playlist build?
 
 //not needed because randomPlaylist is needed to form playlist query
 //make those functions middleware?
