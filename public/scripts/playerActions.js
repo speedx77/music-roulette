@@ -307,8 +307,9 @@ async function spotifyWindow() {
             colorjs.prominent(`${playingTrack.album.images[0].url}`, { amount: 3 }).then(color => {
                 console.log(color) // [241, 221, 63]
                 colorArray = color
+                changeBackgroundColor(colorArray);
             });
-            changeBackgroundColor(colorArray);
+            //changeBackgroundColor(colorArray);
             $("#trackName").html(`${current_track.name}`)
             $("#artistName").html(`${current_track.artists[0].name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
@@ -437,6 +438,7 @@ async function spotifyWindow() {
         }
 
         player.connect();
+
     }
 }
 
@@ -788,6 +790,8 @@ async function playRandomTrackPlaylist (userId) {
 
 function changeBackgroundColor(colorArray) {
     //    background: linear-gradient(180deg, rgba(58,109,140,1) 0%, rgba(234,216,177,1) 50%, rgba(198,158,188,1) 100%);
+
+    console.log(colorArray);
 
     $("body").css({
         "background": `linear-gradient(45deg, rgba(${colorArray[0][0]},${colorArray[0][1]},${colorArray[0][2]},1), rgba(${colorArray[1][0]},${colorArray[1][1]},${colorArray[1][2]},1), rgba(${colorArray[2][0]},${colorArray[2][1]},${colorArray[2][2]},1))`,
