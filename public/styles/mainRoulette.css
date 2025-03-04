@@ -746,8 +746,6 @@ input[type="range"] {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  mask-image: linear-gradient(
-    180deg, white 90%, transparent)
 }
 
 #songInfo {
@@ -1019,8 +1017,6 @@ input[type="range"] {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  mask-image: linear-gradient(
-    180deg, white 90%, transparent)
 }
 
 #songInfo {
