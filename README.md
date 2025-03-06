@@ -3,6 +3,15 @@
 Explanation
 Detailed README For public repo
 
+IMPORTANT TO:DO
+1. fix access token problem when reaccessing roulette after awhile, keeps the old at and puts in a new one
+
+2. Put in privacy policy and user agreement on homepage and user page
+
+3. autoplay not working anymore because of spotify item_not_found bug?
+
+4. speed up playlist assembly, promise all but in steps?
+
 
 -----Problems-------
 
