@@ -743,9 +743,15 @@ input[type="range"] {
   height: 80%;
   width: 50%; 
   /* background-color: blue; */
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  
+}
+
+#artPicture {
+  height: 100%;
+  width: 90%;
+  border-radius: 4px;
 }
 
 #songInfo {
@@ -1014,9 +1020,15 @@ input[type="range"] {
   height: 70%;
   width: 70%; 
   /* background-color: blue; */
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+}
+
+
+#artPicture {
+  height: 90%;
+  width: 90%;
+  border-radius: 2px;
 }
 
 #songInfo {
@@ -1190,8 +1202,8 @@ top: 51%;
 
 
 #save {
-  height: 20px;
-  width: 20px;
+  height: 21px;
+  width: 21px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -1206,12 +1218,12 @@ top: 51%;
 }
 
 #playlist {
-  height: 20px;
-  width: 20px;
+  height: 21px;
+  width: 21px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url('../assets/playlist.png');
+  background-image: url('../assets/spotify_icon.png');
 }
 
 

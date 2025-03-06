@@ -60,6 +60,24 @@
   background-image: url('../assets/user-search-tip.png');
 }
 
+#idSearch2 {
+  height: 200px;
+  width: 210px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('../assets/profile-share.jpg');
+}
+
+#idSearch3 {
+  height: 200px;
+  width: 210px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('../assets/profile-link.jpg');
+}
+
 #infoCurrentUserPfp {
   height: 75px;
   width: 75px;
@@ -153,4 +171,22 @@ background: radial-gradient(farthest-side at -90% 80%, #999999, #F2F2F2);
   /* within photoshop put gradient on image as an option */
   mask-image: linear-gradient(black, transparent);
   
+}
+
+#infoSaveSong {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/heart.png'); 
+}
+
+#infoSpotifyLink {
+  height: 75px;
+  width: 75px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/spotify_icon.png');
 }

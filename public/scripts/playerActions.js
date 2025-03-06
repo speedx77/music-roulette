@@ -29,7 +29,6 @@ var initialDuration = 0;
 var durationOfTrackMinutes = 0;
 var durationOfTrackSeconds = 0;
 var durationOfTrack = "";
-var colorArray = [];
 var positionOfTrack = 0;
 var positionMintues = 0;
 var positionSeconds = 0;
@@ -302,11 +301,10 @@ async function spotifyWindow() {
             document.getElementById("duration").innerHTML = `${durationOfTrack}`
 
             //document.getElementById("position").innerHTML = `${positionOfTrack}`
-
-            $("#art").css("background-image", "url('"+current_track.album.images[0].url+"')")
+            $("#artPicture").attr("src", current_track.album.images[0].url)
             colorjs.prominent(`${playingTrack.album.images[0].url}`, { amount: 3 }).then(color => {
                 console.log(color) // [241, 221, 63]
-                colorArray = color
+                var colorArray = color
                 changeBackgroundColor(colorArray);
             });
             //changeBackgroundColor(colorArray);
@@ -364,11 +362,13 @@ async function spotifyWindow() {
             }
 
 
-            trackInfoScrolling();
+            
 
             if(position === 0) {
                 resetTrackInfoScrolling();
             }
+
+            trackInfoScrolling();
 
 
             setInterval(() => {
@@ -595,7 +595,7 @@ async function createRandomPlaylist(playlistId) {
                 if(result.items[selectedTrack].track.id != null) {
                     allTracksPlaylist.push(result.items[selectedTrack].track.id)
 
-                    response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"", {
+                    response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"?market="+currentUser.country+"", {
                         method: "GET",
                         headers: {
                             "Authorization" : `Bearer ${token2}`
@@ -659,7 +659,7 @@ async function createRandomPlaylist(playlistId) {
                     allTracksPlaylist.push(result.items[selectedTrack].track.id)
                     trackSelected = true;
 
-                    response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"", {
+                    response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"?market="+currentUser.country+"", {
                         method: "GET",
                         headers: {
                             "Authorization" : `Bearer ${token2}`
@@ -908,21 +908,23 @@ function playlistNameChange(playing_track) {
 function playlistLinkSet(playing_track) {
 
     if(playing_track.linked_from.id != null) {
+        console.log("playing_track.linked_from.id is not null")
         if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) != (-1)) {
             $("#playlist").attr("href", `https://open.spotify.com/playlist/${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id)].playlistId}`)
             $("#playlist").css({"display" : "block"})
         } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id) === (-1)) {
-            $("#playlist").attr("href", "#")
-            $("#playlist").css({"display" : "none"})
+            $("#playlist").attr("href", `https://open.spotify.com/track/${playing_track.id}`)
+            $("#playlist").css({"display" : "block"})
         }
 
     } else if ( playing_track.linked_from.id === null ) {
+        console.log("playing_track.linked_from.id is null")
         if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) != (-1)) {
             $("#playlist").attr("href", `https://open.spotify.com/playlist/${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistId}`)
             $("#playlist").css({"display" : "block"})
         } else if (allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id) === (-1)) {
-            $("#playlist").attr("href", "#")
-            $("#playlist").css({"display" : "none"})
+            $("#playlist").attr("href", `https://open.spotify.com/track/${playing_track.id}`)
+            $("#playlist").css({"display" : "block"})
         }
     }
 }
@@ -1143,14 +1145,16 @@ async function getCurrentUser() {
                 profileImage: "../assets/default-pfp.jpg",
                 profileId : data.id,
                 displayName : data.display_name,
-                profileLink: "https://open.spotify.com/user/" + data.id
+                profileLink: "https://open.spotify.com/user/" + data.id,
+                country: data.country
             }
         } else {
             currentUser = {
                 profileImage: data.images[0].url,
                 profileId : data.id,
                 displayName : data.display_name,
-                profileLink: "https://open.spotify.com/user/" + data.id
+                profileLink: "https://open.spotify.com/user/" + data.id,
+                country: data.country
             }
         }
         
@@ -1220,6 +1224,13 @@ $("#selectedProfileLink").click(() => {
     window.open(selectedUser.profileLink, "_blank");
 })
 
+async function beginPlay(){
+    
+    const play = $("#play");
+    play.click();
+    console.log("button has been clicked");
+}
+
 async function playerBootup() {
     await spotifyWindow();
     await getToken();
@@ -1228,6 +1239,7 @@ async function playerBootup() {
     await playRandomTrackPlaylist(id);
     await isPlayerReady()
     await revealSong(playerReady);
+    await beginPlay();
 
 }
 

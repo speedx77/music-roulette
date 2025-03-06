@@ -1,3 +1,9 @@
+---- Music Roulette ---
+
+Explanation
+Detailed README For public repo
+
+
 -----Problems-------
 
 1. pass Auth token on every page?
@@ -22,41 +28,9 @@
 
 17. got a null id error in song pull
 
-IMPORTANT:
-
-
-
-
-
-
 
 post mvp
 --------
-1. log out?
-2. link to user and link to playlist
-3. don't have multiple tabs of roulette open or there are too music roulettes in the devices response
-    {
-      "id": "244d0df069918f97df10cd41f1a26a323c744f96",
-      "is_active": true,
-      "is_private_session": false,
-      "is_restricted": false,
-      "name": "Music Roulette",
-      "supports_volume": true,
-      "type": "Computer",
-      "volume_percent": 29
-    },
-    {
-      "id": "a8bcf58d1658066d510c6071667153abbc001615",
-      "is_active": false,
-      "is_private_session": false,
-      "is_restricted": false,
-      "name": "Music Roulette",
-      "supports_volume": true,
-      "type": "Computer",
-      "volume_percent": 29
-    },
-
-  4. improve speed of background color change? speed of liked song change?
   5. other mp3 player skins
   6. EE for replay song
   7. perhaps have search be a native function on player page instead of redirect
@@ -64,7 +38,6 @@ post mvp
   8. profile upvotes
     for when we figure out the db stuff
     display +1 or +Hearts next to profile image to indicate that this profile is well liked
-
 
 
   9. in queue
@@ -80,26 +53,6 @@ post mvp
 
 
   --------DONE-----
-8. vol pop up - DONE
-7a. fix playlist name pull - DONE
-2. home button on player -> takes user to search -DONE
-5. solve fully local issue - DONE
-17. save song
-11. save and playlist button functionality
-16. if playlist name cannot be found at all display:none to hide that line of copy
-
-  18. Clean up LoginArea, make it fit the rest of the elements with percentages of the screen area
-  19. continue to do other screens
-      -loadingArea
-      -loadingAreaSearch
-      -user searched
-      -player/song Area
-
-15. sign out button? via profile screen?
-
-16. align the homepage button and gif?
-
-17. consider changing "Link to Spotify" to Spotify Profile or Link to Spotify Profile
 
 
 13. multiple tabs?
@@ -178,5 +131,3 @@ and this in mainRoulette.css
 	}
 }
  
-
-------Tracked Changes--------
