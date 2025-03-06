@@ -11,6 +11,7 @@ IMPORTANT TO:DO
 3. autoplay not working anymore because of spotify item_not_found bug?
 
 4. speed up playlist assembly, promise all but in steps?
+    might need spotify auth for this after verification.
 
 
 -----Problems-------
