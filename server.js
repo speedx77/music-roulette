@@ -187,6 +187,14 @@ app.post("/refresh", async (req, res) => {
       
 }) 
 
+app.get("/privacy-policy", async (req, res) => {
+    res.status(200).render("privacy.ejs")
+})
+
+app.get("/eula", async (req, res) => {
+    res.status(200).render("eula.ejs")
+})
+
 
 passport.use(
     new SpotifyStrategy(
