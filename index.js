@@ -510,6 +510,7 @@ app.get("/search", async (req, res) => {
         try{
             //get totp
             //console.log("working")
+            
             const totp = TOTP.generate(process.env.SECRET_BASE32, {
                 digits: 6,
                 algorithm: "SHA-1",
