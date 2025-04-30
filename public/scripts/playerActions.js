@@ -300,56 +300,18 @@ async function spotifyWindow() {
             durationOfTrack = durationOfTrackMinutes.toString() + ":" + durationOfTrackSeconds.toString()
             document.getElementById("duration").innerHTML = `${durationOfTrack}`
 
-            //document.getElementById("position").innerHTML = `${positionOfTrack}`
             $("#artPicture").attr("src", current_track.album.images[0].url)
             colorjs.prominent(`${playingTrack.album.images[0].url}`, { amount: 3 }).then(color => {
                 console.log(color) // [241, 221, 63]
                 var colorArray = color
                 changeBackgroundColor(colorArray);
             });
-            //changeBackgroundColor(colorArray);
             $("#trackName").html(`${current_track.name}`)
             $("#artistName").html(`${current_track.artists[0].name}`)
             $("#trackInfo").html(`${current_track.album.name} <span> - </span>${current_track.artists[0].name}<span></span>`)
-            //$("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[0].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[0].playlistOwner}</span>`)
             playlistNameChange(current_track);
             playlistLinkSet(current_track);
-            /*
-            linkedFromPresent = "linked_from.id" in current_track
-            console.log("before linked_from: ", linkedFromPresent)
-            if(linkedFromPresent === true) {
-                console.log("if true linked_from: ", linkedFromPresent)
-                console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
-                $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
-            } else if ( linkedFromPresent === false ) {
-                console.log("if false linked_from: ", linkedFromPresent)
-                console.log("trackIndex: ", allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.linked_from.id))
-                $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[allTracksPlaylistInfo.findIndex(track => track.trackId === playingTrack.id)].playlistOwner}</span>`)
-            }
-            */
-        
-            /*
-            for (var track = 0; track < allTracksPlaylistInfo.length; track++) {
-
-                if ("linked_from.id" in current_track) {
-                    console.log("linked from present");
-                    console.log("current track id: ", current_track.id);
-                    console.log("allplaylist track id: ", allTracksPlaylistInfo[track].trackId);
-                    console.log("alltracksplaylistname: ", allTracksPlaylistInfo[track].playlistName);
-                    if (current_track.linked_from.id === allTracksPlaylistInfo[track].trackId) {
-                        $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
-                    } 
-                }
-                else if (current_track.id === allTracksPlaylistInfo[track].trackId) {
-                    console.log("linked from not present");
-                    console.log("current track id: ", current_track.id);
-                    console.log("allplaylist track id: ", allTracksPlaylistInfo[track].trackId);
-                    console.log("alltracksplaylistname: ", allTracksPlaylistInfo[track].playlistName);
-                    $("#playlistInfo").html(`Found on <span> <em>${allTracksPlaylistInfo[track].playlistName}</em> </span> - <span>${allTracksPlaylistInfo[track].playlistOwner}</span>`)
-                }
-
-            }
-            */
+          
         
             isSongSaved(current_track);
 

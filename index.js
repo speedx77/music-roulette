@@ -7,6 +7,7 @@ import env from "dotenv";
 import passport from "passport";
 import { Strategy as SpotifyStrategy } from "passport-spotify";
 import session from "express-session";
+import { TOTP } from "totp-generator"
 
 env.config();
 
@@ -474,6 +475,12 @@ app.get("/me", async (req, res) => {
 
 //if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
 
+function generate_totp(server_time_seconds){
+}
+
+function clean_hex(hex_str){
+
+}
 
 app.get("/search", async (req, res) => {
 
@@ -483,16 +490,97 @@ app.get("/search", async (req, res) => {
         userSearched = userSearched.split("/user/")[1].split("?si")[0]
     }
 
+        var server_time_seconds
         var token3 = ""
         var users  = [];
         var userFound = false;
     
+        /*
         const response = await fetch("https://open.spotify.com/get_access_token?reason=transport&productType=web_player", {
             method: "GET"
         }).then(response => response.json()).then(data => {
             token3 = data.accessToken
         });
+        */
+        await fetch("https://open.spotify.com/server-time").then(response => response.json()).then(data => {
+            server_time_seconds = data.serverTime;
+            console.log(server_time_seconds)
+        });
+
+        try{
+            //get totp
+            //console.log("working")
+            const totp = TOTP.generate(process.env.SECRET_BASE32, {
+                digits: 6,
+                algorithm: "SHA-1",
+                period: 30,
+                timestamp: Number(server_time_seconds)
+            })
+            console.log(totp.otp)
+            console.log("at: ", req.cookies.at)
+
+            const date = new Date();
+            const params = new URLSearchParams({
+                "reason" : "transport",
+                "productType" : "web_player",
+                "totp" : totp.otp,
+                "totpVer" : "5",
+                "ts" : (date.getTime() / 1000).toString()
+            })
+            console.log(date.getTime().toString())
+
+            //get accessToken
+            const tokenResponse = await fetch(`https://open.spotify.com/get_access_token?${params}`, {
+                headers: {
+                    "Cookie" : `sp_dc=${req.cookies.at}`
+                }
+            }).then(tokenResponse => tokenResponse.json()).then(data =>{
+                console.log(data)
+                token3 = data.accessToken
+            })
+
+            //searchFunction
+            const searchResponse = await fetch("https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22"+userSearched+"%22%2C%22limit%22%3A30%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D", {
+                method: "GET",
+                headers : {
+                    "Authorization" : `Bearer ${token3}`
+                }
+            }).then(searchResponse => searchResponse.json()).then(data => {
+                for(var i = 0; i < data.data.searchV2.users.items.length; i++){
+                    if(data.data.searchV2.users.items[i].data.avatar === null){
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.name,
+                            picture : "../assets/default-pfp.jpg"
+                        })
+                    } else {
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.name,
+                            picture : data.data.searchV2.users.items[i].data.avatar.sources[data.data.searchV2.users.items[i].data.avatar.sources.length - 1].url
+                        })
+                    }
+                    
+                }
+            });
+            console.log(users);
+
+            if(users.length === 0){
+                console.log("Username not found");
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            } else {
+                userFound = true;
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            }
+            
+
+        } catch (error) {
+            console.log(error)
+            console.log("Username not found");
+            res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+        }
         
+        /*
         try{
             const response2 = await fetch("https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22"+userSearched+"%22%2C%22limit%22%3A30%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D", {
                 method: "GET",
@@ -531,9 +619,7 @@ app.get("/search", async (req, res) => {
             console.log("Username not found");
             res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
         }
-        
-
-
+        */
    
 })
 
