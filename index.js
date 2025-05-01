@@ -7,7 +7,8 @@ import env from "dotenv";
 import passport from "passport";
 import { Strategy as SpotifyStrategy } from "passport-spotify";
 import session from "express-session";
-import { TOTP } from "totp-generator"
+import puppeteer from "puppeteer"
+
 
 env.config();
 
@@ -475,12 +476,41 @@ app.get("/me", async (req, res) => {
 
 //if we can use authtoken here or something to login and do this the friends profile comes up first vs an anonymous user!
 
-function generate_totp(server_time_seconds){
-}
-
-function clean_hex(hex_str){
-
-}
+// Helper function to clean a hex string
+function cleanHex(hexStr) {
+    const validChars = '0123456789abcdefABCDEF';
+    let cleaned = '';
+    for (const char of hexStr) {
+      if (validChars.includes(char)) {
+        cleaned += char;
+      }
+    }
+    if (cleaned.length % 2 !== 0) {
+      cleaned = cleaned.slice(0, -1); // remove last char if odd length
+    }
+    return cleaned;
+  }
+  
+  // Main TOTP generation function
+  function generateTOTP(serverTimeSeconds) {
+    const secretCipher = [12, 56, 76, 33, 88, 44, 88, 33, 78, 78, 11, 66, 22, 22, 55, 69, 54];
+  
+    // Process the bytes like the Python version
+    const processed = secretCipher.map((byte, i) => byte ^ ((i % 33) + 9));
+    const processedStr = processed.join('');
+    const utf8Bytes = Buffer.from(processedStr, 'utf8');
+    const hexStr = utf8Bytes.toString('hex');
+    const cleanedHex = cleanHex(hexStr);
+    const secretBytes = Buffer.from(cleanedHex, 'hex');
+    const secretBase32 = secretBytes.toString('base64') // JS doesn’t natively support base32
+      .replace(/=/g, '')                                 // strip padding
+      .replace(/\+/g, '')                                // remove non-base32 chars
+      .replace(/\//g, '');
+  
+    // Configure TOTP (using SHA-1, 6 digits, 30-sec interval)
+    totp.options = { digits: 6, step: 30, algorithm: 'sha1' };
+    return totp.generate(secretBase32, { timestamp: serverTimeSeconds * 1000 });
+  }
 
 app.get("/search", async (req, res) => {
 
@@ -494,23 +524,204 @@ app.get("/search", async (req, res) => {
         var token3 = ""
         var users  = [];
         var userFound = false;
+
+        try {
+            const browser = await puppeteer.launch({ headless: true });
+            const page = await browser.newPage();
+            var body
+            var users = []
+
+        
+            // Listen only for /get_access_token responses
+            page.on('response', async (response) => {
+            const url = response.url();
+            if (url.includes('/get_access_token')) {
+                try {
+                const status = response.status();
+                const contentType = response.headers()['content-type'];
+                body = await response.json(); // This endpoint returns JSON
+        
+                console.log('\n=== /get_access_token RESPONSE ===');
+                console.log('URL:', url);
+                console.log('Status:', status);
+                console.log('Content-Type:', contentType);
+                console.log('Body:', body);
+                } catch (err) {
+                console.error('Error parsing get_access_token response:', err);
+                }
+            }
+            });
+        
+            await page.goto('https://open.spotify.com', { waitUntil: 'load' });
+        
+            // Wait some time to ensure token is requested
+            //await page.waitForTimeout(5000);
+
+            /*
+                var response = await fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
+                            method: 'PUT',
+                            headers: {
+                            'Authorization': `Bearer ${token2}`,
+                            'Content-Type': 'text/plain'
+                            },
+                            body: `{\n  "uris": [${trackBodyPlaylist.uris}]\n}`
+                        });
+            */
+        
+            await browser.close();
+
+            const searchResponse = await fetch('https://api-partner.spotify.com/pathfinder/v2/query', {
+                method: 'POST',
+                headers: {
+                'Authorization': `Bearer ${body.accessToken}`,
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                'variables': {
+                    'includePreReleases': false,
+                    'numberOfTopResults': 20,
+                    'searchTerm': userSearched,
+                    'offset': 0,
+                    'limit': 30,
+                    'includeAudiobooks': true,
+                    'includeAuthors': true
+                },
+                'operationName': 'searchUsers',
+                'extensions': {
+                    'persistedQuery': {
+                    'version': 1,
+                    'sha256Hash': 'd3f7547835dc86a4fdf3997e0f79314e7580eaf4aaf2f4cb1e71e189c5dfcb1f'
+                    }
+                }
+                })
+            }).then(searchResponse => searchResponse.json()).then(data => {
+                for(var i = 0; i < data.data.searchV2.users.items.length; i++){
+                    if(data.data.searchV2.users.items[i].data.avatar === null){
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.displayName,
+                            picture : "../assets/default-pfp.jpg"
+                        })
+                    } else {
+                        users.push({
+                            id : data.data.searchV2.users.items[i].data.id,
+                            display_name: data.data.searchV2.users.items[i].data.displayName,
+                            picture : data.data.searchV2.users.items[i].data.avatar.sources[data.data.searchV2.users.items[i].data.avatar.sources.length - 1].url
+                        })
+                    }
+                    
+                }
+            });
+
+            
+            console.log(users);
+
+            if(users.length === 0){
+                console.log("Username not found");
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            } else {
+                userFound = true;
+                res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+            }
+    
+        } catch(error){
+            console.log("Username not found");
+            res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
+        }
     
         /*
+        const timeResponse = await fetch('https://open.spotify.com/server-time').then(timeResponse => timeResponse.json());
+            const serverTimeSeconds = timeResponse.serverTime;
+            console.log('Server Time:', serverTimeSeconds);
+    
+            const totpCode = generateTOTP(serverTimeSeconds);
+            console.log('TOTP:', totpCode);
+    
+            const timestamp = Math.floor(Date.now() / 1000);
+            const params = {
+                reason: 'transport',
+                productType: 'web_player',
+                totp: totpCode,
+                totpVer: '5',
+                ts: timestamp.toString()
+            };
+    
+            const sp_dc = "BQCrn-jUlHxFIy7EKpW-Y264vSLIqEtqpYN5zBR9YICh9YYQC1FBGidmUcxNJA8IEszd38mGt-uDVly-Rpvy6crK8j0515GDncVXEBkhT2oTP1_m0DHpdU7MNkPdRbX_EJPow9WK4Z_TK1fo2emZhcpyDLObJlNukWNUJ3w7FykCvfVDcm3F2uyjnYkx0WadIji3cip9Clou2zGg0Fslf4Ua7AQy5DwMohUudBRk-5QVIpM1ssCe66SwiCoBmPSCBIGwsIkd0Fx8qw";
+            const cookieHeader = `sp_dc=${sp_dc}`;
+    
+            const tokenResp = await fetch('https://open.spotify.com/get_access_token', {
+                headers: { Cookie: cookieHeader },
+                params
+            }).then(tokenResp => tokenResp.json());
+    
+            const accessToken = tokenResp.accessToken;
+            console.log(tokenResp)
+            console.log('Access Token:', accessToken);
+    
+            const userSearched = 'jean';
+            const searchURL = `https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=${encodeURIComponent(JSON.stringify({
+                query: userSearched,
+                limit: 30
+            }))}&extensions=${encodeURIComponent(JSON.stringify({
+                persistedQuery: {
+                    version: 1,
+                    sha256Hash: "6a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b"
+                }
+            }))}`;
+    
+            const searchResult = await fetch(searchURL, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }).then(searchResult => searchResult.json());
+    
+            console.log('Search Result:', searchResult);
+        } catch (err) {
+            console.error('Error while refreshing token:', err);
+        }
+
+        
         const response = await fetch("https://open.spotify.com/get_access_token?reason=transport&productType=web_player", {
             method: "GET"
         }).then(response => response.json()).then(data => {
             token3 = data.accessToken
         });
         */
+       /*
+
         await fetch("https://open.spotify.com/server-time").then(response => response.json()).then(data => {
             server_time_seconds = data.serverTime;
             console.log(server_time_seconds)
         });
 
         try{
+
+            const timeOTP = generateTOTP(server_time_seconds)
+            console.log(timeOTP)
+            const date = new Date();
+            const timestamp = Math.floor(date.getTime() / 1000)
+
+            const params = new URLSearchParams({
+                "reason" : "transport",
+                "productType" : "web_player",
+                "totp" : timeOTP,
+                "totpVer" : "5",
+                "ts" : timestamp.toString()
+            })
+            console.log(params)
+            const sp_dc = "BQCrn-jUlHxFIy7EKpW-Y264vSLIqEtqpYN5zBR9YICh9YYQC1FBGidmUcxNJA8IEszd38mGt-uDVly-Rpvy6crK8j0515GDncVXEBkhT2oTP1_m0DHpdU7MNkPdRbX_EJPow9WK4Z_TK1fo2emZhcpyDLObJlNukWNUJ3w7FykCvfVDcm3F2uyjnYkx0WadIji3cip9Clou2zGg0Fslf4Ua7AQy5DwMohUudBRk-5QVIpM1ssCe66SwiCoBmPSCBIGwsIkd0Fx8qw"
+            const tokenResponse = await fetch(`https://open.spotify.com/get_access_token?${params}`, {
+                headers: {
+                    "Cookie" : `sp_dc=${req.cookies.at}`
+                }
+            }).then(tokenResponse => tokenResponse.json()).then(data =>{
+                console.log(data)
+                token3 = data.accessToken
+            })
             //get totp
             //console.log("working")
             
+            /*
             const totp = TOTP.generate(process.env.SECRET_BASE32, {
                 digits: 6,
                 algorithm: "SHA-1",
@@ -526,9 +737,10 @@ app.get("/search", async (req, res) => {
                 "productType" : "web_player",
                 "totp" : totp.otp,
                 "totpVer" : "5",
-                "ts" : (date.getTime() / 1000).toString()
+                "ts" : (Math.floor(date.getTime() / 1000)).toString()
             })
             console.log(date.getTime().toString())
+            console.log(params)
 
             //get accessToken
             const tokenResponse = await fetch(`https://open.spotify.com/get_access_token?${params}`, {
@@ -539,6 +751,8 @@ app.get("/search", async (req, res) => {
                 console.log(data)
                 token3 = data.accessToken
             })
+            
+            //console.log(tokenResponse)
 
             //searchFunction
             const searchResponse = await fetch("https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22"+userSearched+"%22%2C%22limit%22%3A30%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D", {
@@ -581,7 +795,7 @@ app.get("/search", async (req, res) => {
             res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
         }
         
-        /*
+    
         try{
             const response2 = await fetch("https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=%7B%22query%22%3A%22"+userSearched+"%22%2C%22limit%22%3A30%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%226a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b%22%7D%7D", {
                 method: "GET",
