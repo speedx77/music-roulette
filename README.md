@@ -1,5 +1,13 @@
 ---- Music Roulette ---
 
+TO RUN:
+'''
+npm i
+npx puppeteer browsers install chrome
+
+node searchTest2.js --to test search functionality
+'''
+
 Explanation
 Detailed README For public repo
 
