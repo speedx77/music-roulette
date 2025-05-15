@@ -31,24 +31,9 @@ import puppeteer from "puppeteer"
   
     await page.goto('https://open.spotify.com', { waitUntil: 'load' });
   
-    // Wait some time to ensure token is requested
-    //await page.waitForTimeout(5000);
-
-    /*
-        var response = await fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
-                    method: 'PUT',
-                    headers: {
-                      'Authorization': `Bearer ${token2}`,
-                      'Content-Type': 'text/plain'
-                    },
-                    body: `{\n  "uris": [${trackBodyPlaylist.uris}]\n}`
-                  });
-    */
-
-  
     await browser.close();
 
-    const userSearched = 'jean';
+    const userSearched = 'speedx77';
     const searchResponse = await fetch('https://api-partner.spotify.com/pathfinder/v2/query', {
         method: 'POST',
         headers: {
@@ -59,7 +44,7 @@ import puppeteer from "puppeteer"
           'variables': {
             'includePreReleases': false,
             'numberOfTopResults': 20,
-            'searchTerm': 'jean',
+            'searchTerm': userSearched,
             'offset': 0,
             'limit': 30,
             'includeAudiobooks': true,
@@ -94,49 +79,4 @@ import puppeteer from "puppeteer"
 
     console.log(users);
 
-
-    /*
-        const searchURL = `https://api-partner.spotify.com/pathfinder/v1/query?operationName=findUsers&variables=${encodeURIComponent(JSON.stringify({
-            query: userSearched,
-            limit: 30
-        }))}&extensions=${encodeURIComponent(JSON.stringify({
-            persistedQuery: {
-                version: 1,
-                sha256Hash: "6a25a3e3b8f1d43ef9fa4d4cd94599e14a7636c10d4dfb1dd3488e4ffeae3e9b"
-            }
-        }))}`;
-
-        const searchResult = await fetch(searchURL, {
-            headers: {
-                Authorization: `Bearer ${body.accessToken}`
-            }
-        }).then(searchResult => searchResult.json()).then(data => {
-            for(var i = 0; i < data.data.searchV2.users.items.length; i++){
-                if(data.data.searchV2.users.items[i].data.avatar === null){
-                    users.push({
-                        id : data.data.searchV2.users.items[i].data.id,
-                        display_name: data.data.searchV2.users.items[i].data.name,
-                        picture : "../assets/default-pfp.jpg"
-                    })
-                } else {
-                    users.push({
-                        id : data.data.searchV2.users.items[i].data.id,
-                        display_name: data.data.searchV2.users.items[i].data.name,
-                        picture : data.data.searchV2.users.items[i].data.avatar.sources[data.data.searchV2.users.items[i].data.avatar.sources.length - 1].url
-                    })
-                }
-                
-            }
-        });
-        console.log(users);
-
-        if(users.length === 0){
-            console.log("Username not found");
-            //res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
-        } else {
-            console.log("works")
-            //res.render("mainUserSearched.ejs", { userData : users, wasUserFound : userFound})
-        };
-*/
-        //console.log('Search Result:', searchResult);
   })();

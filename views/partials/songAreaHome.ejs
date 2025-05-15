@@ -1,0 +1,48 @@
+<!-- <div class="row" style="margin-left: 10px; margin-top: 10px;" id="musicArea"> -->
+    <div class="songInfoContainer d-flex justify-content-center align-items-center">
+        <div id="art" style="margin-top: 10px;" ><img id="artPicture" src="../assets/stranger-in-the-alps.png"/></div>
+        <div style="margin-top: 10px" id="songInfo">
+            <div class="row mt-sm-1">
+                <div class="col justify-content-start trackNameContainer">
+                    <h2 id="trackName" class=""><b>Smoke Signals</b></h2>
+                </div>
+            </div>
+            <div class="row mt-sm-1">
+                <div class="col justify-content-start artistNameContainer">
+                    <h2 id="artistName" class=""><b>Phoebe Bridgers</b></h2>
+                </div>
+            </div>
+            <div class="row mt-sm-1">
+                <div class="col justify-content-start trackInfoContainer">
+                    <h3 id="trackInfo" class=""><b>Stranger in the Alps<span> - </span><span>Phoebe Bridgers</span></b></h3>
+                </div>
+            </div>
+            <div class="row mt-sm-1">
+                <div class="col justify-content-start playlistInfoContainer">
+                    <h4 id="playlistInfo" class=""><b>Found on <span> <em>Phoebe Goddess Bridgers</em> </span> - <span><h3>speedx77</h3></span></b></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="songControls">
+
+        <div class="d-flex flex-row align-items-center justify-content-center">
+            <div class="me-1" id="position">0:00</div>
+            <div class="progress px-0"><input type="range" min="0" max="100" value="0" id="progress-input"></div>
+            <!--progress bar: https://css-tricks.com/lets-create-a-custom-audio-player/-->
+            <!--custom range input custom css builder: https://range-input-css.netlify.app/-->
+            <!--<div id="progress-bar" style="width: 10%"></div>-->
+            <!--<div class="col-10 px-0" style="width: fit-content"><input  type="range" min="0" max="100" value="20" id="progress-input-bar" class="slider"></div>-->
+            <!--<input  type="range" min="0" max="100" value="0" id="progress-input-bar" class="slider">-->
+            <div class="ms-1" id="duration">4:42</div>
+        </div>
+        <div class="mt-sm-2 d-flex flex-row justify-content-center align-items-center">
+            <button class="me-1" id="save" style="background-image: url('../assets/heart.png')"></button>
+            <div class="d-flex align-items-center justify-content-center"><div id="volumeArea" style="display: none">Volume Set to 30%</div></div>
+            <a class="ms-1" id="playlist" href="#" target="_blank" rel="noopener noreferrer" ></a> <!--api call here that redirects to playlist "open.spotify.com/playlist/playlist"
+                                                                pass playlist id here -->
+        </div>
+
+    </div>
+    
+<!-- </div> -->
