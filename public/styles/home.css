@@ -9,6 +9,11 @@ body {
     flex-direction: column;
     background-color: rgba(253, 253, 253, 0.815);
     overflow-x: hidden;
+    background-image: url('https://www.transparenttextures.com/patterns/graphy.png'), linear-gradient(180deg, white, transparent);
+    position: relative;
+    z-index: -1;
+
+    /* background-image: url("https://www.transparenttextures.com/patterns/gplay.png"); */
 }
 
 .home-header{
@@ -16,8 +21,9 @@ body {
     background: linear-gradient(45deg, rgb(214, 218, 11), rgb(107, 152, 236), rgb(241, 2, 2));
     /* background: linear-gradient(45deg, #b90c0c, #c9c6c6, #000000); */
     background-size: 600% 600%;
-    height: 60vh;
+    height: 70vh;
     width: 100%;
+
 
     -webkit-animation: BackgroundAnimation 14s ease infinite;
     -moz-animation: BackgroundAnimation 14s ease infinite;
@@ -28,6 +34,11 @@ body {
 
     -webkit-mask-image: linear-gradient(black, transparent);
     mask-image: linear-gradient(black 50%, transparent); 
+    
+}
+
+.home-content{
+  
 }
 
 .nav-header{
@@ -125,7 +136,6 @@ body {
 .blackExplainer{
   -webkit-mask-image: linear-gradient(0deg, black, transparent);
   mask-image: linear-gradient(0deg, black 40%, transparent); 
-  z-index: 0;
 }
 
 
