@@ -1,6 +1,29 @@
 const durationOfSong = 339 //in seconds
 var trackTimer;
 
+function revealUserSearch(){
+    $("#loadingBlockSearch").css("display", "none")
+    $("#searchBlock").css("display", "flex")
+}
+
+function revealSongLoad(){
+    $("#searchBlock").css("display", "none")
+    $("#loadingBlock").css("display", "flex")
+}
+
+function revealSong(){
+    $("#loadingBlock").css("display", "none")
+    $("#songBlock").css("display", "block")
+}
+
+setTimeout(revealUserSearch, 3000)
+setTimeout(revealSongLoad, 6000)
+setTimeout(() => {
+    startTimer()
+    revealSong()
+}, 9000)
+
+
 function startTimer(){
     var seconds = 0
     var positionMinutes;
@@ -30,8 +53,6 @@ function stopTimer(){
     //console.log("timer stopped")
 };
 
-startTimer();
-
 setInterval(() => {
     stopTimer();
     //console.log("timer restarted")
@@ -39,6 +60,43 @@ setInterval(() => {
 }, durationOfSong * 1000)
 
 //img scroll homepage
+function trackInfoScrolling() {
+    trackNameContainerWidth = document.querySelector(".trackNameContainer").offsetWidth;
+    trackNameWidth = document.getElementById("trackName").scrollWidth;
+    artistNameContainerWidth = document.querySelector(".artistNameContainer").offsetWidth;
+    artistNameWidth = document.getElementById("artistName").scrollWidth;
+    trackInfoContainerWidth = document.querySelector(".trackInfoContainer").offsetWidth;
+    trackInfoWidth = document.getElementById("trackInfo").scrollWidth;
+    playlistInfoContainerWidth = document.querySelector(".playlistInfoContainer").offsetWidth;
+    playlistInfoWidth = document.getElementById("playlistInfo").scrollWidth;
+
+
+    if (trackNameWidth > trackNameContainerWidth) {
+        $("#trackName").addClass("trackNameAnimation")
+    } else if (trackNameWidth <= trackNameContainerWidth) {{
+        $("#trackName").removeClass("trackNameAnimation")
+    }}
+
+    if (artistNameWidth > artistNameContainerWidth) {
+        $("#artistName").addClass("artistNameAnimation")
+    } else if (artistNameWidth <= artistNameContainerWidth) {
+        $("#artistName").removeClass("artistNameAnimation")
+    }
+
+    if (trackInfoWidth > trackInfoContainerWidth){
+        $("#trackInfo").addClass("trackInfoAnimation")
+    } else if (trackInfoWidth <= trackInfoContainerWidth) {
+        $("#trackInfo").removeClass("trackInfoAnimation")
+    }
+
+    if (playlistInfoWidth > playlistInfoContainerWidth){
+        $("#playlistInfo").addClass("playlistInfoAnimation")
+    } else if (playlistInfoWidth <= playlistInfoContainerWidth) {
+        $("#playlistInfo").removeClass("playlistInfoAnimation")
+    }
+}
+
+trackInfoScrolling();
 
 const albumArt = [
     "../assets/paper-kites.jpg",

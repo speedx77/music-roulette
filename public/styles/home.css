@@ -18,10 +18,10 @@ body {
 
 .home-header{
     background: linear-gradient(45deg, rgb(231, 78, 78), rgb(220, 160, 20), rgb(255, 255, 255));
-    background: linear-gradient(45deg, rgb(214, 218, 11), rgb(107, 152, 236), rgb(241, 2, 2));
+    background: linear-gradient(45deg, rgb(220, 160, 20), rgb(243, 222, 129), rgb(241, 2, 2));
     /* background: linear-gradient(45deg, #b90c0c, #c9c6c6, #000000); */
     background-size: 600% 600%;
-    height: 70vh;
+    height: max-content;
     width: 100%;
 
 
@@ -37,10 +37,15 @@ body {
     
 }
 
-.home-content{
-  
+#headerText{
+  text-align: center;
+  font-size: 50px;
 }
 
+#navName{
+  font-size: 15px;
+  text-wrap: nowrap;
+}
 .nav-header{
     height: 5%;
     width: 100%;
@@ -103,16 +108,6 @@ body {
   align-items: center;
 }
 
-
-#homeGif{
-  height: 512px;
-  width: 512px;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url('../assets/roulette-card-flip-lower-res.gif');
-}
-
 .homeText{
   font-size: 30px;
   width: 65%;
@@ -136,6 +131,70 @@ body {
 .blackExplainer{
   -webkit-mask-image: linear-gradient(0deg, black, transparent);
   mask-image: linear-gradient(0deg, black 40%, transparent); 
+}
+
+
+
+@media screen and (min-width: 576px){
+  .screen-home{
+  width: max-content;
+  height: max-content;
+  border-radius: 10px;
+
+    
+  border: solid rgba(0, 0, 0, 0.600) 4px;
+  /* background-color: #b8c7bc; */
+  /* alt #C1C1BA */
+  background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
+
+  background-position: center;
+  background-size: cover;
+}
+
+#homeGif{
+  height: 512px;
+  width: 512px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/roulette-card-flip-lower-res.gif');
+}
+
+.gifText{
+  font-size: 80px;
+}
+}
+
+@media screen and (max-width: 575px){
+  .screen-home{
+  width: max-content;
+  height: max-content;
+  border-radius: 10px;
+
+    
+  border: solid rgba(0, 0, 0, 0.600) 4px;
+  /* background-color: #b8c7bc; */
+  /* alt #C1C1BA */
+  background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
+
+  background-position: center;
+  background-size: cover;
+}
+
+#homeGif{
+  height: 128px;
+  width: 128px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/roulette-card-flip-lower-res.gif');
+}
+
+.gifText{
+  font-size: 40px;
+  text-align: center;
+}
+
 }
 
 
