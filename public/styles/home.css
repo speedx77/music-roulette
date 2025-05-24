@@ -129,10 +129,10 @@ body {
 
 
 .blackExplainer{
-  -webkit-mask-image: linear-gradient(0deg, black, transparent);
+  -webkit-mask-image: linear-gradient(0deg, black 40%, transparent);
   mask-image: linear-gradient(0deg, black 40%, transparent); 
+  background-color: white;
 }
-
 
 
 @media screen and (min-width: 576px){
@@ -162,6 +162,10 @@ body {
 
 .gifText{
   font-size: 80px;
+}
+
+.nameText{
+  font-size: 70px;
 }
 }
 
@@ -195,8 +199,16 @@ body {
   text-align: center;
 }
 
+.nameText{
+  font-size: 25px;
 }
 
+}
+
+#footer{
+  background-color: white;
+  text-align: center;
+}
 
 
 #player {
