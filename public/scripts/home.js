@@ -113,3 +113,16 @@ const albumArt = [
     '../assets/the-fray-2.jpg',
     '../assets/sonder-son.jpeg',
 ]
+
+
+const scrollers = document.querySelectorAll(".scroller");
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    addAnimation();
+};
+
+function addAnimation(){
+    scrollers.forEach(scroller => {
+        scroller.setAttribute("data-animated", true)
+    });
+};

@@ -32,7 +32,7 @@ body {
 
     transition: background 3s linear;
 
-    -webkit-mask-image: linear-gradient(black, transparent);
+    -webkit-mask-image: linear-gradient(black 50%, transparent);
     mask-image: linear-gradient(black 50%, transparent); 
     
 }
@@ -82,12 +82,23 @@ body {
   height: 200px;
   display: flex;
   align-items: center;
+  -webkit-mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent);
+  mask: linear-gradient(90deg, transparent, white 5%, white 95%, transparent); 
 }
 
 .scroller-inner{
   display: flex;
   gap: 10px;
+}
 
+.scroller[data-animated="true"]  .scroller-inner{
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll{
+  to {
+    transform: translate(-100%)
+  }
 }
 
 .homeAlbum{
@@ -132,6 +143,11 @@ body {
   -webkit-mask-image: linear-gradient(0deg, black 40%, transparent);
   mask-image: linear-gradient(0deg, black 40%, transparent); 
   background-color: white;
+}
+
+.bottomExplainer{
+  -webkit-mask-image: linear-gradient(0deg, black 40%, transparent);
+  mask-image: linear-gradient(0deg, black 1%, transparent);
 }
 
 
