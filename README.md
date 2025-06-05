@@ -5,20 +5,24 @@ Users can save songs and redirect to their selected user's playlist or profile f
 
 Don't rely on Spotify's recommendation algorithim to experience new music, take back some control and agency and find that next big hit for your library through a friend
 
-##Take a Spin on Roulette...
+## Take a Spin on Roulette...
 
 *Please note that Music Roulette is still in development and applying for approval through Spotifys Web Development process. In order to properly use Roulette I must input your spotify email into the developer console. The form is here: https://docs.google.com/forms/d/e/1FAIpQLSdjJAb_FkbAHb6Cln7v54RuYDFnpJKzFauJjt9RBvzTjnpjdw/viewform*
 
 
-#How to Run Roulette from this repo
+# How to Run Roulette from this repo
 
 Upon downloading the app run these commands
-'''
+
+```
 npm i
 node index.js 
-or
+```
+or 
+```
+npm i
 nodemon
-'''
+```
 
 The landing page would be http://localhost:3001
 The in-progress new homepage is http://localhost:3001/home
