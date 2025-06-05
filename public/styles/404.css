@@ -1,0 +1,87 @@
+html {
+    height: 100vh;
+}
+
+body {
+    height: 100vh;
+    font-family: "Monda";
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(253, 253, 253, 0.815);
+    overflow-x: hidden;
+    background-image: url('https://www.transparenttextures.com/patterns/graphy.png'), linear-gradient(180deg, white, transparent);
+    position: relative;
+    z-index: -1;
+
+    /* background-image: url("https://www.transparenttextures.com/patterns/gplay.png"); */
+}
+
+@media screen and (min-width: 576px){
+  .screen-home{
+  width: max-content;
+  height: max-content;
+  border-radius: 10px;
+
+    
+  border: solid rgba(0, 0, 0, 0.600) 4px;
+  /* background-color: #b8c7bc; */
+  /* alt #C1C1BA */
+  background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
+
+  background-position: center;
+  background-size: cover;
+}
+
+#gif404{
+  height: 512px;
+  width: 512px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/roulette-card-flip-lower-res.gif');
+}
+
+.gifText{
+  font-size: 80px;
+}
+
+.nameText{
+  font-size: 70px;
+}
+}
+
+@media screen and (max-width: 575px){
+  .screen-home{
+  width: max-content;
+  height: max-content;
+  border-radius: 10px;
+
+    
+  border: solid rgba(0, 0, 0, 0.600) 4px;
+  /* background-color: #b8c7bc; */
+  /* alt #C1C1BA */
+  background-image: linear-gradient(45deg, rgba(165,165,155,1) 0%, rgba(214,213,208,1) 100%);
+
+  background-position: center;
+  background-size: cover;
+}
+
+#gif404{
+  height: 128px;
+  width: 128px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../assets/roulette-card-flip-lower-res.gif');
+}
+
+.gifText{
+  font-size: 40px;
+  text-align: center;
+}
+
+.nameText{
+  font-size: 25px;
+}
+
+}

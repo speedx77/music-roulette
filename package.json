@@ -14,12 +14,10 @@
     "otplib": "^12.0.1",
     "passport": "^0.7.0",
     "passport-spotify": "^2.0.0",
-    "playwright": "^1.49.1",
     "puppeteer": "^24.7.2",
     "totp-generator": "^1.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.2"
   },
   "scripts": {}

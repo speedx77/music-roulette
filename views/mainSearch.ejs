@@ -78,38 +78,18 @@
 
 <script src="/scripts/playerJS.js"></script>
 <script>
-
-    
-var token = ""
 var currentUser = {};
 var profileShowing = false;
 var searchBegan = false;
 var infoShowing = false;
 
-/*
-if (document.cookie.indexOf("at") === (-1)){
-
-        window.location.replace("http://localhost:3001/")
-        console.log("Error: User Must Login")
-
-} else {
-    token = document.cookie.split("at=")[1].split(";")[0];
-}
-*/
-
-async function getToken() {
-    token = document.cookie.split("at=")[1].split(";")[0];
-}
-
 
 async function getCurrentUser() {
-    getToken();
-
     const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
         headers: {
             "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${at}`
         }
     }).then(response => response.json()).then(data => {
         if (data.images.length === 0) {
@@ -236,18 +216,8 @@ $(".back").click(() => {
 })
 
 
-$("#logout").click(() => {
-    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    document.cookie = `rt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-})
-
-
 $("#spotifyLink").click(() => {
     window.open(currentUser.profileLink, "_blank");
 })
-
-
-
-    
     
 </script>

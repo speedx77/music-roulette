@@ -61,85 +61,11 @@ var currentUser = {};
 var selectedUser = {};
 
 
-
-//TO: DO
-    //loop still broken for fully local playlists
-
-async function getToken() {
-    
-    /*
-    await fetch('/api/data').then(response => response.json()).then(data => {
-        token2 = JSON.stringify(data.authUserTokenHeader.headers.Authorization).split("Bearer ")[1].split('"')[0];
-    })
-    */
-    token2 = document.cookie.split("at=")[1].split(";")[0];
-    refreshToken = document.cookie.split("rt=")[1].split(";")[0];
-
-}
-
-async function refreshAtToken(){
-
-    const response = await fetch("/refresh", {
-        method: "POST",
-        headers: {
-            "Content-Type" : 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({
-            refresh_token : refreshToken
-        })
-    }).then(response => response.json()).then(data => {
-        document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-        console.log("refreshed: " , data.at);
-        document.cookie=`at=${data.at}`
-        token2 = data.at
-    })
-
-}
-
-setInterval(refreshAtToken, 5 * 60 * 1000)
-
-/*
-function TokenRefresh(interval = 5 * 60 * 1000) {
-    refreshAtToken();
-}
-*/
-//Old method that results in playing the song of a new tab in the original tab
-async function getDeviceId() {
-    await fetch("https://api.spotify.com/v1/me/player/devices/", {
-                method: "GET",
-                headers: {
-                    "Authorization" : `Bearer ${token2}`
-                }
-
-    }).then(response => response.json()).then(data=> {
-        for (var i = 0; i < data.devices.length; i++) {
-            if (data.devices[i].name === "Music Roulette") {
-                deviceIdToPost = data.devices[i].id;
-                device_id = data.devices[i].id;
-            }
-        };
-        //console.log("this is: "+ deviceIdToPost)
-    });
-    console.log("this is: "+ deviceIdToPost)
-
-    //console.log("this is form body: " + );
-
-    //await axios.post("/api/post/deviceId", body, headers)
-    
-    await fetch("/api/post/deviceId", {
-        method: "POST",
-        body: new URLSearchParams({
-            "deviceId" : deviceIdToPost
-        })
-    });
-
-}
-
 async function getCurrentDeviceId() {
     const response = await fetch("https://api.spotify.com/v1/me/player/devices/", {
         method: "GET",
         headers: {
-            "Authorization" : `Bearer ${token2}`
+            "Authorization" : `Bearer ${at}`
         }
     }).then(response => response.json()).then(data => {
         for(var i = 0; i < data.devices.length; i++){
@@ -161,12 +87,11 @@ async function getCurrentDeviceId() {
 
 async function spotifyWindow() {
     window.onSpotifyWebPlaybackSDKReady = () => {
-        const token = 'BQDyk7e25I5FJaoU5UG_Ojq1EK6ru71-O2Iq5u2OnotRm6EeKMpEVPYWtMQyyJpYtoF026bM6qba9mHkAXUoK94mwPXx1FaEdwo6PFETlyJX10tMjbS9mgxCZ00-i20cTrzQUz2w6yBUwpvEzhJK_RTeIfIFWwBYGDtzlRSYcPIpoXKbnbfBUQwCzWooM8fmaUn7XEpGBwoeKFvaN4FGvgBA';
         console.log("test")
 
         const player = new Spotify.Player({
             name: 'Music Roulette',
-            getOAuthToken: cb => { cb(token2); },
+            getOAuthToken: cb => { cb(at); },
             volume: 0.3
         });
     
@@ -476,7 +401,7 @@ async function isPlaylistFullyLocal(playlistId) {
     var response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
         method: "GET",
         headers: {
-            "Authorization" : `Bearer ${token2}`
+            "Authorization" : `Bearer ${at}`
         }
     }).then(response => response.json()).then(data=> {
         result = data
@@ -516,7 +441,7 @@ async function createRandomPlaylist(playlistId) {
         var response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
             method: "GET",
             headers: {
-                "Authorization" : `Bearer ${token2}`
+                "Authorization" : `Bearer ${at}`
             }
         }).then(response => response.json()).then(data=> {
              result = data
@@ -532,7 +457,7 @@ async function createRandomPlaylist(playlistId) {
             response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"?fields=name,owner(display_name)", {
                 method: "GET",
                 headers: {
-                    "Authorization" : `Bearer ${token2}`
+                    "Authorization" : `Bearer ${at}`
                 }
             }).then(response => response.json()).then(data=> {
                 result2 = data
@@ -541,7 +466,7 @@ async function createRandomPlaylist(playlistId) {
             response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + randomStart + "&limit=" + end, {
                 method: "GET",
                 headers: {
-                    "Authorization" : `Bearer ${token2}`
+                    "Authorization" : `Bearer ${at}`
                 }
             }).then(response => response.json()).then(data=> {
                 result = data
@@ -560,7 +485,7 @@ async function createRandomPlaylist(playlistId) {
                     response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"?market="+currentUser.country+"", {
                         method: "GET",
                         headers: {
-                            "Authorization" : `Bearer ${token2}`
+                            "Authorization" : `Bearer ${at}`
                         }
                     }).then(response => response.json()).then(data => {
                         result = data
@@ -594,7 +519,7 @@ async function createRandomPlaylist(playlistId) {
             response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"?fields=name,owner(display_name)", {
                 method: "GET",
                 headers: {
-                    "Authorization" : `Bearer ${token2}`
+                    "Authorization" : `Bearer ${at}`
                 }
             }).then(response => response.json()).then(data=> {
                 result2 = data
@@ -604,7 +529,7 @@ async function createRandomPlaylist(playlistId) {
             response = await fetch("https://api.spotify.com/v1/playlists/"+playlistId+"/tracks?offset=" + start + "&limit=" + end, {
                 method: "GET",
                 headers: {
-                    "Authorization" : `Bearer ${token2}`
+                    "Authorization" : `Bearer ${at}`
                 }
             }).then(response => response.json()).then(data=> {
                 result = data
@@ -624,7 +549,7 @@ async function createRandomPlaylist(playlistId) {
                     response = await fetch("https://api.spotify.com/v1/tracks/"+result.items[selectedTrack].track.id+"?market="+currentUser.country+"", {
                         method: "GET",
                         headers: {
-                            "Authorization" : `Bearer ${token2}`
+                            "Authorization" : `Bearer ${at}`
                         }
                     }).then(response => response.json()).then(data => {
                         result = data
@@ -672,7 +597,7 @@ async function playRandomTrackPlaylist (userId) {
         var response = await fetch("https://api.spotify.com/v1/users/"+finalUserId+"/playlists", {
             method: "GET",
             headers: {
-                "Authorization" : `Bearer ${token2}`
+                "Authorization" : `Bearer ${at}`
             }
         }).then(response => response.json()).then(data=> {
             result = data;
@@ -728,7 +653,7 @@ async function playRandomTrackPlaylist (userId) {
                 var response = await fetch('https://api.spotify.com/v1/me/player/play?device_id=' + device_id, {
                     method: 'PUT',
                     headers: {
-                      'Authorization': `Bearer ${token2}`,
+                      'Authorization': `Bearer ${at}`,
                       'Content-Type': 'text/plain'
                     },
                     body: `{\n  "uris": [${trackBodyPlaylist.uris}]\n}`
@@ -905,7 +830,7 @@ async function isSongSaved(playing_track) {
         var response = await fetch("https://api.spotify.com/v1/me/tracks/contains?ids=" +trackId, {
             method: "GET",
             headers: {
-                "Authorization" : `Bearer ${token2}`
+                "Authorization" : `Bearer ${at}`
             }
     }).then(response => response.json()).then(data=> {
         isThisSongSaved =  data[0]
@@ -934,7 +859,7 @@ async function saveSong(playing_track) {
             method: "PUT",
             headers: {
                 "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token2}`
+                "Authorization" : `Bearer ${at}`
             },
             body: JSON.stringify({
                 "ids" : [
@@ -962,7 +887,7 @@ async function unSaveSong(playing_track) {
             method: "DELETE",
             headers: {
                 "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token2}`
+                "Authorization" : `Bearer ${at}`
             },
             body: JSON.stringify({
                 "ids" : [
@@ -996,13 +921,14 @@ async function isPlayerReady() {
     }
 }
 
-$("#profile").click(() => {
+$("#profile").click(async() => {
 
-    getCurrentUser();
-    getSelectedUser();
+    
 
     if (playerReady === false) {
         if (profileShowing != true) {
+            await getCurrentUser();
+            await getSelectedUser();
             $("#loadingBlock").css({"display" : "none"});
             $("#songBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
@@ -1019,6 +945,8 @@ $("#profile").click(() => {
         }
     } else if (playerReady === true) {
         if (profileShowing != true) {
+            await getCurrentUser();
+            await getSelectedUser();
             $("#loadingBlock").css({"display" : "none"});
             $("#songBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
@@ -1099,7 +1027,7 @@ async function getCurrentUser() {
         method: "GET",
         headers: {
             "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token2}`
+            "Authorization" : `Bearer ${at}`
         }
     }).then(response => response.json()).then(data => {
         if (data.images.length === 0) {
@@ -1131,7 +1059,7 @@ async function getSelectedUser() {
     const response = await fetch("https://api.spotify.com/v1/users/" + id, {
         method: "GET",
         headers: {
-            "Authorization" : `Bearer ${token2}`
+            "Authorization" : `Bearer ${at}`
         }
     }).then(response => response.json()).then(data => {
         if(data.images.length === 0){
@@ -1157,27 +1085,6 @@ async function getSelectedUser() {
 
 }
 
-/*
-async function buildProfileBlock() {
-    getCurrentUser();
-    getSelectedUser();
-
-    const response = await fetch("/storedUsers", {
-        method: "POST",
-        headers : {
-            "Content-Type" : "application/json"
-        }, 
-        body : JSON.stringify({currentUser, selectedUser})
-    })
-}
-*/
-
-$("#logout").click(() => {
-    document.cookie = `at=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    document.cookie = `rt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    window.location.replace("/")
-})
-
 $("#spotifyLink").click(() => {
     window.open(currentUser.profileLink, "_blank");
 })
@@ -1185,6 +1092,71 @@ $("#spotifyLink").click(() => {
 $("#selectedProfileLink").click(() => {
     window.open(selectedUser.profileLink, "_blank");
 })
+
+//code from playerJS
+
+//TO: DO
+    //rename file to playerSkin JS?
+
+var now = new Date();
+const timeOptions = {
+    hour12: true,
+    hour: "2-digit",
+    minute: "2-digit"
+}
+
+var time = now.toLocaleDateString("en-us", timeOptions).split(", ")[1].split(" ")[0]
+
+//change time
+$("#time").html(`${time}`)
+setInterval(() => {
+    now = new Date();
+    time = now.toLocaleDateString("en-us", timeOptions).split(", ")[1].split(" ")[0]
+
+    $("#time").html(`${time}`)
+
+}, 60000)
+
+//video for horizontal scroll https://www.youtube.com/watch?v=iLmBy-HKIAw
+//console.log($(".trackNameContainer").css("width"));
+//console.log($("#trackName b").css("width"));
+
+//research how spotify handles this and match timings
+
+
+$("form").submit(() => {
+    $("#searchBlock").css("display" , "none");
+    $("#loadingBlockSearch").css("display", "flex");
+})
+
+var at = ""
+var rt = ""
+
+async function getToken() {
+    await fetch("/tokens").then(response => response.json()).then(data => {
+        at = data.at
+        rt = data.rt
+    })
+}
+
+async function refreshAt(){
+    const response = await fetch("/refresh", {
+        method: "POST",
+        headers: {
+            "Content-Type" : 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            refresh_token : rt
+        })
+    }).then(response => response.json()).then(data => {
+        console.log("refreshed: " , data.at);
+        at = data.at
+    })
+}
+
+
+
+
 
 async function beginPlay(){
     
@@ -1194,6 +1166,8 @@ async function beginPlay(){
 }
 
 async function playerBootup() {
+    await getToken();
+    setInterval(refreshAt, 5 * 60 * 1000)
     await spotifyWindow();
     await getToken();
     await getCurrentUser();
@@ -1204,10 +1178,6 @@ async function playerBootup() {
     await beginPlay();
 
 }
-
-//getToken();
-//spotifyWindow();
-//playRandomTrackPlaylist(id)
 
 playerBootup();
 

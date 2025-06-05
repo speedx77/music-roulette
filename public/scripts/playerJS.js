@@ -32,3 +32,30 @@ $("form").submit(() => {
     $("#loadingBlockSearch").css("display", "flex");
 })
 
+var at = ""
+var rt = ""
+
+async function getToken() {
+    await fetch("/tokens").then(response => response.json()).then(data => {
+        at = data.at
+        rt = data.rt
+    })
+}
+
+async function refreshAt(){
+    const response = await fetch("/refresh", {
+        method: "POST",
+        headers: {
+            "Content-Type" : 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            refresh_token : rt
+        })
+    }).then(response => response.json()).then(data => {
+        console.log("refreshed: " , data.at);
+        at = data.at
+    })
+}
+
+getToken();
+setInterval(refreshAt, 5 * 60 * 1000)

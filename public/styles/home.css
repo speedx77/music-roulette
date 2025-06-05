@@ -93,11 +93,12 @@ body {
 
 .scroller[data-animated="true"]  .scroller-inner{
   animation: scroll 30s linear infinite;
+  width: max-content;
 }
 
 @keyframes scroll{
   to {
-    transform: translate(-100%)
+    transform: translate(calc(-50% - 5px))
   }
 }
 

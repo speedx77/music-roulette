@@ -38,6 +38,11 @@ post mvp
       "volume_percent": 29
     },
 
+//test case - local files? different if statement to check null
+        //use array and add songs to there, skips past null/local files
+//test case - playlist with all local files??
+        //spit out error message:
+        //"this section of 100 songs from this playlist contain only local or unavailable songs - try again!"
 
   --------DONE-----
 8. vol pop up - DONE
