@@ -35,3 +35,5 @@ The in-progress new homepage is http://localhost:3001/home
 ![Player Skin](public/assets/player.png)
 
 ![Begin Screen For Roulette](public/assets/index.png)
+
+### Created by Ryan Burnett - ryburnett77@gmail.com
