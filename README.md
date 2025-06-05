@@ -1,4 +1,6 @@
-# Music Roulette (BETA)
+# Music Roulette (BETA) ![Roulette Gif](public/assets/roulette-card-flip-lower-res.gif)
+![Intro Video](public/assets/intro.gif)
+
 Music Roulette is a spotify web player that assembles a playlist of 10 random songs from a selected users public playlists. You can select yourself, any friend, or a random user to find new songs, albums, and artists in new and organic way.
 
 Users can save songs and redirect to their selected user's playlist or profile from the web player. Within the player are pause/play, skip/previous, and volume controls.
@@ -25,4 +27,11 @@ nodemon
 ```
 
 The landing page would be http://localhost:3001
+
 The in-progress new homepage is http://localhost:3001/home
+
+![Home Screen](public/assets/home.jpg)
+
+![Player Skin](public/assets/player.png)
+
+![Begin Screen For Roulette](public/assets/index.png)
