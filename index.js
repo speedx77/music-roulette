@@ -33,7 +33,7 @@ app.use(passport.session());
 app.use(cookieParser());
 
 const characters = process.env.CHARACTERS;
-var redirect_uri = "http://18.217.40.168/callback";
+var redirect_uri = "https://musicroulette.art/callback";
 const tokenBody = {
     grant_type: process.env.GRANT_TYPE,
     client_id: process.env.CLIENT_ID,
