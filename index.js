@@ -500,7 +500,7 @@ passport.use(
         {
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "https://musicroulette.art/auth/spotify/callback"
+            callbackURL: "http://localhost:3001/auth/spotify/callback"
         },
         async (accessToken, refreshToken, expires_in, profile, done) => {
             const user = {
