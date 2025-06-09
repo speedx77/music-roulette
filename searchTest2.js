@@ -3,7 +3,7 @@ import puppeteer from "puppeteer"
 
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     var body
     var users = []
@@ -12,7 +12,7 @@ import puppeteer from "puppeteer"
     // Listen only for /get_access_token responses
     page.on('response', async (response) => {
       const url = response.url();
-      if (url.includes('/get_access_token')) {
+      if (url.includes('/token')) {
         try {
           const status = response.status();
           const contentType = response.headers()['content-type'];
