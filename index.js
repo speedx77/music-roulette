@@ -33,7 +33,8 @@ app.use(passport.session());
 app.use(cookieParser());
 
 const characters = process.env.CHARACTERS;
-var redirect_uri = "https://musicroulette.art/callback";
+//change to localhost:3001 or https://musicroulette.art
+var redirect_uri = "http://localhost:3001/callback";
 const tokenBody = {
     grant_type: process.env.GRANT_TYPE,
     client_id: process.env.CLIENT_ID,
@@ -97,7 +98,8 @@ app.get("/" , (req, res) => {
 
 app.get("/login", (req, res) => {
     if (req.isAuthenticated()){
-        res.render("mainSearch.ejs")
+        //res.render("mainSearch.ejs")
+        res.redirect("/me")
    } else {
         res.render("mainLogin.ejs")
    }
@@ -153,7 +155,8 @@ app.get("/me", (req, res) => {
         //res.cookie("rt", req.user.refreshToken);
         res.render("mainSearch.ejs");
     } else {
-        res.render("mainLogin.ejs")
+        //res.render("mainLogin.ejs")
+        res.redirect("/login")
     }
 })
 /*
@@ -376,13 +379,11 @@ app.get("/search", async (req, res) => {
                 const status = response.status();
                 const contentType = response.headers()['content-type'];
                 body = await response.json(); // This endpoint returns JSON
-                /*
                 console.log('\n=== /get_access_token RESPONSE ===');
                 console.log('URL:', url);
                 console.log('Status:', status);
                 console.log('Content-Type:', contentType);
                 console.log('Body:', body);
-                */
                 } catch (err) {
                 console.error('Error parsing get_access_token response:', err);
                 }
@@ -450,6 +451,14 @@ app.get("/search", async (req, res) => {
                 }
             });
 
+            const followersResponse = await fetch("https://spclient.wg.spotify.com/user-profile-view/v3/profile/speedx77/followers?market=from_token", {
+                headers: {
+                    'Authorization': `Bearer ${body.accessToken}`,
+                }
+            }).then(response => response.json()).then(data => {
+                console.log(data)
+            })
+
             
             //console.log(users);
 
@@ -500,7 +509,7 @@ passport.use(
         {
             clientID: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            callbackURL: "https://musicroulette.art/auth/spotify/callback"
+            callbackURL: "http://localhost:3001/auth/spotify/callback" ////change to localhost:3001 or https://musicroulette.art
         },
         async (accessToken, refreshToken, expires_in, profile, done) => {
             const user = {

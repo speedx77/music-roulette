@@ -10,6 +10,8 @@
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
+    "hi-base32": "^0.5.1",
+    "jssha": "^3.3.1",
     "modules": "^0.4.0",
     "otplib": "^12.0.1",
     "passport": "^0.7.0",
