@@ -1166,9 +1166,9 @@ async function beginPlay(){
 }
 
 async function playerBootup() {
+    await spotifyWindow();
     await getToken();
     setInterval(refreshAt, 5 * 60 * 1000)
-    await spotifyWindow();
     await getToken();
     await getCurrentUser();
     await getSelectedUser();

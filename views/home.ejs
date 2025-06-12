@@ -52,9 +52,9 @@
 
                     <div class=" topBar d-flex p-1 align-items-center justify-content-between">
                         <div id="time">12:05</div>
-                        <button id="info"></button>
-                        <button id="profile"></button>
-                        <a id="search" href="/me"></a>
+                        <button id="info" disabled></button>
+                        <button id="profile" disabled></button>
+                        <a id="search"></a>
                         <div id="battery"></div>
                     </div>
                     <div id="divider"></div>
@@ -71,18 +71,18 @@
         <!---TO: DO -> Add border/ shadow inset/ or shadow on random and mute buttons to give 3d effect, reference button wheel-->
         <div class="buttonContainer d-flex align-items-center justify-content-center gap-md-5 gap-3">
                 <div id="circle">
-                    <button id="q1" class="quarter"> <div id="raise-volume"></div> </button>
-                    <button id="q2" class="quarter"> <div id="skip"></div> </button>
-                    <button id="q3" class="quarter"> <div id="previous"></div> </button>
-                    <button id="q4" class="quarter"> <div id="lower-volume"></div> </button>
-                    <button class="center-button" id="play"></button>
+                    <button id="q1" class="quarter" style="pointer-events: none"> <div id="raise-volume"></div> </button>
+                    <button id="q2" class="quarter" style="pointer-events: none"> <div id="skip"></div> </button>
+                    <button id="q3" class="quarter" style="pointer-events: none"> <div id="previous"></div> </button>
+                    <button id="q4" class="quarter" style="pointer-events: none"> <div id="lower-volume"></div> </button>
+                    <button class="center-button" id="play" style="pointer-events: none"></button>
                 </div>                
 
                 
 
             <div class="d-flex flex-column align-items-center justify-content-center">
-                <button id="randomize" data-user="<%= locals.userId %>""></button>
-                <button id="mute"></button>
+                <button id="randomize" data-user="<%= locals.userId %>" style="pointer-events: none"></button>
+                <button id="mute" style="pointer-events: none"></button>
             </div>
         </div>
 
@@ -149,7 +149,7 @@
                         <div class="userContainer">
 
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/1230302780" style="text-decoration: none;">
+                                <a class="userTile"  style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user1.jpg')"></div>
                                     
@@ -159,7 +159,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/pxfdor6pq81cg2ey2fzuqffmp" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user2.jpg')"></div>
                                     
@@ -169,7 +169,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/65efe5oef0xnvwobso42pdwes" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user3.jpg')"></div>
                                     
@@ -179,7 +179,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/12151187828" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user4.jpg')"></div>
                                     
@@ -189,7 +189,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/31kxfndqphwgkdoey72iuqsznume" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user5.jpg')"></div>
                                     
@@ -199,7 +199,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/1246949903" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user6.jpg')"></div>
                                     
@@ -209,7 +209,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/5i5by5kxtwbyvbew693v0ms9r" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user7.jpg')"></div>
                                     
@@ -219,7 +219,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/y4vthdsp6otto2ahckb90njhw" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user8.jpg')"></div>
                                     
@@ -229,7 +229,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/walkingdeavd" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user9.jpg')"></div>
                                     
@@ -244,7 +244,7 @@
                         <div class="userContainer">
 
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/1230302780" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user10.jpg')"></div>
                                     
@@ -254,7 +254,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/pxfdor6pq81cg2ey2fzuqffmp" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user11.jpg')"></div>
                                     
@@ -264,7 +264,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/65efe5oef0xnvwobso42pdwes" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user12.jpg')"></div>
                                     
@@ -274,7 +274,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/12151187828" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user13.jpg')"></div>
                                     
@@ -284,7 +284,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/31kxfndqphwgkdoey72iuqsznume" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user14.jpg')"></div>
                                     
@@ -294,7 +294,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/1246949903" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user15.jpg')"></div>
                                     
@@ -304,7 +304,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/5i5by5kxtwbyvbew693v0ms9r" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user16.jpg')"></div>
                                     
@@ -314,7 +314,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/y4vthdsp6otto2ahckb90njhw" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user17.jpg')"></div>
                                     
@@ -324,7 +324,7 @@
                     
                         
                             <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
-                                <a class="userTile" href="/player/walkingdeavd" style="text-decoration: none;">
+                                <a class="userTile" style="text-decoration: none;">
                                     
                                         <div class="pfp" style="background-image: url('../assets/user-pics/user18.jpg')"></div>
                                     

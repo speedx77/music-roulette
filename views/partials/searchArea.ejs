@@ -1,11 +1,35 @@
-<p id="betaWarning" style="color: red; text-align: center; margin-bottom: 5px;" >Music Roulette is in <strong>BETA</strong>, please submit your name and Spotify Email to this form for Roulette to function!</p>
-<a id="betaForm" href="https://forms.gle/eFyg2rT6AXxbHJJu6" target="_blank" >BETA Form</a>
-<form action="/search" method="GET">
-    <div class="d-flex justify-content-center"><h2>Search for a User</h2></div>
-    <div class="form-group">
-    <input type="text" class="form-control" id="userSearchButton" name="user" placeholder="ex. speedx77" required>
+<div class="searchContainerAfter d-flex flex-wrap justify-content-center" style="overflow-y: scroll;">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        <p id="betaWarning" style="color: red; text-align: center; margin-bottom: 5px;" >Music Roulette is in <strong>BETA</strong>, please submit your name and Spotify Email to this form for Roulette to function!</p>
+        <a id="betaForm" href="https://forms.gle/eFyg2rT6AXxbHJJu6" target="_blank" >BETA Form</a>
+       
+        <form action="/search" method="GET">
+            <div class="d-flex justify-content-center"><h2>Search for a User</h2></div>
+            <div class="form-group">
+            <input type="text" class="form-control" id="userSearchButton" name="user" placeholder="ex. speedx77" required>
+            </div>
+            <div class="d-flex justify-content-center">
+                <input class="mt-2" type="submit" value="Search" id="userSearch">
+            </div>
+        </form>
     </div>
-    <div class="d-flex justify-content-center">
-        <input class="mt-2" type="submit" value="Search" id="userSearch">
-    </div>
-</form>
+    <% if (wereFollowersFound) { %>
+        <div class="d-flex justify-content-center" style="width: 100%;"><h2>Current Followers</h2></div>
+        <% for (var i = 0; i < followers.length; i++) {%>
+                <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
+                    <a class="userTile" href="/player/<%= followers[i].uri.split("user:")[1] %>" style="text-decoration: none;">
+                        <% if (!followers[i].image_url) {%>
+                            <div class="pfp" style="background-image: url('./assets/default-pfp.jpg')"></div> 
+                        <% } else { %>
+                            <div class="pfp" style="background-image: url('<%= followers[i].image_url%>')"></div>
+                        <% } %>
+                        <div class="nameContainer"><%= followers[i].name%></div>
+                    </a>
+                </div>          
+        <% } %>
+    
+    <% } 
+    else { %>
+        <div style="text-align: center;"><h3>No Followers found. Go Make Some Friends!</h3></div>
+    <% } %>
+</div>

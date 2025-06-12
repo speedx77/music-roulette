@@ -1,0 +1,219 @@
+<%- include("partials/rouletteHeader.ejs") %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <div id="player">
+
+            
+            <div class=" screen-container col d-flex justify-content-center">
+                <!-- Screen Container -->
+                
+                <div id="screen">
+
+                    <div class=" topBar d-flex p-1 align-items-center justify-content-between">
+                        <div id="time">12:05</div>
+                        <button id="info"></button>
+                        <button id="profile"></button>
+                        <div id="battery"></div>
+                    </div>
+                    <div id="divider"></div>
+                    <!-- song player -->
+                    <div class="searchContainer flex-column align-items-center" style="display: flex;" id="nonPremiumBlock"><%- include("partials/nonPremiumArea.ejs") %></div>
+                    <div class="infoContainer justify-content-center align-items-center" style="display: none;" id="infoBlock" ><%- include("partials/infoArea.ejs") %></div>
+                    <div class="profileContainer justify-content-center align-items-center" style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
+
+                </div>
+                
+            </div>
+
+        <!---TO: DO -> Add border/ shadow inset/ or shadow on random and mute buttons to give 3d effect, reference button wheel-->
+        <div class="buttonContainer d-flex align-items-center justify-content-center gap-md-5 gap-3">
+                <div id="circle">
+                    <button id="q1" class="quarter"> <div id="raise-volume"></div> </button>
+                    <button id="q2" class="quarter"> <div id="skip"></div> </button>
+                    <button id="q3" class="quarter"> <div id="previous"></div> </button>
+                    <button id="q4" class="quarter"> <div id="lower-volume"></div> </button>
+                    <button class="center-button" id="play"></button>
+                </div>                
+
+                
+
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <button id="randomize" data-user="<%= locals.userId %>""></button>
+                <button id="mute"></button>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center" style="margin-top: 50px;">
+            <p id="footerNote">roulette | ryan burnett</p>
+        </div>
+
+        
+            <!--
+        <div class="outer-ring">
+            <div class="cross"></div>
+
+            <svg viewBox="-150 5 350 350">
+                      <path id="curve" d="m0,30 c16,-4 32,-4 48,0" />
+                      <text>
+                          <textPath xlink:href="#curve">menu</textPath>
+                      </text>
+                  </svg>
+            <div class="skip forward"></div>
+                  <div class="skip back"></div>
+            <div class="play-pause"></div>
+                  <div class="touch-wheel">
+                      <div class="center-button"></div>
+                  </div>	
+                          
+            </div>
+            -->	
+    </div>
+    
+        
+
+
+
+<script src="/scripts/playerJS.js"></script>
+<script>
+var currentUser = {};
+var profileShowing = false;
+var searchBegan = false;
+var infoShowing = false;
+
+async function getCurrentUser() {
+    const response = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET",
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${at}`
+        }
+    }).then(response => response.json()).then(data => {
+        if (data.images.length === 0) {
+            currentUser = {
+                profileImage: "../assets/default-pfp.jpg",
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
+        } else {
+            currentUser = {
+                profileImage: data.images[0].url,
+                profileId : data.id,
+                displayName : data.display_name,
+                profileLink: "https://open.spotify.com/user/" + data.id
+            }
+        }
+        
+    });
+
+    $("#currentUserPfp").css({"background-image" : `url('${currentUser.profileImage}')`});
+    $("#currentUserDisplayName").html(currentUser.displayName);
+}
+
+$("#userSearch").click(() => {
+    searchBegan = true;
+})
+
+$("#profile").click(async () => {
+
+    if(searchBegan === false) {
+        if (profileShowing != true) {
+        await getCurrentUser();
+        $("#nonPremiumBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "block"});
+        profileShowing = true;
+        infoShowing = false;
+    } else{
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
+        profileShowing = false;
+        infoShowing = false;
+    }
+    } else if(searchBegan === true) {
+        if (profileShowing != true) {
+            await getCurrentUser();
+            $("#nonPremiumBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "block"});
+            profileShowing = true;
+            infoShowing = false;
+        } else{
+            $("#profileBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "flex"});
+            profileShowing = false;
+            infoShowing = false;
+        }
+    }
+})
+
+$("#info").click(() => {
+
+    if(searchBegan === false) {
+        if (infoShowing != true) {
+        $("#nonPremiumBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "block"});
+        infoShowing = true;
+        profileShowing = false;
+    } else{
+        $("#infoBlock").css({"display" : "none"});
+        $("#profileBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
+        infoShowing = false;
+        profileShowing = false;
+    }
+    } else if(searchBegan === true) {
+        if (infoShowing != true) {
+            $("#nonPremiumBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "none"});
+            $("#infoBlock").css({"display" : "block"});
+            infoShowing = true;
+            profileShowing = false;
+        } else{
+            $("#infoBlock").css({"display" : "none"});
+            $("#profileBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
+            $("#loadingBlockSearch").css({"display" : "flex"});
+            infoShowing = false;
+            profileShowing = false;
+        }
+    }
+})
+
+$(".back").click(() => {
+
+    if(searchBegan === false) {  
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
+        profileShowing = false;
+        infoShowing = false; 
+    } else if(searchBegan === true) {  
+        $("#profileBlock").css({"display" : "none"});
+        $("#infoBlock").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "none"});
+        $("#loadingBlockSearch").css({"display" : "flex"});
+        profileShowing = false;
+        infoShowing = false;
+    }
+})
+
+
+$("#spotifyLink").click(() => {
+    window.open(currentUser.profileLink, "_blank");
+})
+    
+</script>
