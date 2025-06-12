@@ -19,8 +19,7 @@
                     </div>
                     <div id="divider"></div>
                     <!-- song player -->
-                    <div class="searchContainer flex-column align-items-center" style="display: flex;" id="searchBlock"><%- include("partials/searchArea.ejs") %></div>
-                    <div class="loadingContainer justify-content-center align-items-center" style="display: none" id="loadingBlockSearch"><%- include("partials/loadingAreaSearch.ejs") %></div>
+                    <div class="searchContainer flex-column align-items-center" style="display: flex;" id="nonPremiumBlock"><%- include("partials/nonPremiumArea.ejs") %></div>
                     <div class="infoContainer justify-content-center align-items-center" style="display: none;" id="infoBlock" ><%- include("partials/infoArea.ejs") %></div>
                     <div class="profileContainer justify-content-center align-items-center" style="display: none;" id="profileBlock"><%- include("partials/profileAreaBeforePlayer.ejs") %></div>
 
@@ -122,7 +121,7 @@ $("#profile").click(async () => {
     if(searchBegan === false) {
         if (profileShowing != true) {
         await getCurrentUser();
-        $("#searchBlock").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "block"});
@@ -132,14 +131,14 @@ $("#profile").click(async () => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "flex"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false;
     }
     } else if(searchBegan === true) {
         if (profileShowing != true) {
             await getCurrentUser();
-            $("#searchBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
             $("#loadingBlockSearch").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "block"});
@@ -148,7 +147,7 @@ $("#profile").click(async () => {
         } else{
             $("#profileBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "none"});
-            $("#searchBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
             $("#loadingBlockSearch").css({"display" : "flex"});
             profileShowing = false;
             infoShowing = false;
@@ -160,7 +159,7 @@ $("#info").click(() => {
 
     if(searchBegan === false) {
         if (infoShowing != true) {
-        $("#searchBlock").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "block"});
@@ -170,13 +169,13 @@ $("#info").click(() => {
         $("#infoBlock").css({"display" : "none"});
         $("#profileBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "flex"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
         infoShowing = false;
         profileShowing = false;
     }
     } else if(searchBegan === true) {
         if (infoShowing != true) {
-            $("#searchBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
             $("#loadingBlockSearch").css({"display" : "none"});
             $("#profileBlock").css({"display" : "none"});
             $("#infoBlock").css({"display" : "block"});
@@ -185,7 +184,7 @@ $("#info").click(() => {
         } else{
             $("#infoBlock").css({"display" : "none"});
             $("#profileBlock").css({"display" : "none"});
-            $("#searchBlock").css({"display" : "none"});
+            $("#nonPremiumBlock").css({"display" : "none"});
             $("#loadingBlockSearch").css({"display" : "flex"});
             infoShowing = false;
             profileShowing = false;
@@ -199,13 +198,13 @@ $(".back").click(() => {
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "flex"});
+        $("#nonPremiumBlock").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false; 
     } else if(searchBegan === true) {  
         $("#profileBlock").css({"display" : "none"});
         $("#infoBlock").css({"display" : "none"});
-        $("#searchBlock").css({"display" : "none"});
+        $("#nonPremiumBlock").css({"display" : "none"});
         $("#loadingBlockSearch").css({"display" : "flex"});
         profileShowing = false;
         infoShowing = false;

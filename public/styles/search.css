@@ -163,3 +163,19 @@
   color: inherit;
   width: fit-content;
 }
+
+#premiumForm {
+  margin: 0;
+  padding: 5px;
+  text-align: inherit;
+  font: inherit;
+  border-radius: 0;
+  appearance: none;
+  background-color: #F6F6F7;
+  border: 2px solid black;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  width: fit-content;
+  
+}

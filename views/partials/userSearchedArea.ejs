@@ -25,12 +25,30 @@
                 <input class="mt-2" type="submit" value="Search">
             </div>
         </form>
+        <% if (wereFollowersFound) { %>
+        <div class="d-flex justify-content-center" style="width: 100%;"><h2>Current Followers</h2></div>
+        <% for (var i = 0; i < followers.length; i++) {%>
+                <div class="d-flex flex-wrap flex-column justify-content-center align-items-center ">
+                    <a class="userTile" href="/player/<%= followers[i].uri.split("user:")[1] %>" style="text-decoration: none;">
+                        <% if (!followers[i].image_url) {%>
+                            <div class="pfp" style="background-image: url('./assets/default-pfp.jpg')"></div> 
+                        <% } else { %>
+                            <div class="pfp" style="background-image: url('<%= followers[i].image_url%>')"></div>
+                        <% } %>
+                        <div class="nameContainer"><%= followers[i].name%></div>
+                    </a>
+                </div>          
+        <% } %>
+    
+    <% } %>
 <% } 
 else { %>
     
     <form action="/search" method="GET">
-        <h2>User was not found on Spotify, sorry!</h2>
-        <h2>Search Again for a User</h2>
+        <div style="text-align: center;">
+            <h2>User was not found on Spotify, sorry!</h2>
+            <h2>Search Again for a User</h2>
+        </div>
         <div class="form-group">
             <input type="text" class="form-control" id="exampleFormControlInput1" name="user" placeholder="speedx77" required>
         </div>
